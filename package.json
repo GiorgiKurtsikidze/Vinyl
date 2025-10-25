@@ -1,0 +1,13 @@
+{
+  "name": "vinyl-shop",
+  "version": "1.0.0",
+  "description": "A modern vinyl record shop website",
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": ["vinyl", "records", "music", "shop", "ecommerce"],
+  "author": "Vinyl Shop",
+  "license": "MIT"
+}
