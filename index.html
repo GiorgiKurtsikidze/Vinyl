@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Pipeline Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-primary: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-purple: #a371f7;
+            --accent-cyan: #39c5cf;
+            --accent-orange: #db6d28;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 0% 0%, rgba(88, 166, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(163, 113, 247, 0.06) 0%, transparent 50%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        button {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.625rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            border-color: var(--text-muted);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary), #4493f8);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 8px rgba(88, 166, 255, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.35);
+        }
+
+        .btn-danger {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #da3633;
+        }
+
+        .btn-small {
+            padding: 0.375rem 0.625rem;
+            font-size: 0.75rem;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        select, input[type="text"], input[type="date"], textarea {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--accent-primary);
+        }
+
+        select {
+            cursor: pointer;
+            min-width: 140px;
+        }
+
+        .reset-btn {
+            color: var(--accent-primary);
+            background: none;
+            border: none;
+            font-size: 0.875rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .reset-btn:hover {
+            text-decoration: underline;
+        }
+
+        .table-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--bg-tertiary);
+        }
+
+        th {
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.04);
+        }
+
+        .row-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .partner-name {
+            font-weight: 500;
+        }
+
+        .geo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.625rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-new { background: rgba(88, 166, 255, 0.15); color: var(--accent-primary); }
+        .status-contacted { background: rgba(210, 153, 34, 0.15); color: var(--accent-yellow); }
+        .status-negotiating { background: rgba(163, 113, 247, 0.15); color: var(--accent-purple); }
+        .status-approved { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
+        .status-active { background: rgba(57, 197, 207, 0.15); color: var(--accent-cyan); }
+        .status-paused { background: rgba(219, 109, 40, 0.15); color: var(--accent-orange); }
+        .status-rejected { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); }
+
+        .details-cell {
+            max-width: 200px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .next-steps {
+            font-size: 0.875rem;
+            color: var(--text-primary);
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 1.25rem;
+        }
+
+        .modal-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            min-width: 140px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        .stat-active .stat-value { color: var(--accent-green); }
+        .stat-pending .stat-value { color: var(--accent-yellow); }
+        .stat-total .stat-value { color: var(--accent-primary); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 900px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toast {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.875rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .toast-success { border-left: 3px solid var(--accent-green); }
+        .toast-error { border-left: 3px solid var(--accent-red); }
+        .toast-info { border-left: 3px solid var(--accent-primary); }
+
+        /* Data Management */
+        .data-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .hidden-input {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <h1>Affiliate Pipeline</h1>
+            </div>
+            <div class="header-actions">
+                <div class="data-actions">
+                    <button class="btn-secondary" onclick="exportData()" title="Export to JSON">
+                        ⬇️ Export
+                    </button>
+                    <button class="btn-secondary" onclick="document.getElementById('importFile').click()" title="Import from JSON">
+                        ⬆️ Import
+                    </button>
+                    <input type="file" id="importFile" class="hidden-input" accept=".json" onchange="importData(event)">
+                </div>
+                <button class="btn-primary" onclick="openModal()">
+                    ➕ New Deal
+                </button>
+            </div>
+        </header>
+
+        <div class="stats-bar">
+            <div class="stat-card stat-total">
+                <div class="stat-value" id="totalDeals">0</div>
+                <div class="stat-label">Total Deals</div>
+            </div>
+            <div class="stat-card stat-active">
+                <div class="stat-value" id="activeDeals">0</div>
+                <div class="stat-label">Active</div>
+            </div>
+            <div class="stat-card stat-pending">
+                <div class="stat-value" id="pendingDeals">0</div>
+                <div class="stat-label">In Progress</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <span class="filter-label">Filter:</span>
+            <div class="filter-group">
+                <select id="filterGeo" onchange="applyFilters()">
+                    <option value="">All Geos</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="filterModel" onchange="applyFilters()">
+                    <option value="">All Models</option>
+                    <option value="CPA">CPA</option>
+                    <option value="RevShare">RevShare</option>
+                    <option value="Hybrid">Hybrid</option>
+                    <option value="Flat Fee">Flat Fee</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <select id="filterStatus" onchange="applyFilters()">
+                    <option value="">All Statuses</option>
+                    <option value="New">New</option>
+                    <option value="Contacted">Contacted</option>
+                    <option value="Negotiating">Negotiating</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Active">Active</option>
+                    <option value="Paused">Paused</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <input type="text" id="searchInput" placeholder="🔍 Search partners..." onkeyup="applyFilters()">
+            </div>
+            <button class="reset-btn" onclick="resetFilters()">Reset</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 50px">#</th>
+                        <th>Partner Name</th>
+                        <th>Geo</th>
+                        <th>Source</th>
+                        <th>Model</th>
+                        <th>Status</th>
+                        <th>Details</th>
+                        <th>Next Steps</th>
+                        <th style="width: 120px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="dealsTable">
+                </tbody>
+            </table>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">📋</div>
+                <h3>No deals yet</h3>
+                <p>Click "New Deal" to add your first partner to the pipeline</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="dealModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Deal</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="dealForm" onsubmit="saveDeal(event)">
+                    <input type="hidden" id="dealId">
+                    
+                    <div class="form-group">
+                        <label for="partnerName">Partner Name *</label>
+                        <input type="text" id="partnerName" required placeholder="Enter partner name">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="geo">Geo / Region *</label>
+                            <input type="text" id="geo" required placeholder="e.g., US, UK, LATAM">
+                        </div>
+                        <div class="form-group">
+                            <label for="source">Source</label>
+                            <input type="text" id="source" placeholder="e.g., LinkedIn, Referral">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="model">Model</label>
+                            <select id="model">
+                                <option value="">Select model</option>
+                                <option value="CPA">CPA</option>
+                                <option value="RevShare">RevShare</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Flat Fee">Flat Fee</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status *</label>
+                            <select id="status" required>
+                                <option value="New">New</option>
+                                <option value="Contacted">Contacted</option>
+                                <option value="Negotiating">Negotiating</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Active">Active</option>
+                                <option value="Paused">Paused</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="details">Details</label>
+                        <textarea id="details" placeholder="Additional details, contact info, rates..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nextSteps">Next Steps</label>
+                        <textarea id="nextSteps" placeholder="What needs to be done next?"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn-primary" form="dealForm">Save Deal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Data Management
+        let deals = [];
+        const STORAGE_KEY = 'affiliate_pipeline_deals';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            renderTable();
+            updateStats();
+            updateGeoFilter();
+        });
+
+        // Local Storage Functions
+        function loadData() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    deals = JSON.parse(stored);
+                } catch (e) {
+                    deals = [];
+                }
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(deals));
+            updateStats();
+            updateGeoFilter();
+        }
+
+        // Export/Import
+        function exportData() {
+            const dataStr = JSON.stringify(deals, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `affiliate-pipeline-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Data exported successfully!', 'success');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        deals = imported;
+                        saveData();
+                        renderTable();
+                        showToast(`Imported ${deals.length} deals successfully!`, 'success');
+                    } else {
+                        throw new Error('Invalid format');
+                    }
+                } catch (err) {
+                    showToast('Failed to import: Invalid JSON format', 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // CRUD Operations
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function openModal(dealId = null) {
+            const modal = document.getElementById('dealModal');
+            const form = document.getElementById('dealForm');
+            const title = document.getElementById('modalTitle');
+
+            form.reset();
+            document.getElementById('dealId').value = '';
+
+            if (dealId) {
+                const deal = deals.find(d => d.id === dealId);
+                if (deal) {
+                    title.textContent = 'Edit Deal';
+                    document.getElementById('dealId').value = deal.id;
+                    document.getElementById('partnerName').value = deal.partnerName || '';
+                    document.getElementById('geo').value = deal.geo || '';
+                    document.getElementById('source').value = deal.source || '';
+                    document.getElementById('model').value = deal.model || '';
+                    document.getElementById('status').value = deal.status || 'New';
+                    document.getElementById('details').value = deal.details || '';
+                    document.getElementById('nextSteps').value = deal.nextSteps || '';
+                }
+            } else {
+                title.textContent = 'Add New Deal';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('dealModal').classList.remove('active');
+        }
+
+        function saveDeal(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('dealId').value;
+            const dealData = {
+                id: id || generateId(),
+                partnerName: document.getElementById('partnerName').value.trim(),
+                geo: document.getElementById('geo').value.trim().toUpperCase(),
+                source: document.getElementById('source').value.trim(),
+                model: document.getElementById('model').value,
+                status: document.getElementById('status').value,
+                details: document.getElementById('details').value.trim(),
+                nextSteps: document.getElementById('nextSteps').value.trim(),
+                updatedAt: new Date().toISOString()
+            };
+
+            if (id) {
+                const index = deals.findIndex(d => d.id === id);
+                if (index !== -1) {
+                    deals[index] = { ...deals[index], ...dealData };
+                }
+                showToast('Deal updated successfully!', 'success');
+            } else {
+                dealData.createdAt = new Date().toISOString();
+                deals.unshift(dealData);
+                showToast('New deal added!', 'success');
+            }
+
+            saveData();
+            renderTable();
+            closeModal();
+        }
+
+        function deleteDeal(id) {
+            if (confirm('Are you sure you want to delete this deal?')) {
+                deals = deals.filter(d => d.id !== id);
+                saveData();
+                renderTable();
+                showToast('Deal deleted', 'info');
+            }
+        }
+
+        // Rendering
+        function renderTable() {
+            const tbody = document.getElementById('dealsTable');
+            const emptyState = document.getElementById('emptyState');
+            const filteredDeals = getFilteredDeals();
+
+            if (filteredDeals.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            tbody.innerHTML = filteredDeals.map((deal, index) => `
+                <tr>
+                    <td class="row-number">${index + 1}</td>
+                    <td class="partner-name">${escapeHtml(deal.partnerName)}</td>
+                    <td><span class="geo-badge">${escapeHtml(deal.geo)}</span></td>
+                    <td>${escapeHtml(deal.source) || '—'}</td>
+                    <td>${escapeHtml(deal.model) || '—'}</td>
+                    <td><span class="status-badge status-${deal.status.toLowerCase()}">${deal.status}</span></td>
+                    <td class="details-cell">${escapeHtml(deal.details) || '—'}</td>
+                    <td class="next-steps">${escapeHtml(deal.nextSteps) || '—'}</td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="btn-secondary btn-small" onclick="openModal('${deal.id}')" title="Edit">✏️</button>
+                            <button class="btn-danger btn-small" onclick="deleteDeal('${deal.id}')" title="Delete">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Filtering
+        function getFilteredDeals() {
+            const geo = document.getElementById('filterGeo').value;
+            const model = document.getElementById('filterModel').value;
+            const status = document.getElementById('filterStatus').value;
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            return deals.filter(deal => {
+                if (geo && deal.geo !== geo) return false;
+                if (model && deal.model !== model) return false;
+                if (status && deal.status !== status) return false;
+                if (search && !deal.partnerName.toLowerCase().includes(search)) return false;
+                return true;
+            });
+        }
+
+        function applyFilters() {
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('filterGeo').value = '';
+            document.getElementById('filterModel').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('searchInput').value = '';
+            renderTable();
+        }
+
+        function updateGeoFilter() {
+            const geos = [...new Set(deals.map(d => d.geo).filter(Boolean))].sort();
+            const select = document.getElementById('filterGeo');
+            const currentValue = select.value;
+            
+            select.innerHTML = '<option value="">All Geos</option>' + 
+                geos.map(geo => `<option value="${escapeHtml(geo)}">${escapeHtml(geo)}</option>`).join('');
+            
+            if (geos.includes(currentValue)) {
+                select.value = currentValue;
+            }
+        }
+
+        // Stats
+        function updateStats() {
+            document.getElementById('totalDeals').textContent = deals.length;
+            document.getElementById('activeDeals').textContent = deals.filter(d => d.status === 'Active').length;
+            document.getElementById('pendingDeals').textContent = deals.filter(d => 
+                ['New', 'Contacted', 'Negotiating', 'Approved'].includes(d.status)
+            ).length;
+        }
+
+        // Toast Notifications
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Utilities
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+            if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                openModal();
+            }
+        });
+
+        // Close modal on overlay click
+        document.getElementById('dealModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
