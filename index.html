@@ -699,6 +699,26 @@
         .model-fee-cpa { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
         .model-fee-rs { background: rgba(132, 204, 22, 0.15); color: var(--accent-lime); }
 
+        .source-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .assigned-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+        }
+
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -1053,11 +1073,16 @@
             color: var(--text-muted);
         }
 
+        /* Dashboard Grid */
+        .dashboard-grid {
+            margin-bottom: 1.25rem;
+        }
+
         /* Stats Bar */
         .stats-bar {
             display: flex;
             gap: 1rem;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             flex-wrap: wrap;
         }
 
@@ -1067,6 +1092,7 @@
             border-radius: 14px;
             padding: 1rem 1.5rem;
             min-width: 140px;
+            flex: 1;
             position: relative;
             overflow: hidden;
         }
@@ -1083,6 +1109,7 @@
         .stat-total::before { background: var(--gradient-1); }
         .stat-active::before { background: var(--accent-green); }
         .stat-pending::before { background: var(--accent-yellow); }
+        .stat-rejected::before { background: var(--accent-red); }
 
         .stat-value {
             font-size: 2rem;
@@ -1103,6 +1130,99 @@
         .stat-total .stat-value { color: var(--accent-blue); }
         .stat-active .stat-value { color: var(--accent-green); }
         .stat-pending .stat-value { color: var(--accent-yellow); }
+        .stat-rejected .stat-value { color: var(--accent-red); }
+
+        /* Charts Row */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1rem;
+            min-height: 160px;
+        }
+
+        .chart-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chart-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-bar-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 70px;
+            white-space: nowrap;
+        }
+
+        .chart-bar-track {
+            flex: 1;
+            height: 20px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 6px;
+        }
+
+        .chart-bar-value {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .bar-blue { background: var(--accent-blue); }
+        .bar-green { background: var(--accent-green); }
+        .bar-yellow { background: var(--accent-yellow); }
+        .bar-purple { background: var(--accent-purple); }
+        .bar-orange { background: var(--accent-orange); }
+        .bar-red { background: var(--accent-red); }
+        .bar-cyan { background: var(--accent-cyan); }
+        .bar-pink { background: var(--accent-pink); }
+
+        @media (max-width: 1200px) {
+            .charts-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+        }
 
         /* Online Users */
         .online-users {
@@ -1303,18 +1423,43 @@
                 </div>
             </header>
 
-            <div class="stats-bar">
-                <div class="stat-card stat-total">
-                    <div class="stat-value" id="totalDeals">0</div>
-                    <div class="stat-label">Total Deals</div>
+            <div class="dashboard-grid">
+                <div class="stats-bar">
+                    <div class="stat-card stat-total">
+                        <div class="stat-value" id="totalDeals">0</div>
+                        <div class="stat-label">Total Deals</div>
+                    </div>
+                    <div class="stat-card stat-active">
+                        <div class="stat-value" id="activeDeals">0</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                    <div class="stat-card stat-pending">
+                        <div class="stat-value" id="pendingDeals">0</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat-card stat-rejected">
+                        <div class="stat-value" id="rejectedDeals">0</div>
+                        <div class="stat-label">Rejected</div>
+                    </div>
                 </div>
-                <div class="stat-card stat-active">
-                    <div class="stat-value" id="activeDeals">0</div>
-                    <div class="stat-label">Active</div>
-                </div>
-                <div class="stat-card stat-pending">
-                    <div class="stat-value" id="pendingDeals">0</div>
-                    <div class="stat-label">In Progress</div>
+
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-title">📊 By Status</div>
+                        <div class="chart-bars" id="statusChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">👤 By Manager</div>
+                        <div class="chart-bars" id="managerChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">🌍 By GEO</div>
+                        <div class="chart-bars" id="geoChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">📱 By Source</div>
+                        <div class="chart-bars" id="sourceChart"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1343,13 +1488,19 @@
                 <div class="filter-group">
                     <select id="filterStatus" onchange="applyFilters()">
                         <option value="">📋 All Statuses</option>
-                        <option value="New">New</option>
                         <option value="Contacted">Contacted</option>
                         <option value="Negotiating">Negotiating</option>
                         <option value="Approved">Approved</option>
                         <option value="Active">Active</option>
                         <option value="Paused">Paused</option>
                         <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="filterAssigned" onchange="applyFilters()">
+                        <option value="">👤 All Managers</option>
+                        <option value="Niko">Niko</option>
+                        <option value="George">George</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -1366,7 +1517,9 @@
                             <th style="width: 100px">ID</th>
                             <th>Partner</th>
                             <th>Geo</th>
+                            <th>Source</th>
                             <th>Model</th>
+                            <th>Assigned</th>
                             <th>Status</th>
                             <th>Comments</th>
                             <th style="width: 140px">Actions</th>
@@ -1427,9 +1580,25 @@
                                 <small>Select one or multiple regions</small>
                             </div>
                             <div class="form-group">
-                                <label for="source">Lead Source</label>
-                                <input type="text" id="source" placeholder="e.g., LinkedIn, Referral, Conference">
+                                <label for="sourceType">Source Type</label>
+                                <select id="sourceType">
+                                    <option value="">Select source...</option>
+                                    <option value="SEO">🔍 SEO</option>
+                                    <option value="PPC">💰 PPC</option>
+                                    <option value="Social">📱 Social</option>
+                                    <option value="Retargeting">🎯 Retargeting</option>
+                                    <option value="Influencers">⭐ Influencers</option>
+                                </select>
                             </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="assignedTo">👤 Assigned To</label>
+                            <select id="assignedTo">
+                                <option value="">Select manager...</option>
+                                <option value="Niko">Niko</option>
+                                <option value="George">George</option>
+                            </select>
                         </div>
                     </div>
 
@@ -1453,7 +1622,6 @@
                             <div class="form-group">
                                 <label for="status">Status <span class="required">*</span></label>
                                 <select id="status" required>
-                                    <option value="New">🔵 New</option>
                                     <option value="Contacted">🟡 Contacted</option>
                                     <option value="Negotiating">🟣 Negotiating</option>
                                     <option value="Approved">🟢 Approved</option>
@@ -1496,17 +1664,10 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="period">📅 Period</label>
-                                <input type="text" id="period" placeholder="e.g., Monthly, Q1 2024, 6 months">
-                                <small>Deal duration or billing period</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="cap">🎯 Cap</label>
-                                <input type="text" id="cap" placeholder="e.g., 100 FTDs, €5000/month">
-                                <small>Maximum cap or limit</small>
-                            </div>
+                        <div class="form-group">
+                            <label for="cap">🎯 Cap</label>
+                            <input type="text" id="cap" placeholder="e.g., 100 FTDs, €5000/month">
+                            <small>Maximum cap or limit</small>
                         </div>
 
                         <div class="form-group">
@@ -1544,35 +1705,10 @@
                     </div>
 
                     <div class="form-section">
-                        <div class="form-section-title">👤 Contact Info</div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="contactName">Contact Person</label>
-                                <input type="text" id="contactName" placeholder="e.g., John Smith">
-                            </div>
-                            <div class="form-group">
-                                <label for="contactEmail">Contact Email</label>
-                                <input type="email" id="contactEmail" placeholder="john@company.com">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="website">Website</label>
-                            <input type="url" id="website" placeholder="https://company.com">
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <div class="form-section-title">📝 Notes</div>
+                        <div class="form-section-title">💬 Comments</div>
                         
                         <div class="form-group">
-                            <label for="details">Details & Notes</label>
-                            <textarea id="details" placeholder="Additional details about the partnership, rates, terms, requirements..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="comments">💬 Comments</label>
+                            <label for="comments">Comments</label>
                             <textarea id="comments" placeholder="Internal comments, updates, follow-ups..."></textarea>
                         </div>
                     </div>
@@ -1610,11 +1746,6 @@
                 <div class="view-section" id="viewUrlsSection" style="display: none;">
                     <div class="view-section-title">🔗 URLs & Positions</div>
                     <div class="view-section-content" id="viewUrls"></div>
-                </div>
-                
-                <div class="view-section" id="viewDetailsSection">
-                    <div class="view-section-title">📝 Details & Notes</div>
-                    <div class="view-section-content" id="viewDetails"></div>
                 </div>
 
                 <div class="view-section" id="viewCommentsSection">
@@ -1850,9 +1981,10 @@
                     // GEO checkboxes
                     setCheckedValues('geo', deal.geos || []);
                     
-                    document.getElementById('source').value = deal.source || '';
+                    document.getElementById('sourceType').value = deal.sourceType || '';
+                    document.getElementById('assignedTo').value = deal.assignedTo || '';
                     document.getElementById('model').value = deal.model || '';
-                    document.getElementById('status').value = deal.status || 'New';
+                    document.getElementById('status').value = deal.status || 'Contacted';
                     
                     // Revenue model fields
                     document.getElementById('feeAmount').value = deal.feeAmount || '';
@@ -1861,8 +1993,6 @@
                     document.getElementById('flatFeeAmount').value = deal.flatFeeAmount || '';
                     toggleModelFields();
                     
-                    // New fields
-                    document.getElementById('period').value = deal.period || '';
                     document.getElementById('cap').value = deal.cap || '';
                     
                     // KPI checkboxes
@@ -1871,10 +2001,6 @@
                     // URLs
                     setUrls(deal.urls || []);
                     
-                    document.getElementById('contactName').value = deal.contactName || '';
-                    document.getElementById('contactEmail').value = deal.contactEmail || '';
-                    document.getElementById('website').value = deal.website || '';
-                    document.getElementById('details').value = deal.details || '';
                     document.getElementById('comments').value = deal.comments || '';
                 }
             } else {
@@ -2064,7 +2190,8 @@
                 partnerName: document.getElementById('partnerName').value.trim(),
                 geos: geos,
                 geo: geos.join(', '), // For backward compatibility and display
-                source: document.getElementById('source').value.trim(),
+                sourceType: document.getElementById('sourceType').value,
+                assignedTo: document.getElementById('assignedTo').value,
                 model: document.getElementById('model').value,
                 status: document.getElementById('status').value,
                 
@@ -2074,16 +2201,10 @@
                 revshareRate: document.getElementById('revshareRate').value.trim(),
                 flatFeeAmount: document.getElementById('flatFeeAmount').value.trim(),
                 
-                // New fields
-                period: document.getElementById('period').value.trim(),
                 cap: document.getElementById('cap').value.trim(),
                 kpis: getCheckedValues('kpi'),
                 urls: getUrls(),
                 
-                contactName: document.getElementById('contactName').value.trim(),
-                contactEmail: document.getElementById('contactEmail').value.trim(),
-                website: document.getElementById('website').value.trim(),
-                details: document.getElementById('details').value.trim(),
                 comments: document.getElementById('comments').value.trim(),
                 updatedAt: Date.now()
             };
@@ -2131,6 +2252,7 @@
             const badgesHtml = `
                 ${deal.crmId ? `<span class="crm-id" style="background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.4);">ID: ${escapeHtml(deal.crmId)}</span>` : ''}
                 ${geoBadges}
+                ${deal.sourceType ? `<span class="model-badge" style="background: rgba(249, 115, 22, 0.15); color: var(--accent-orange);">${deal.sourceType}</span>` : ''}
                 ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
                 <span class="status-badge status-${deal.status.toLowerCase()}">
                     <span class="status-dot"></span>
@@ -2142,12 +2264,9 @@
             // Meta info
             const metaItems = [];
             if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan);">${escapeHtml(deal.crmId)}</span>` });
-            if (deal.source) metaItems.push({ label: 'Source', value: escapeHtml(deal.source) });
-            if (deal.period) metaItems.push({ label: 'Period', value: escapeHtml(deal.period) });
+            if (deal.assignedTo) metaItems.push({ label: 'Assigned To', value: `<span style="font-weight: 700; color: var(--accent-purple);">👤 ${escapeHtml(deal.assignedTo)}</span>` });
+            if (deal.sourceType) metaItems.push({ label: 'Source Type', value: escapeHtml(deal.sourceType) });
             if (deal.cap) metaItems.push({ label: 'Cap', value: escapeHtml(deal.cap) });
-            if (deal.contactName) metaItems.push({ label: 'Contact', value: escapeHtml(deal.contactName) });
-            if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
-            if (deal.website) metaItems.push({ label: 'Website', value: `<a href="${escapeHtml(deal.website)}" target="_blank" style="color: var(--accent-blue);">Visit ↗</a>` });
 
             document.getElementById('viewMeta').innerHTML = metaItems.map(item => `
                 <div class="view-meta-item">
@@ -2215,20 +2334,7 @@
                 urlsSection.style.display = 'none';
             }
 
-            // Details
-            const detailsSection = document.getElementById('viewDetailsSection');
-            const detailsContent = document.getElementById('viewDetails');
-            if (deal.details) {
-                detailsSection.style.display = 'block';
-                detailsContent.textContent = deal.details;
-                detailsContent.classList.remove('empty');
-            } else {
-                detailsSection.style.display = 'block';
-                detailsContent.textContent = 'No details added yet.';
-                detailsContent.classList.add('empty');
-            }
-
-            // Comments (replaced Next Steps)
+            // Comments
             const commentsSection = document.getElementById('viewCommentsSection');
             const commentsContent = document.getElementById('viewComments');
             if (deal.comments) {
@@ -2305,6 +2411,12 @@
                     return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
                 }).join(' ');
 
+                // Source type icons
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐' };
+                const sourceDisplay = deal.sourceType ? 
+                    `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : 
+                    '<span style="color: var(--text-muted);">—</span>';
+
                 return `
                 <tr>
                     <td><span class="row-number">${index + 1}</span></td>
@@ -2312,11 +2424,12 @@
                     <td>
                         <div class="partner-cell">
                             <span class="partner-name">${escapeHtml(deal.partnerName)}</span>
-                            ${deal.source ? `<span class="partner-source">via ${escapeHtml(deal.source)}</span>` : ''}
                         </div>
                     </td>
                     <td>${geoDisplay}</td>
+                    <td>${sourceDisplay}</td>
                     <td>${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : '<span style="color: var(--text-muted);">—</span>'}</td>
+                    <td>${deal.assignedTo ? `<span class="assigned-badge">${escapeHtml(deal.assignedTo)}</span>` : '<span style="color: var(--text-muted);">—</span>'}</td>
                     <td>
                         <span class="status-badge status-${deal.status.toLowerCase()}">
                             <span class="status-dot"></span>
@@ -2342,6 +2455,7 @@
             const geo = document.getElementById('filterGeo').value;
             const model = document.getElementById('filterModel').value;
             const status = document.getElementById('filterStatus').value;
+            const assigned = document.getElementById('filterAssigned').value;
             const search = document.getElementById('searchInput').value.toLowerCase();
 
             return deals.filter(deal => {
@@ -2352,6 +2466,7 @@
                 }
                 if (model && deal.model !== model) return false;
                 if (status && deal.status !== status) return false;
+                if (assigned && deal.assignedTo !== assigned) return false;
                 if (search && !deal.partnerName.toLowerCase().includes(search)) return false;
                 return true;
             });
@@ -2365,6 +2480,7 @@
             document.getElementById('filterGeo').value = '';
             document.getElementById('filterModel').value = '';
             document.getElementById('filterStatus').value = '';
+            document.getElementById('filterAssigned').value = '';
             document.getElementById('searchInput').value = '';
             renderTable();
         }
@@ -2376,8 +2492,88 @@
             document.getElementById('totalDeals').textContent = deals.length;
             document.getElementById('activeDeals').textContent = deals.filter(d => d.status === 'Active').length;
             document.getElementById('pendingDeals').textContent = deals.filter(d => 
-                ['New', 'Contacted', 'Negotiating', 'Approved'].includes(d.status)
+                ['Contacted', 'Negotiating', 'Approved'].includes(d.status)
             ).length;
+            document.getElementById('rejectedDeals').textContent = deals.filter(d => d.status === 'Rejected').length;
+
+            // Render charts
+            renderCharts();
+        }
+
+        function renderCharts() {
+            const total = deals.length || 1;
+
+            // Status Chart
+            const statusCounts = {
+                'Active': { count: 0, color: 'bar-green' },
+                'Contacted': { count: 0, color: 'bar-yellow' },
+                'Negotiating': { count: 0, color: 'bar-purple' },
+                'Approved': { count: 0, color: 'bar-cyan' },
+                'Paused': { count: 0, color: 'bar-orange' },
+                'Rejected': { count: 0, color: 'bar-red' }
+            };
+            deals.forEach(d => {
+                if (statusCounts[d.status]) statusCounts[d.status].count++;
+            });
+            document.getElementById('statusChart').innerHTML = Object.entries(statusCounts)
+                .filter(([_, v]) => v.count > 0)
+                .map(([name, data]) => renderBarItem(name, data.count, total, data.color))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+
+            // Manager Chart
+            const managerCounts = { 'Niko': 0, 'George': 0, 'Unassigned': 0 };
+            deals.forEach(d => {
+                if (d.assignedTo === 'Niko') managerCounts['Niko']++;
+                else if (d.assignedTo === 'George') managerCounts['George']++;
+                else managerCounts['Unassigned']++;
+            });
+            const managerColors = { 'Niko': 'bar-blue', 'George': 'bar-purple', 'Unassigned': 'bar-orange' };
+            document.getElementById('managerChart').innerHTML = Object.entries(managerCounts)
+                .filter(([_, count]) => count > 0)
+                .map(([name, count]) => renderBarItem(name, count, total, managerColors[name]))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+
+            // GEO Chart
+            const geoCounts = { 'UK': 0, 'NL': 0, 'DE': 0 };
+            deals.forEach(d => {
+                const geos = d.geos || [d.geo];
+                geos.forEach(g => {
+                    if (geoCounts[g] !== undefined) geoCounts[g]++;
+                });
+            });
+            const geoColors = { 'UK': 'bar-blue', 'NL': 'bar-orange', 'DE': 'bar-yellow' };
+            document.getElementById('geoChart').innerHTML = Object.entries(geoCounts)
+                .filter(([_, count]) => count > 0)
+                .map(([name, count]) => renderBarItem(name, count, total, geoColors[name]))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+
+            // Source Chart
+            const sourceCounts = { 'SEO': 0, 'PPC': 0, 'Social': 0, 'Retargeting': 0, 'Influencers': 0 };
+            deals.forEach(d => {
+                if (d.sourceType && sourceCounts[d.sourceType] !== undefined) {
+                    sourceCounts[d.sourceType]++;
+                }
+            });
+            const sourceColors = { 'SEO': 'bar-green', 'PPC': 'bar-blue', 'Social': 'bar-pink', 'Retargeting': 'bar-cyan', 'Influencers': 'bar-purple' };
+            document.getElementById('sourceChart').innerHTML = Object.entries(sourceCounts)
+                .filter(([_, count]) => count > 0)
+                .map(([name, count]) => renderBarItem(name, count, total, sourceColors[name]))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+        }
+
+        function renderBarItem(label, count, total, colorClass) {
+            const percentage = Math.round((count / total) * 100);
+            return `
+                <div class="chart-bar-item">
+                    <span class="chart-bar-label">${label}</span>
+                    <div class="chart-bar-track">
+                        <div class="chart-bar-fill ${colorClass}" style="width: ${percentage}%;">
+                            ${percentage > 15 ? `<span class="chart-bar-value">${count}</span>` : ''}
+                        </div>
+                    </div>
+                    ${percentage <= 15 ? `<span style="font-size: 0.7rem; color: var(--text-muted); min-width: 20px;">${count}</span>` : ''}
+                </div>
+            `;
         }
 
         // Toast
