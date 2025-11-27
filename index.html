@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Workflow Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-left">
+                <div class="app-icon">📊</div>
+                <h1>Affiliate Workflow Tracker</h1>
+            </div>
+            <div class="header-actions">
+                <button class="btn-secondary" id="exportBtn">Export Data</button>
+                <button class="btn-secondary" id="importBtn">Import Data</button>
+                <button class="btn-primary" id="shareBtn">Share</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h2>Affiliate Pipeline</h2>
+                <div class="page-actions">
+                    <button class="btn-secondary" id="importGeminiBtn">Import from Gemini</button>
+                    <button class="btn-primary" id="newDealBtn">New Deal</button>
+                </div>
+            </div>
+
+            <div class="filters-section">
+                <span class="filter-label">FILTER:</span>
+                <select id="geoFilter" class="filter-select">
+                    <option value="all">All Geos</option>
+                </select>
+                <select id="modelFilter" class="filter-select">
+                    <option value="all">All Models</option>
+                </select>
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All Statuses</option>
+                </select>
+                <button class="btn-reset" id="resetFilters">Reset</button>
+            </div>
+
+            <div class="table-container">
+                <table class="pipeline-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>PARTNER NAME</th>
+                            <th>GEO</th>
+                            <th>SOURCE</th>
+                            <th>MODEL</th>
+                            <th>STATUS</th>
+                            <th>DETAILS</th>
+                            <th>NEXT STEPS</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dealsTableBody">
+                        <!-- Deals will be populated here -->
+                    </tbody>
+                </table>
+                <div id="emptyState" class="empty-state">
+                    <p>No deals found. Click "New Deal" to get started!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for New/Edit Deal -->
+    <div id="dealModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">New Deal</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <form id="dealForm" class="modal-body">
+                <div class="form-group">
+                    <label for="partnerName">Partner Name *</label>
+                    <input type="text" id="partnerName" required placeholder="Enter partner name">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="geo">GEO *</label>
+                        <input type="text" id="geo" required placeholder="e.g., US, UK, Global">
+                    </div>
+                    <div class="form-group">
+                        <label for="source">Source</label>
+                        <input type="text" id="source" placeholder="e.g., Direct, Network">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="model">Model *</label>
+                        <select id="model" required>
+                            <option value="">Select model</option>
+                            <option value="CPA">CPA</option>
+                            <option value="CPS">CPS</option>
+                            <option value="CPL">CPL</option>
+                            <option value="RevShare">RevShare</option>
+                            <option value="Hybrid">Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status *</label>
+                        <select id="status" required>
+                            <option value="">Select status</option>
+                            <option value="New">New</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Active">Active</option>
+                            <option value="Paused">Paused</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="details">Details</label>
+                    <textarea id="details" rows="3" placeholder="Add deal details..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="nextSteps">Next Steps</label>
+                    <textarea id="nextSteps" rows="3" placeholder="What are the next steps?"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Deal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden file input for import -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+
+    <script src="app.js"></script>
+</body>
+</html>
