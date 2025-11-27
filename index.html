@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affiliate Workflow Tracker</title>
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo-dot"></span>
+        <div class="brand-text">
+          <span class="eyebrow">Affiliate Workflow Tracker</span>
+          <h1>Affiliate Pipeline</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="ghost" id="importGeminiBtn">Import from Gemini</button>
+        <button class="primary" id="newDealBtn">New Deal</button>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="filters">
+        <div class="filter-group">
+          <label for="geoFilter">All Geos</label>
+          <select id="geoFilter"></select>
+        </div>
+        <div class="filter-group">
+          <label for="modelFilter">All Models</label>
+          <select id="modelFilter"></select>
+        </div>
+        <div class="filter-group">
+          <label for="statusFilter">All Statuses</label>
+          <select id="statusFilter"></select>
+        </div>
+        <button class="text-button" id="resetFilters">Reset</button>
+      </section>
+
+      <section class="table-card">
+        <div class="table-meta">
+          <p>
+            <span id="rowCount">0</span> records •
+            <span id="lastUpdated">Never updated</span>
+          </p>
+          <div class="mini-actions">
+            <button class="ghost small" id="exportDataBtn">Export</button>
+            <button class="ghost small" id="clearDataBtn">Clear Data</button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Partner Name</th>
+                <th>Geo</th>
+                <th>Source</th>
+                <th>Model</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Next Steps</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="pipelineBody">
+              <tr class="empty-state">
+                <td colspan="9">
+                  <p>No deals yet. Click “New Deal” to get started.</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <section id="dealModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <header>
+          <h2 id="modalTitle">New Deal</h2>
+          <button class="icon-button" id="closeModal" aria-label="Close">
+            ×
+          </button>
+        </header>
+        <form id="dealForm">
+          <input type="hidden" id="dealId" />
+          <div class="field-grid">
+            <label>
+              Partner Name
+              <input type="text" id="partnerInput" required />
+            </label>
+            <label>
+              Geo
+              <input type="text" id="geoInput" required />
+            </label>
+            <label>
+              Source
+              <input type="text" id="sourceInput" required />
+            </label>
+            <label>
+              Model
+              <input type="text" id="modelInput" required />
+            </label>
+            <label>
+              Status
+              <select id="statusInput" required>
+                <option value="Discovery">Discovery</option>
+                <option value="Negotiating">Negotiating</option>
+                <option value="Pending Launch">Pending Launch</option>
+                <option value="Live">Live</option>
+                <option value="On Hold">On Hold</option>
+              </select>
+            </label>
+            <label>
+              Details
+              <textarea id="detailsInput" rows="3"></textarea>
+            </label>
+            <label>
+              Next Steps
+              <textarea id="stepsInput" rows="3"></textarea>
+            </label>
+          </div>
+          <footer>
+            <button type="button" class="ghost" id="cancelModal">
+              Cancel
+            </button>
+            <button type="submit" class="primary">Save Deal</button>
+          </footer>
+        </form>
+      </div>
+    </section>
+
+    <div id="toast" class="toast hidden">Saved</div>
+    <input type="file" id="dataFileInput" accept=".json" hidden />
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

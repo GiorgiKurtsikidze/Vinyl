@@ -1,1 +1,42 @@
-Just a Readme file
+# Affiliate Workflow Tracker
+
+A lightweight static dashboard for managing an affiliate sales pipeline. Drop the three files (`index.html`, `styles.css`, `app.js`) onto any static host (S3, Netlify, Vercel, shared drive, etc.) and you immediately get the UI shown in the screenshot the user provided.
+
+## Features
+- Interactable filters for Geo, Model, and Status with one-click reset
+- Local data persistence via `localStorage`, so daily updates stay in the same browser
+- Modal form for adding or editing deals, plus inline delete actions
+- Import ("Import from Gemini") by uploading a JSON file with an array of deal objects
+- Export current deals to a timestamped JSON snapshot, or clear everything for a fresh start
+
+## Editing Data Each Day
+1. Click `New Deal` to add partners. Use `Edit`/`Delete` icons in the actions column for changes.
+2. Filters update automatically as you add new field combinations.
+3. All changes store in the browser. Export regularly if you need a backup or want to move data to another machine.
+
+## JSON Shape for Imports
+```json
+[
+  {
+    "partner": "Acme Partners",
+    "geo": "EMEA",
+    "source": "Referral",
+    "model": "CPA",
+    "status": "Discovery",
+    "details": "Any free text",
+    "nextSteps": "Next actions",
+    "updatedAt": 1732669722000
+  }
+]
+```
+Fields other than `partner` are optional. Missing IDs will be created automatically.
+
+## Local Preview
+You can open `index.html` directly in your browser, or serve the folder with any static server:
+
+```bash
+npx serve .
+```
+
+## Deploying
+Upload the three files to whatever host you prefer. No build step or backend is required.
