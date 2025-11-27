@@ -1,0 +1,17 @@
+# Enable error reporting (disable in production)
+# php_flag display_errors On
+
+# Set default file
+DirectoryIndex index.php
+
+# Protect database file
+<Files "data.db">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Protect config files
+<FilesMatch "\.(php|ini)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>

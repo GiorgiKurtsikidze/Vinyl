@@ -1,0 +1,9 @@
+# Database file
+data.db
+
+# PHP error logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
