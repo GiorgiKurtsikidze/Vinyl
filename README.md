@@ -1,107 +1,168 @@
 # Affiliate Pipeline Tracker
 
-A simple, self-contained affiliate deal tracking application. Upload it to any static host and start tracking your partner pipeline immediately.
-
-![Status Tracking](https://img.shields.io/badge/Status-Ready%20to%20Deploy-brightgreen)
+A real-time, password-protected affiliate deal tracking application. All users see updates instantly!
 
 ## Features
 
-- ✅ **No Backend Required** – Runs entirely in the browser
-- ✅ **Data Persistence** – Uses localStorage (data survives page refresh)
-- ✅ **Export/Import** – Backup and share data via JSON files
-- ✅ **Filtering** – Filter by Geo, Model, Status, or search by name
-- ✅ **Mobile Responsive** – Works on desktop and mobile devices
-- ✅ **Dark Theme** – Easy on the eyes
+- ✅ **Real-time Sync** – Changes appear instantly for all users
+- ✅ **Password Protected** – Only authorized users can access
+- ✅ **Online Users Count** – See how many people are viewing
+- ✅ **No Backend Code** – Uses Firebase (free tier)
+- ✅ **Export Data** – Download your data as JSON anytime
+- ✅ **Mobile Responsive** – Works on all devices
 
-## Quick Deploy
+---
 
-### Option 1: GitHub Pages (Free)
-1. Create a new GitHub repository
-2. Upload `index.html`
-3. Go to Settings → Pages → Select "main" branch
-4. Your site will be live at `https://yourusername.github.io/repo-name`
+## 🚀 Quick Setup (5 minutes)
 
-### Option 2: Netlify (Free)
-1. Go to [netlify.com](https://netlify.com) and sign up
-2. Drag & drop the `index.html` file onto the dashboard
-3. Done! You'll get a URL like `random-name.netlify.app`
+### Step 1: Create Firebase Project
 
-### Option 3: Vercel (Free)
-1. Go to [vercel.com](https://vercel.com)
-2. Import your GitHub repo or upload the file
-3. Instant deployment
+1. Go to [Firebase Console](https://console.firebase.google.com)
+2. Click **"Create a project"** (or use an existing one)
+3. Enter a project name (e.g., "affiliate-pipeline")
+4. Disable Google Analytics (optional, not needed)
+5. Click **Create project**
 
-### Option 4: Any Web Host
-Simply upload `index.html` to your web hosting provider (cPanel, FTP, etc.)
+### Step 2: Set Up Realtime Database
 
-## How to Use
+1. In your Firebase project, click **"Build"** → **"Realtime Database"**
+2. Click **"Create Database"**
+3. Choose a location closest to you
+4. Select **"Start in test mode"** (we'll secure it later)
+5. Click **Enable**
 
-### Adding Deals
-1. Click **"New Deal"** button
-2. Fill in partner details
-3. Click **Save Deal**
+### Step 3: Get Your Config
 
-### Editing Deals
-1. Click the ✏️ edit button on any row
-2. Modify the details
-3. Click **Save Deal**
+1. Click the ⚙️ gear icon → **"Project settings"**
+2. Scroll down to **"Your apps"**
+3. Click the **`</>`** (Web) icon to add a web app
+4. Enter a nickname (e.g., "pipeline-web")
+5. Click **Register app**
+6. You'll see a config object like this:
 
-### Filtering
-Use the dropdown filters to narrow down by:
-- **Geo** – Geographic region
-- **Model** – Revenue model (CPA, RevShare, Hybrid, Flat Fee)
-- **Status** – Current deal status
-- **Search** – Type to search partner names
+```javascript
+const firebaseConfig = {
+  apiKey: "AIzaSyB...",
+  authDomain: "your-project.firebaseapp.com",
+  databaseURL: "https://your-project-default-rtdb.firebaseio.com",
+  projectId: "your-project",
+  storageBucket: "your-project.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123"
+};
+```
 
-### Data Backup
-- **Export**: Click "Export" to download all data as JSON
-- **Import**: Click "Import" to restore data from a JSON file
+### Step 4: Update the HTML File
 
-### Keyboard Shortcuts
-- `Ctrl/Cmd + N` – Open new deal form
-- `Escape` – Close modal
+1. Open `index.html` in a text editor
+2. Find the `firebaseConfig` section (around line 460)
+3. Replace the placeholder values with your config:
 
-## Deal Statuses
+```javascript
+const firebaseConfig = {
+    apiKey: "YOUR_ACTUAL_API_KEY",
+    authDomain: "your-project.firebaseapp.com",
+    databaseURL: "https://your-project-default-rtdb.firebaseio.com",
+    projectId: "your-project",
+    storageBucket: "your-project.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "your-app-id"
+};
+```
 
-| Status | Description |
-|--------|-------------|
-| 🔵 New | Just added, not contacted yet |
-| 🟡 Contacted | Initial outreach made |
-| 🟣 Negotiating | In active discussions |
-| 🟢 Approved | Deal approved, pending activation |
-| 🔷 Active | Live and running |
-| 🟠 Paused | Temporarily on hold |
-| 🔴 Rejected | Deal did not proceed |
+### Step 5: Deploy
 
-## Data Storage
+Upload the updated `index.html` to:
+- **Netlify**: Drag & drop at [netlify.com](https://netlify.com)
+- **GitHub Pages**: Push to repo, enable Pages
+- **Vercel**: Import from GitHub at [vercel.com](https://vercel.com)
+- **Any web host**: Upload via FTP/cPanel
 
-Data is stored in your browser's localStorage. This means:
-- ✅ Data persists between sessions
-- ✅ Works offline once loaded
-- ⚠️ Data is per-browser (different browsers = different data)
-- ⚠️ Clearing browser data will erase the deals
+### Step 6: Set Your Password
 
-**Pro Tip**: Use the Export feature regularly to backup your data!
+1. Open your deployed site
+2. Enter your desired password
+3. This becomes the shared password for all users
 
-## Sharing Data Between Users
+---
 
-Since data is stored locally in each browser:
+## 🔒 Securing Your Database (Important!)
 
-1. **User A** exports data via the Export button
-2. Share the JSON file with **User B** (email, Slack, etc.)
-3. **User B** imports the file via the Import button
+After testing, secure your database:
 
-For real-time collaboration, consider upgrading to a version with a backend database.
+1. Go to Firebase Console → Realtime Database → **Rules**
+2. Replace the rules with:
 
-## Customization
+```json
+{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}
+```
 
-The entire application is in a single `index.html` file. You can easily customize:
+For production, you may want stricter rules, but the password protection in the app provides the main security layer.
+
+---
+
+## 📖 How to Use
+
+### First User (Admin)
+1. Open the site
+2. Enter your desired password → This sets the password for everyone
+
+### Other Users
+1. Open the same URL
+2. Enter the password shared with them
+3. They're in! All changes sync in real-time
+
+### Features
+- **Add Deal**: Click "New Deal" button
+- **Edit Deal**: Click ✏️ on any row
+- **Delete Deal**: Click 🗑️ on any row
+- **Filter**: Use dropdowns to filter by Geo, Model, Status
+- **Search**: Type in search box to find partners
+- **Export**: Download all data as JSON backup
+- **Logout**: Click 🚪 to log out
+
+### Real-time Sync
+- When User A adds/edits a deal, User B sees it instantly
+- The green "Live" indicator shows connection status
+- Online user count shows who's viewing
+
+---
+
+## ❓ FAQ
+
+**Q: Is my data secure?**
+A: Data is stored in Firebase with password protection. The password is hashed (SHA-256) before storage.
+
+**Q: Can I change the password?**
+A: Currently, you'd need to manually delete the `config/passwordHash` entry in Firebase to reset it.
+
+**Q: What's the Firebase free tier limit?**
+A: 1GB storage, 10GB/month download - plenty for a small team tracker.
+
+**Q: Can multiple people edit at once?**
+A: Yes! Changes merge in real-time. Last edit wins for the same field.
+
+**Q: Does it work offline?**
+A: Partially. You can view cached data, but edits need internet connection.
+
+---
+
+## 🎨 Customization
+
+Edit the HTML file to customize:
 
 - **Colors**: Modify CSS variables in `:root`
-- **Statuses**: Edit the status options in both the filter dropdown and form
-- **Models**: Edit the model options
-- **Fields**: Add new form fields and table columns
+- **Statuses**: Edit status options in dropdowns and CSS classes
+- **Models**: Edit model dropdown options
+- **Fields**: Add new fields to the form and table
+
+---
 
 ## License
 
-MIT – Use freely for personal or commercial purposes.
+MIT - Use freely for personal or commercial purposes.
