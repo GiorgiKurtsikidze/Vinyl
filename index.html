@@ -6,23 +6,29 @@
     <title>Affiliate Pipeline Tracker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-tertiary: #21262d;
-            --border-color: #30363d;
-            --text-primary: #e6edf3;
-            --text-secondary: #8b949e;
-            --text-muted: #6e7681;
-            --accent-primary: #58a6ff;
-            --accent-green: #3fb950;
-            --accent-yellow: #d29922;
-            --accent-red: #f85149;
-            --accent-purple: #a371f7;
-            --accent-cyan: #39c5cf;
-            --accent-orange: #db6d28;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --border-color: #2a2a3a;
+            --border-light: #3a3a4a;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9090a0;
+            --text-muted: #606070;
+            --accent-blue: #4a9eff;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-purple: #a855f7;
+            --accent-cyan: #06b6d4;
+            --accent-orange: #f97316;
+            --accent-pink: #ec4899;
+            --accent-lime: #84cc16;
+            --gradient-1: linear-gradient(135deg, #4a9eff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
         }
 
         * {
@@ -32,13 +38,14 @@
         }
 
         body {
-            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
             background-image: 
-                radial-gradient(ellipse at 0% 0%, rgba(88, 166, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 100% 100%, rgba(163, 113, 247, 0.06) 0%, transparent 50%);
+                radial-gradient(ellipse at 0% 0%, rgba(74, 158, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(34, 197, 94, 0.04) 0%, transparent 50%);
         }
 
         /* Login Screen */
@@ -53,47 +60,66 @@
         .login-box {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 2.5rem;
+            border-radius: 20px;
+            padding: 3rem;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
         }
 
         .login-logo {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
-            border-radius: 16px;
+            width: 72px;
+            height: 72px;
+            background: var(--gradient-1);
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 30px rgba(74, 158, 255, 0.3);
         }
 
         .login-box h1 {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .login-box p {
             color: var(--text-secondary);
             margin-bottom: 2rem;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .login-box input {
             width: 100%;
-            padding: 0.875rem 1rem;
+            padding: 1rem 1.25rem;
             font-size: 1rem;
             margin-bottom: 1rem;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.1);
         }
 
         .login-box button {
             width: 100%;
-            padding: 0.875rem;
+            padding: 1rem;
             font-size: 1rem;
+            font-weight: 600;
         }
 
         .login-error {
@@ -101,21 +127,24 @@
             font-size: 0.875rem;
             margin-bottom: 1rem;
             display: none;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
         }
 
         .setup-notice {
-            background: rgba(210, 153, 34, 0.1);
-            border: 1px solid rgba(210, 153, 34, 0.3);
-            border-radius: 8px;
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            border-radius: 10px;
             padding: 1rem;
             margin-bottom: 1.5rem;
             text-align: left;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--accent-yellow);
         }
 
         .setup-notice a {
-            color: var(--accent-primary);
+            color: var(--accent-blue);
         }
 
         /* Main App */
@@ -128,16 +157,16 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1500px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             padding-bottom: 1.5rem;
             border-bottom: 1px solid var(--border-color);
         }
@@ -145,23 +174,24 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.875rem;
         }
 
         .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
-            border-radius: 10px;
+            width: 46px;
+            height: 46px;
+            background: var(--gradient-1);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.25);
         }
 
         h1 {
             font-size: 1.5rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: -0.02em;
         }
 
@@ -170,11 +200,13 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.75rem;
+            font-weight: 500;
             color: var(--text-secondary);
             margin-left: 1rem;
-            padding: 0.375rem 0.75rem;
+            padding: 0.4rem 0.85rem;
             background: var(--bg-tertiary);
             border-radius: 20px;
+            border: 1px solid var(--border-color);
         }
 
         .sync-dot {
@@ -182,16 +214,18 @@
             height: 8px;
             border-radius: 50%;
             background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
             animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent-green); }
+            50% { opacity: 0.6; box-shadow: 0 0 4px var(--accent-green); }
         }
 
         .sync-dot.offline {
             background: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red);
             animation: none;
         }
 
@@ -202,11 +236,11 @@
         }
 
         button {
-            font-family: 'DM Sans', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 0.875rem;
-            font-weight: 500;
-            padding: 0.625rem 1rem;
-            border-radius: 8px;
+            font-weight: 600;
+            padding: 0.625rem 1.125rem;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
             border: 1px solid transparent;
@@ -220,19 +254,26 @@
 
         .btn-secondary:hover {
             background: var(--border-color);
-            border-color: var(--text-muted);
+            border-color: var(--border-light);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent-primary), #4493f8);
+            background: var(--gradient-1);
             color: white;
             border: none;
-            box-shadow: 0 2px 8px rgba(88, 166, 255, 0.25);
+            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
         }
 
         .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(88, 166, 255, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+        }
+
+        .btn-success {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
         }
 
         .btn-danger {
@@ -241,40 +282,68 @@
         }
 
         .btn-danger:hover {
-            background: #da3633;
+            background: #dc2626;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
         }
 
         .btn-small {
-            padding: 0.375rem 0.625rem;
-            font-size: 0.75rem;
+            padding: 0.4rem 0.7rem;
+            font-size: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
         }
 
         .btn-logout {
             background: none;
             border: none;
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 0.8rem;
-            padding: 0.5rem;
+            padding: 0.5rem 0.75rem;
         }
 
         .btn-logout:hover {
             color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
         }
 
         .filters {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             flex-wrap: wrap;
+            background: var(--bg-secondary);
+            padding: 1rem 1.25rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
         }
 
         .filter-label {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
         }
 
         .filter-group {
@@ -283,32 +352,34 @@
             align-items: center;
         }
 
-        select, input[type="text"], input[type="password"], input[type="date"], textarea {
-            font-family: 'DM Sans', sans-serif;
+        select, input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="url"], textarea {
+            font-family: 'Inter', sans-serif;
             font-size: 0.875rem;
-            padding: 0.5rem 0.75rem;
-            background: var(--bg-secondary);
+            padding: 0.6rem 0.9rem;
+            background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--text-primary);
             outline: none;
-            transition: border-color 0.2s;
+            transition: all 0.2s;
         }
 
         select:focus, input:focus, textarea:focus {
-            border-color: var(--accent-primary);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
         }
 
         select {
             cursor: pointer;
-            min-width: 140px;
+            min-width: 130px;
         }
 
         .reset-btn {
-            color: var(--accent-primary);
+            color: var(--accent-blue);
             background: none;
             border: none;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            font-weight: 600;
             cursor: pointer;
             margin-left: auto;
         }
@@ -317,10 +388,11 @@
             text-decoration: underline;
         }
 
+        /* Table */
         .table-container {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
         }
 
@@ -335,17 +407,17 @@
 
         th {
             text-align: left;
-            padding: 1rem;
-            font-size: 0.75rem;
-            font-weight: 600;
+            padding: 0.875rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-secondary);
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
             border-bottom: 1px solid var(--border-color);
         }
 
         td {
-            padding: 1rem;
+            padding: 0.875rem 1rem;
             border-bottom: 1px solid var(--border-color);
             vertical-align: middle;
         }
@@ -354,78 +426,140 @@
             border-bottom: none;
         }
 
-        tr:hover {
-            background: rgba(88, 166, 255, 0.04);
+        tbody tr {
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: rgba(74, 158, 255, 0.04);
         }
 
         .row-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 600;
             color: var(--text-muted);
+            background: var(--bg-tertiary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .partner-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
 
         .partner-name {
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .partner-source {
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
         .geo-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.375rem;
-            padding: 0.25rem 0.5rem;
+            padding: 0.35rem 0.65rem;
             background: var(--bg-tertiary);
-            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
             font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
         }
+
+        .model-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .model-cpa { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .model-revshare { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+        .model-hybrid { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+        .model-flat-fee { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .model-fee-hybrid { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+        .model-fee-cpa { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .model-fee-rs { background: rgba(132, 204, 22, 0.15); color: var(--accent-lime); }
 
         .status-badge {
-            display: inline-block;
-            padding: 0.25rem 0.625rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.35rem 0.75rem;
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 500;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
         }
 
-        .status-new { background: rgba(88, 166, 255, 0.15); color: var(--accent-primary); }
-        .status-contacted { background: rgba(210, 153, 34, 0.15); color: var(--accent-yellow); }
-        .status-negotiating { background: rgba(163, 113, 247, 0.15); color: var(--accent-purple); }
-        .status-approved { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); }
-        .status-active { background: rgba(57, 197, 207, 0.15); color: var(--accent-cyan); }
-        .status-paused { background: rgba(219, 109, 40, 0.15); color: var(--accent-orange); }
-        .status-rejected { background: rgba(248, 81, 73, 0.15); color: var(--accent-red); }
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
 
-        .details-cell {
+        .status-new { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .status-new .status-dot { background: var(--accent-blue); }
+        .status-contacted { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
+        .status-contacted .status-dot { background: var(--accent-yellow); }
+        .status-negotiating { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+        .status-negotiating .status-dot { background: var(--accent-purple); }
+        .status-approved { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .status-approved .status-dot { background: var(--accent-green); }
+        .status-active { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .status-active .status-dot { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+        .status-paused { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+        .status-paused .status-dot { background: var(--accent-orange); }
+        .status-rejected { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .status-rejected .status-dot { background: var(--accent-red); }
+
+        .next-steps-cell {
             max-width: 200px;
-            font-size: 0.875rem;
-            color: var(--text-secondary);
         }
 
-        .next-steps {
-            font-size: 0.875rem;
-            color: var(--text-primary);
+        .next-steps-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .actions-cell {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .empty-state {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
             color: var(--text-secondary);
         }
 
         .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
         }
 
         .empty-state h3 {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             margin-bottom: 0.5rem;
             color: var(--text-primary);
+            font-weight: 600;
         }
 
         /* Modal Styles */
@@ -433,8 +567,8 @@
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
             z-index: 100;
             align-items: center;
             justify-content: center;
@@ -453,59 +587,80 @@
         .modal {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
             width: 100%;
-            max-width: 560px;
+            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
             animation: slideUp 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
         }
 
         @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 1.75rem;
             border-bottom: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
         }
 
         .modal-header h2 {
-            font-size: 1.125rem;
-            font-weight: 600;
+            font-size: 1.25rem;
+            font-weight: 700;
         }
 
         .modal-close {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: none;
-            border: none;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             color: var(--text-secondary);
             cursor: pointer;
-            border-radius: 6px;
+            border-radius: 10px;
             font-size: 1.25rem;
+            transition: all 0.2s;
         }
 
         .modal-close:hover {
-            background: var(--bg-tertiary);
-            color: var(--text-primary);
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: white;
         }
 
         .modal-body {
-            padding: 1.5rem;
+            padding: 1.75rem;
+        }
+
+        .form-section {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
         }
 
         .form-group {
@@ -514,10 +669,14 @@
 
         .form-group label {
             display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--text-secondary);
+        }
+
+        .form-group label .required {
+            color: var(--accent-red);
         }
 
         .form-group input,
@@ -527,8 +686,16 @@
         }
 
         .form-group textarea {
-            min-height: 80px;
+            min-height: 90px;
             resize: vertical;
+            line-height: 1.5;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
         .form-row {
@@ -537,48 +704,198 @@
             gap: 1rem;
         }
 
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
         .modal-footer {
             display: flex;
             justify-content: flex-end;
             gap: 0.75rem;
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.75rem;
             border-top: 1px solid var(--border-color);
             background: var(--bg-tertiary);
+        }
+
+        /* View Deal Modal */
+        .view-modal {
+            max-width: 700px;
+        }
+
+        .view-header {
+            padding: 2rem;
+            background: var(--gradient-1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .view-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .view-partner-name {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .view-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .view-badges .status-badge,
+        .view-badges .model-badge,
+        .view-badges .geo-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .view-body {
+            padding: 2rem;
+        }
+
+        .view-section {
+            margin-bottom: 2rem;
+        }
+
+        .view-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .view-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-blue);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-section-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .view-section-content.empty {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .view-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .view-meta-item {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .view-meta-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .view-meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .view-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        .view-timestamp {
+            font-size: 0.75rem;
+            color: var(--text-muted);
         }
 
         /* Stats Bar */
         .stats-bar {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
             flex-wrap: wrap;
         }
 
         .stat-card {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 1rem 1.25rem;
+            border-radius: 14px;
+            padding: 1rem 1.5rem;
             min-width: 140px;
+            position: relative;
+            overflow: hidden;
         }
 
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .stat-total::before { background: var(--gradient-1); }
+        .stat-active::before { background: var(--accent-green); }
+        .stat-pending::before { background: var(--accent-yellow); }
+
         .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 2rem;
+            font-weight: 800;
             font-family: 'JetBrains Mono', monospace;
+            line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 0.25rem;
+            letter-spacing: 0.08em;
+            margin-top: 0.4rem;
         }
 
+        .stat-total .stat-value { color: var(--accent-blue); }
         .stat-active .stat-value { color: var(--accent-green); }
         .stat-pending .stat-value { color: var(--accent-yellow); }
-        .stat-total .stat-value { color: var(--accent-primary); }
 
         /* Online Users */
         .online-users {
@@ -586,14 +903,17 @@
             align-items: center;
             gap: 0.5rem;
             font-size: 0.8rem;
+            font-weight: 500;
             color: var(--text-secondary);
         }
 
         .online-count {
-            background: var(--bg-tertiary);
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
+            background: rgba(34, 197, 94, 0.15);
             color: var(--accent-green);
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         /* Responsive */
@@ -618,11 +938,15 @@
             }
 
             table {
-                min-width: 900px;
+                min-width: 1000px;
             }
 
-            .form-row {
+            .form-row, .form-row-3 {
                 grid-template-columns: 1fr;
+            }
+
+            .view-meta {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -640,37 +964,32 @@
         .toast {
             background: var(--bg-tertiary);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 0.875rem 1.25rem;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
             animation: slideIn 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            font-weight: 500;
         }
 
         @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
-        .toast-success { border-left: 3px solid var(--accent-green); }
-        .toast-error { border-left: 3px solid var(--accent-red); }
-        .toast-info { border-left: 3px solid var(--accent-primary); }
+        .toast-success { border-left: 4px solid var(--accent-green); }
+        .toast-error { border-left: 4px solid var(--accent-red); }
+        .toast-info { border-left: 4px solid var(--accent-blue); }
 
         /* Loading */
         .loading-spinner {
             display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border-color);
-            border-top-color: var(--accent-primary);
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-blue);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -688,19 +1007,43 @@
             justify-content: center;
             z-index: 1000;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .loading-overlay.hidden {
             display: none;
+        }
+
+        .loading-overlay p {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
         }
     </style>
 </head>
 <body>
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
-        <div class="loading-spinner" style="width: 40px; height: 40px;"></div>
-        <p style="color: var(--text-secondary);">Connecting...</p>
+        <div class="loading-spinner" style="width: 48px; height: 48px;"></div>
+        <p>Connecting to database...</p>
     </div>
 
     <!-- Login Screen -->
@@ -714,12 +1057,12 @@
                 ⚠️ Firebase not configured. See <a href="#" onclick="showSetupInstructions()">setup instructions</a>.
             </div>
             
-            <div class="login-error" id="loginError">Invalid password</div>
+            <div class="login-error" id="loginError">❌ Invalid password. Please try again.</div>
             
             <input type="password" id="passwordInput" placeholder="Enter password" onkeypress="if(event.key==='Enter')login()">
-            <button class="btn-primary" onclick="login()">Access Dashboard</button>
+            <button class="btn-primary" onclick="login()">🔓 Access Dashboard</button>
             
-            <p style="margin-top: 1.5rem; font-size: 0.75rem; color: var(--text-muted);">
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-muted);">
                 First time? Enter your desired password to set it up.
             </p>
         </div>
@@ -769,24 +1112,27 @@
             </div>
 
             <div class="filters">
-                <span class="filter-label">Filter:</span>
+                <span class="filter-label">Filters:</span>
                 <div class="filter-group">
                     <select id="filterGeo" onchange="applyFilters()">
-                        <option value="">All Geos</option>
+                        <option value="">🌍 All Geos</option>
                     </select>
                 </div>
                 <div class="filter-group">
                     <select id="filterModel" onchange="applyFilters()">
-                        <option value="">All Models</option>
+                        <option value="">💰 All Models</option>
                         <option value="CPA">CPA</option>
                         <option value="RevShare">RevShare</option>
                         <option value="Hybrid">Hybrid</option>
                         <option value="Flat Fee">Flat Fee</option>
+                        <option value="Fee + Hybrid">Fee + Hybrid</option>
+                        <option value="Fee + CPA">Fee + CPA</option>
+                        <option value="Fee + RS">Fee + RS</option>
                     </select>
                 </div>
                 <div class="filter-group">
                     <select id="filterStatus" onchange="applyFilters()">
-                        <option value="">All Statuses</option>
+                        <option value="">📋 All Statuses</option>
                         <option value="New">New</option>
                         <option value="Contacted">Contacted</option>
                         <option value="Negotiating">Negotiating</option>
@@ -797,9 +1143,9 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <input type="text" id="searchInput" placeholder="🔍 Search partners..." onkeyup="applyFilters()">
+                    <input type="text" id="searchInput" placeholder="🔍 Search partners..." onkeyup="applyFilters()" style="min-width: 200px;">
                 </div>
-                <button class="reset-btn" onclick="resetFilters()">Reset</button>
+                <button class="reset-btn" onclick="resetFilters()">✕ Reset</button>
             </div>
 
             <div class="table-container">
@@ -807,14 +1153,12 @@
                     <thead>
                         <tr>
                             <th style="width: 50px">#</th>
-                            <th>Partner Name</th>
+                            <th>Partner</th>
                             <th>Geo</th>
-                            <th>Source</th>
                             <th>Model</th>
                             <th>Status</th>
-                            <th>Details</th>
                             <th>Next Steps</th>
-                            <th style="width: 120px">Actions</th>
+                            <th style="width: 140px">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="dealsTable">
@@ -822,79 +1166,150 @@
                 </table>
                 <div class="empty-state" id="emptyState" style="display: none;">
                     <div class="empty-state-icon">📋</div>
-                    <h3>No deals yet</h3>
-                    <p>Click "New Deal" to add your first partner to the pipeline</p>
+                    <h3>No deals in pipeline</h3>
+                    <p>Click "New Deal" to add your first partner</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Add/Edit Deal Modal -->
     <div class="modal-overlay" id="dealModal">
         <div class="modal">
             <div class="modal-header">
-                <h2 id="modalTitle">Add New Deal</h2>
+                <h2 id="modalTitle">➕ Add New Deal</h2>
                 <button class="modal-close" onclick="closeModal()">×</button>
             </div>
             <div class="modal-body">
                 <form id="dealForm" onsubmit="saveDeal(event)">
                     <input type="hidden" id="dealId">
                     
-                    <div class="form-group">
-                        <label for="partnerName">Partner Name *</label>
-                        <input type="text" id="partnerName" required placeholder="Enter partner name">
-                    </div>
+                    <div class="form-section">
+                        <div class="form-section-title">📋 Basic Information</div>
+                        
+                        <div class="form-group">
+                            <label for="partnerName">Partner Name <span class="required">*</span></label>
+                            <input type="text" id="partnerName" required placeholder="e.g., Acme Corp, BetterAds Network">
+                        </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="geo">Geo / Region *</label>
-                            <input type="text" id="geo" required placeholder="e.g., US, UK, LATAM">
-                        </div>
-                        <div class="form-group">
-                            <label for="source">Source</label>
-                            <input type="text" id="source" placeholder="e.g., LinkedIn, Referral">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="model">Model</label>
-                            <select id="model">
-                                <option value="">Select model</option>
-                                <option value="CPA">CPA</option>
-                                <option value="RevShare">RevShare</option>
-                                <option value="Hybrid">Hybrid</option>
-                                <option value="Flat Fee">Flat Fee</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="status">Status *</label>
-                            <select id="status" required>
-                                <option value="New">New</option>
-                                <option value="Contacted">Contacted</option>
-                                <option value="Negotiating">Negotiating</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Active">Active</option>
-                                <option value="Paused">Paused</option>
-                                <option value="Rejected">Rejected</option>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="geo">Geo / Region <span class="required">*</span></label>
+                                <input type="text" id="geo" required placeholder="e.g., US, UK, LATAM, APAC">
+                                <small>Country code or region</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="source">Lead Source</label>
+                                <input type="text" id="source" placeholder="e.g., LinkedIn, Referral, Conference">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="details">Details</label>
-                        <textarea id="details" placeholder="Additional details, contact info, rates..."></textarea>
+                    <div class="form-section">
+                        <div class="form-section-title">💰 Deal Details</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="model">Revenue Model</label>
+                                <select id="model">
+                                    <option value="">Select model...</option>
+                                    <option value="CPA">CPA (Cost Per Action)</option>
+                                    <option value="RevShare">RevShare</option>
+                                    <option value="Hybrid">Hybrid (CPA + RevShare)</option>
+                                    <option value="Flat Fee">Flat Fee</option>
+                                    <option value="Fee + Hybrid">Fee + Hybrid</option>
+                                    <option value="Fee + CPA">Fee + CPA</option>
+                                    <option value="Fee + RS">Fee + RevShare</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status <span class="required">*</span></label>
+                                <select id="status" required>
+                                    <option value="New">🔵 New</option>
+                                    <option value="Contacted">🟡 Contacted</option>
+                                    <option value="Negotiating">🟣 Negotiating</option>
+                                    <option value="Approved">🟢 Approved</option>
+                                    <option value="Active">✅ Active</option>
+                                    <option value="Paused">🟠 Paused</option>
+                                    <option value="Rejected">🔴 Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="dealValue">Deal Value</label>
+                                <input type="text" id="dealValue" placeholder="e.g., $5,000/mo, 30% RS">
+                                <small>Monthly value or rate</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactName">Contact Person</label>
+                                <input type="text" id="contactName" placeholder="e.g., John Smith">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactEmail">Contact Email</label>
+                                <input type="email" id="contactEmail" placeholder="john@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="website">Website</label>
+                                <input type="url" id="website" placeholder="https://company.com">
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="nextSteps">Next Steps</label>
-                        <textarea id="nextSteps" placeholder="What needs to be done next?"></textarea>
+                    <div class="form-section">
+                        <div class="form-section-title">📝 Notes</div>
+                        
+                        <div class="form-group">
+                            <label for="details">Details & Notes</label>
+                            <textarea id="details" placeholder="Additional details about the partnership, rates, terms, requirements..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nextSteps">Next Steps</label>
+                            <textarea id="nextSteps" placeholder="What needs to be done next? Action items, follow-ups..."></textarea>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
-                <button type="submit" class="btn-primary" form="dealForm">Save Deal</button>
+                <button type="submit" class="btn-primary" form="dealForm">💾 Save Deal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Deal Modal -->
+    <div class="modal-overlay" id="viewModal">
+        <div class="modal view-modal">
+            <div class="view-header">
+                <div class="view-header-content">
+                    <div class="view-partner-name" id="viewPartnerName">Partner Name</div>
+                    <div class="view-badges" id="viewBadges"></div>
+                </div>
+            </div>
+            <div class="view-body">
+                <div class="view-meta" id="viewMeta"></div>
+                
+                <div class="view-section" id="viewDetailsSection">
+                    <div class="view-section-title">📝 Details & Notes</div>
+                    <div class="view-section-content" id="viewDetails"></div>
+                </div>
+
+                <div class="view-section" id="viewNextStepsSection">
+                    <div class="view-section-title">🎯 Next Steps</div>
+                    <div class="view-section-content" id="viewNextSteps"></div>
+                </div>
+            </div>
+            <div class="view-footer">
+                <div class="view-timestamp" id="viewTimestamp"></div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn-secondary" onclick="closeViewModal()">Close</button>
+                    <button class="btn-primary" id="viewEditBtn" onclick="">✏️ Edit</button>
+                </div>
             </div>
         </div>
     </div>
@@ -910,8 +1325,6 @@
         // ============================================
         // 🔧 FIREBASE CONFIGURATION
         // ============================================
-        // Replace these values with your Firebase project config
-        // Get them from: Firebase Console → Project Settings → Your apps → Config
         
         const firebaseConfig = {
             apiKey: "AIzaSyCHllpw-T7xHNOASLbTCP62WlO3WwHmaPU",
@@ -952,7 +1365,6 @@
                 db = firebase.database();
                 isConfigured = true;
                 
-                // Check connection status
                 db.ref('.info/connected').on('value', (snap) => {
                     updateConnectionStatus(snap.val());
                 });
@@ -967,7 +1379,6 @@
             }
         }
 
-        // Connection Status
         function updateConnectionStatus(connected) {
             const dot = document.getElementById('syncDot');
             const text = document.getElementById('syncText');
@@ -981,7 +1392,7 @@
             }
         }
 
-        // Authentication (simple password)
+        // Authentication
         function checkAuth() {
             const savedAuth = localStorage.getItem('pipeline_auth');
             document.getElementById('loadingOverlay').classList.add('hidden');
@@ -1013,18 +1424,15 @@
                 const storedHash = snapshot.val();
                 
                 if (!storedHash) {
-                    // First time setup - set the password
                     await db.ref('config/passwordHash').set(hashedPassword);
                     localStorage.setItem('pipeline_auth', password);
                     showApp();
-                    showToast('Password set successfully!', 'success');
+                    showToast('Password set! Share it with your team.', 'success');
                 } else if (storedHash === hashedPassword) {
-                    // Correct password
                     localStorage.setItem('pipeline_auth', password);
                     showApp();
-                    if (!isAutoLogin) showToast('Welcome back!', 'success');
+                    if (!isAutoLogin) showToast('Welcome back! 👋', 'success');
                 } else {
-                    // Wrong password
                     if (isAutoLogin) {
                         localStorage.removeItem('pipeline_auth');
                         document.getElementById('loginScreen').style.display = 'flex';
@@ -1064,7 +1472,7 @@
             trackPresence();
         }
 
-        // Presence (online users)
+        // Presence
         function trackPresence() {
             currentSessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
             const presenceRef = db.ref('presence/' + currentSessionId);
@@ -1076,7 +1484,6 @@
             
             presenceRef.onDisconnect().remove();
             
-            // Listen for online users
             db.ref('presence').on('value', (snapshot) => {
                 const users = snapshot.val() || {};
                 const count = Object.keys(users).length;
@@ -1102,7 +1509,7 @@
             });
         }
 
-        // CRUD Operations
+        // CRUD
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2);
         }
@@ -1118,18 +1525,22 @@
             if (dealId) {
                 const deal = deals.find(d => d.id === dealId);
                 if (deal) {
-                    title.textContent = 'Edit Deal';
+                    title.textContent = '✏️ Edit Deal';
                     document.getElementById('dealId').value = deal.id;
                     document.getElementById('partnerName').value = deal.partnerName || '';
                     document.getElementById('geo').value = deal.geo || '';
                     document.getElementById('source').value = deal.source || '';
                     document.getElementById('model').value = deal.model || '';
                     document.getElementById('status').value = deal.status || 'New';
+                    document.getElementById('dealValue').value = deal.dealValue || '';
+                    document.getElementById('contactName').value = deal.contactName || '';
+                    document.getElementById('contactEmail').value = deal.contactEmail || '';
+                    document.getElementById('website').value = deal.website || '';
                     document.getElementById('details').value = deal.details || '';
                     document.getElementById('nextSteps').value = deal.nextSteps || '';
                 }
             } else {
-                title.textContent = 'Add New Deal';
+                title.textContent = '➕ Add New Deal';
             }
 
             modal.classList.add('active');
@@ -1149,6 +1560,10 @@
                 source: document.getElementById('source').value.trim(),
                 model: document.getElementById('model').value,
                 status: document.getElementById('status').value,
+                dealValue: document.getElementById('dealValue').value.trim(),
+                contactName: document.getElementById('contactName').value.trim(),
+                contactEmail: document.getElementById('contactEmail').value.trim(),
+                website: document.getElementById('website').value.trim(),
                 details: document.getElementById('details').value.trim(),
                 nextSteps: document.getElementById('nextSteps').value.trim(),
                 updatedAt: Date.now()
@@ -1161,7 +1576,7 @@
 
             try {
                 await db.ref('deals/' + id).update(dealData);
-                showToast(isNew ? 'New deal added!' : 'Deal updated!', 'success');
+                showToast(isNew ? '✅ New deal added!' : '✅ Deal updated!', 'success');
                 closeModal();
             } catch (error) {
                 console.error('Save error:', error);
@@ -1173,15 +1588,91 @@
             if (confirm('Are you sure you want to delete this deal?')) {
                 try {
                     await db.ref('deals/' + id).remove();
-                    showToast('Deal deleted', 'info');
+                    showToast('🗑️ Deal deleted', 'info');
                 } catch (error) {
-                    console.error('Delete error:', error);
-                    showToast('Failed to delete. Please try again.', 'error');
+                    showToast('Failed to delete.', 'error');
                 }
             }
         }
 
-        // Export Data
+        // View Deal
+        function viewDeal(dealId) {
+            const deal = deals.find(d => d.id === dealId);
+            if (!deal) return;
+
+            document.getElementById('viewPartnerName').textContent = deal.partnerName;
+            
+            // Badges
+            const badgesHtml = `
+                <span class="geo-badge">${escapeHtml(deal.geo)}</span>
+                ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
+                <span class="status-badge status-${deal.status.toLowerCase()}">
+                    <span class="status-dot"></span>
+                    ${deal.status}
+                </span>
+            `;
+            document.getElementById('viewBadges').innerHTML = badgesHtml;
+
+            // Meta info
+            const metaItems = [];
+            if (deal.source) metaItems.push({ label: 'Source', value: deal.source });
+            if (deal.dealValue) metaItems.push({ label: 'Deal Value', value: deal.dealValue });
+            if (deal.contactName) metaItems.push({ label: 'Contact', value: deal.contactName });
+            if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
+            if (deal.website) metaItems.push({ label: 'Website', value: `<a href="${escapeHtml(deal.website)}" target="_blank" style="color: var(--accent-blue);">Visit ↗</a>` });
+
+            document.getElementById('viewMeta').innerHTML = metaItems.map(item => `
+                <div class="view-meta-item">
+                    <div class="view-meta-label">${item.label}</div>
+                    <div class="view-meta-value">${item.value}</div>
+                </div>
+            `).join('');
+
+            // Details
+            const detailsSection = document.getElementById('viewDetailsSection');
+            const detailsContent = document.getElementById('viewDetails');
+            if (deal.details) {
+                detailsSection.style.display = 'block';
+                detailsContent.textContent = deal.details;
+                detailsContent.classList.remove('empty');
+            } else {
+                detailsSection.style.display = 'block';
+                detailsContent.textContent = 'No details added yet.';
+                detailsContent.classList.add('empty');
+            }
+
+            // Next Steps
+            const nextStepsSection = document.getElementById('viewNextStepsSection');
+            const nextStepsContent = document.getElementById('viewNextSteps');
+            if (deal.nextSteps) {
+                nextStepsSection.style.display = 'block';
+                nextStepsContent.textContent = deal.nextSteps;
+                nextStepsContent.classList.remove('empty');
+            } else {
+                nextStepsSection.style.display = 'block';
+                nextStepsContent.textContent = 'No next steps defined.';
+                nextStepsContent.classList.add('empty');
+            }
+
+            // Timestamp
+            const created = deal.createdAt ? new Date(deal.createdAt).toLocaleDateString() : 'Unknown';
+            const updated = deal.updatedAt ? new Date(deal.updatedAt).toLocaleDateString() : 'Unknown';
+            document.getElementById('viewTimestamp').textContent = `Created: ${created} • Updated: ${updated}`;
+
+            // Edit button
+            document.getElementById('viewEditBtn').onclick = () => {
+                closeViewModal();
+                openModal(dealId);
+            };
+
+            document.getElementById('viewModal').classList.add('active');
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewModal').classList.remove('active');
+        }
+
+        // Export
         function exportData() {
             const dataStr = JSON.stringify(deals, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -1191,10 +1682,23 @@
             a.download = `affiliate-pipeline-${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
-            showToast('Data exported successfully!', 'success');
+            showToast('📁 Data exported!', 'success');
         }
 
         // Rendering
+        function getModelClass(model) {
+            const modelMap = {
+                'CPA': 'cpa',
+                'RevShare': 'revshare',
+                'Hybrid': 'hybrid',
+                'Flat Fee': 'flat-fee',
+                'Fee + Hybrid': 'fee-hybrid',
+                'Fee + CPA': 'fee-cpa',
+                'Fee + RS': 'fee-rs'
+            };
+            return modelMap[model] || 'cpa';
+        }
+
         function renderTable() {
             const tbody = document.getElementById('dealsTable');
             const emptyState = document.getElementById('emptyState');
@@ -1209,18 +1713,29 @@
             emptyState.style.display = 'none';
             tbody.innerHTML = filteredDeals.map((deal, index) => `
                 <tr>
-                    <td class="row-number">${index + 1}</td>
-                    <td class="partner-name">${escapeHtml(deal.partnerName)}</td>
+                    <td><span class="row-number">${index + 1}</span></td>
+                    <td>
+                        <div class="partner-cell">
+                            <span class="partner-name">${escapeHtml(deal.partnerName)}</span>
+                            ${deal.source ? `<span class="partner-source">via ${escapeHtml(deal.source)}</span>` : ''}
+                        </div>
+                    </td>
                     <td><span class="geo-badge">${escapeHtml(deal.geo)}</span></td>
-                    <td>${escapeHtml(deal.source) || '—'}</td>
-                    <td>${escapeHtml(deal.model) || '—'}</td>
-                    <td><span class="status-badge status-${deal.status.toLowerCase()}">${deal.status}</span></td>
-                    <td class="details-cell">${escapeHtml(deal.details) || '—'}</td>
-                    <td class="next-steps">${escapeHtml(deal.nextSteps) || '—'}</td>
+                    <td>${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : '<span style="color: var(--text-muted);">—</span>'}</td>
+                    <td>
+                        <span class="status-badge status-${deal.status.toLowerCase()}">
+                            <span class="status-dot"></span>
+                            ${deal.status}
+                        </span>
+                    </td>
+                    <td class="next-steps-cell">
+                        <div class="next-steps-text">${escapeHtml(deal.nextSteps) || '<span style="color: var(--text-muted);">—</span>'}</div>
+                    </td>
                     <td>
                         <div class="actions-cell">
-                            <button class="btn-secondary btn-small" onclick="openModal('${deal.id}')" title="Edit">✏️</button>
-                            <button class="btn-danger btn-small" onclick="deleteDeal('${deal.id}')" title="Delete">🗑️</button>
+                            <button class="btn-secondary btn-icon btn-small" onclick="viewDeal('${deal.id}')" title="View Details">👁️</button>
+                            <button class="btn-secondary btn-icon btn-small" onclick="openModal('${deal.id}')" title="Edit">✏️</button>
+                            <button class="btn-danger btn-icon btn-small" onclick="deleteDeal('${deal.id}')" title="Delete">🗑️</button>
                         </div>
                     </td>
                 </tr>
@@ -1260,7 +1775,7 @@
             const select = document.getElementById('filterGeo');
             const currentValue = select.value;
             
-            select.innerHTML = '<option value="">All Geos</option>' + 
+            select.innerHTML = '<option value="">🌍 All Geos</option>' + 
                 geos.map(geo => `<option value="${escapeHtml(geo)}">${escapeHtml(geo)}</option>`).join('');
             
             if (geos.includes(currentValue)) {
@@ -1277,7 +1792,7 @@
             ).length;
         }
 
-        // Toast Notifications
+        // Toast
         function showToast(message, type = 'info') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -1291,7 +1806,7 @@
             }, 3000);
         }
 
-        // Utilities
+        // Utils
         function escapeHtml(text) {
             if (!text) return '';
             const div = document.createElement('div');
@@ -1305,37 +1820,39 @@
 1. Go to https://console.firebase.google.com
 2. Create a new project (or use existing)
 3. Click "Realtime Database" → Create Database
-4. Choose "Start in test mode" for now
+4. Choose "Start in test mode"
 5. Go to Project Settings → Your apps → Add web app
 6. Copy the config values
-7. Edit this HTML file and replace the firebaseConfig values
-8. Re-upload to your host
-
-That's it! The app will work with real-time sync.`);
+7. Edit this HTML file and replace firebaseConfig
+8. Re-upload to your host`);
         }
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeModal();
+            if (e.key === 'Escape') {
+                closeModal();
+                closeViewModal();
+            }
             if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
                 e.preventDefault();
                 openModal();
             }
         });
 
-        // Close modal on overlay click
+        // Modal overlay click
         document.getElementById('dealModal').addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) {
-                closeModal();
-            }
+            if (e.target.classList.contains('modal-overlay')) closeModal();
+        });
+        document.getElementById('viewModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) closeViewModal();
         });
 
-        // Cleanup on page unload
+        // Cleanup
         window.addEventListener('beforeunload', () => {
             untrackPresence();
         });
 
-        // Initialize on load
+        // Init
         document.addEventListener('DOMContentLoaded', initFirebase);
     </script>
 </body>
