@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Affiliate Workflow Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-nav">
+      <div class="brand">
+        <span class="brand-icon">&#9889;</span>
+        <div>
+          <p class="eyebrow">Affiliate Workflow Tracker</p>
+          <p class="tagline">Daily pipeline command center</p>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-button" type="button" title="Toggle theme (placeholder)">
+          &#9728;
+        </button>
+        <button class="ghost" type="button" id="importButton">Import from CSV</button>
+        <button class="primary" type="button" id="newDealButton">New Deal</button>
+      </div>
+      <input type="file" id="importInput" accept=".csv" hidden />
+    </header>
+
+    <main class="content">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h1>Affiliate Pipeline</h1>
+            <p class="subtext">Track partner deals, status changes, and next steps.</p>
+          </div>
+          <div class="panel-tools">
+            <button class="ghost" type="button" id="exportButton">Export CSV</button>
+            <button class="ghost" type="button" id="resetApp">Reset Data</button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <span class="filter-label">Filter:</span>
+          <div class="select-group">
+            <label>
+              <span>Geos</span>
+              <select id="geoFilter"></select>
+            </label>
+            <label>
+              <span>Models</span>
+              <select id="modelFilter"></select>
+            </label>
+            <label>
+              <span>Status</span>
+              <select id="statusFilter"></select>
+            </label>
+          </div>
+          <button class="link" type="button" id="resetFilters">Reset</button>
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Partner Name</th>
+                <th>Geo</th>
+                <th>Source</th>
+                <th>Model</th>
+                <th>Status</th>
+                <th>Details</th>
+                <th>Next Steps</th>
+                <th class="actions-col">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="pipelineTable"></tbody>
+          </table>
+          <div class="empty-state" id="emptyState">
+            <p>No deals match the selected filters.</p>
+            <button class="primary" type="button" id="emptyNewDeal">Add a Deal</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="dealModal" aria-hidden="true" role="dialog">
+    <div class="modal-content" role="document">
+      <header>
+        <h2 id="modalTitle">New Deal</h2>
+        <button class="icon-button" type="button" data-close-modal>&times;</button>
+      </header>
+      <form id="dealForm">
+        <input type="hidden" name="id" id="dealId" />
+        <label>
+          <span>Partner Name</span>
+          <input type="text" name="partner" id="partnerInput" required />
+        </label>
+        <label>
+          <span>Geo</span>
+          <input type="text" name="geo" id="geoInput" placeholder="e.g. NA, EU, APAC" required />
+        </label>
+        <label>
+          <span>Source</span>
+          <input type="text" name="source" id="sourceInput" placeholder="Inbound, Conference, Referral" />
+        </label>
+        <label>
+          <span>Model</span>
+          <input type="text" name="model" id="modelInput" placeholder="CPL, Rev Share, CPA" />
+        </label>
+        <label>
+          <span>Status</span>
+          <select name="status" id="statusInput" required>
+            <option value="Prospecting">Prospecting</option>
+            <option value="Negotiating">Negotiating</option>
+            <option value="Live">Live</option>
+            <option value="Paused">Paused</option>
+            <option value="Closed Lost">Closed Lost</option>
+          </select>
+        </label>
+        <label>
+          <span>Details</span>
+          <textarea name="details" id="detailsInput" rows="2" placeholder="Add relevant notes"></textarea>
+        </label>
+        <label>
+          <span>Next Steps</span>
+          <textarea name="next" id="nextInput" rows="2" placeholder="Outline immediate next steps"></textarea>
+        </label>
+        <div class="form-actions">
+          <button class="ghost" type="button" data-close-modal>Cancel</button>
+          <button class="primary" type="submit">Save Deal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>

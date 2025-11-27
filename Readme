@@ -1,1 +1,33 @@
-Just a Readme file
+# Affiliate Workflow Tracker
+
+A lightweight, self-contained dashboard for managing an affiliate/business development pipeline. Everything runs in the browser, so you can upload these static files to any web host (S3, Netlify, shared hosting, etc.) and start updating deals immediately without needing a backend or database.
+
+## Features
+- Modern UI inspired by the mock the user provided (navigation, filters, and table layout).
+- Add, edit, delete deals with a clean modal form.
+- Filter by Geo, Model, or Status; quickly reset filters.
+- Automatic persistence using the browser's `localStorage` so daily updates stay on the same machine/browser.
+- CSV import/export for sharing or backing up pipeline data.
+- Sample data loaded on first run so you can see the layout instantly, with a "Reset Data" action to restore it later.
+
+## Getting Started
+1. Download or clone this repository.
+2. Open `index.html` in any modern browser. (No build step or npm install needed.)
+3. Click **New Deal** to add entries, adjust filters, or use the action buttons to edit/delete rows.
+
+For best results when multiple teammates need to edit the tracker, host the three files (`index.html`, `assets/styles.css`, `assets/app.js`) on a simple static host. Each person will still store data locally in their browser; use CSV export/import to move updates between teammates or to maintain an archive.
+
+## CSV Format
+CSV files must include these headers:
+```
+partner,geo,source,model,status,details,next
+```
+Each row becomes a deal. Status values can be any text, but the UI highlights the common phases (`Prospecting`, `Negotiating`, `Live`, `Paused`, `Closed Lost`).
+
+## Deployment Tips
+- Upload the files exactly as-is; make sure the `assets` folder stays next to `index.html`.
+- If hosting behind HTTPS, `localStorage` continues to work without changes.
+- To keep a single shared source of truth, one teammate can own the master CSV and distribute updates daily.
+
+## Resetting or Clearing Data
+Use the **Reset Data** button in the header to wipe the current browser storage and reload the default sample deals. This is useful when handing the tool to a new teammate or after testing imports.
