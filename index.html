@@ -455,6 +455,202 @@
             border: 1px solid rgba(6, 182, 212, 0.2);
         }
 
+        /* Checkbox Groups */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.85rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.05);
+        }
+
+        .checkbox-item:has(input:checked) {
+            background: rgba(74, 158, 255, 0.15);
+            border-color: var(--accent-blue);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Model Fields */
+        .model-fields {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .model-fields-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* URLs Container */
+        .urls-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .url-entry {
+            animation: slideDown 0.2s ease;
+        }
+
+        .url-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .url-input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .position-select {
+            width: 70px;
+            text-align: center;
+        }
+
+        .remove-url {
+            flex-shrink: 0;
+        }
+
+        /* Comments cell */
+        .comments-cell {
+            max-width: 200px;
+        }
+
+        .comments-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* View Modal URL List */
+        .url-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .url-list-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .url-position {
+            background: var(--accent-purple);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            min-width: 32px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .url-link {
+            flex: 1;
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        /* KPI badges in view */
+        .kpi-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .kpi-badge {
+            padding: 0.35rem 0.7rem;
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Rate display in view */
+        .rate-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .rate-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+        }
+
+        .rate-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .rate-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
         .partner-cell {
             display: flex;
             flex-direction: column;
@@ -1127,6 +1323,9 @@
                 <div class="filter-group">
                     <select id="filterGeo" onchange="applyFilters()">
                         <option value="">🌍 All Geos</option>
+                        <option value="UK">🇬🇧 UK</option>
+                        <option value="NL">🇳🇱 NL</option>
+                        <option value="DE">🇩🇪 DE</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -1169,7 +1368,7 @@
                             <th>Geo</th>
                             <th>Model</th>
                             <th>Status</th>
-                            <th>Next Steps</th>
+                            <th>Comments</th>
                             <th style="width: 140px">Actions</th>
                         </tr>
                     </thead>
@@ -1213,9 +1412,19 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="geo">Geo / Region <span class="required">*</span></label>
-                                <input type="text" id="geo" required placeholder="e.g., US, UK, LATAM, APAC">
-                                <small>Country code or region</small>
+                                <label>GEO <span class="required">*</span></label>
+                                <div class="checkbox-group" id="geoCheckboxes">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="geo" value="UK"> <span class="checkbox-label">🇬🇧 UK</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="geo" value="NL"> <span class="checkbox-label">🇳🇱 NL</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="geo" value="DE"> <span class="checkbox-label">🇩🇪 DE</span>
+                                    </label>
+                                </div>
+                                <small>Select one or multiple regions</small>
                             </div>
                             <div class="form-group">
                                 <label for="source">Lead Source</label>
@@ -1230,7 +1439,7 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="model">Revenue Model</label>
-                                <select id="model">
+                                <select id="model" onchange="toggleModelFields()">
                                     <option value="">Select model...</option>
                                     <option value="CPA">CPA (Cost Per Action)</option>
                                     <option value="RevShare">RevShare</option>
@@ -1255,27 +1464,102 @@
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="dealValue">Deal Value</label>
-                                <input type="text" id="dealValue" placeholder="e.g., $5,000/mo, 30% RS">
-                                <small>Monthly value or rate</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="contactName">Contact Person</label>
-                                <input type="text" id="contactName" placeholder="e.g., John Smith">
+                        <!-- Dynamic Model Fields -->
+                        <div class="model-fields" id="modelFields" style="display: none;">
+                            <div class="model-fields-container">
+                                <div class="form-row" id="feeFieldRow" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="feeAmount">💵 Fee Amount</label>
+                                        <input type="text" id="feeAmount" placeholder="e.g., €500, $1000">
+                                        <small>One-time or monthly fee</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" id="cpaFieldGroup" style="display: none;">
+                                        <label for="cpaRate">💰 CPA Rate</label>
+                                        <input type="text" id="cpaRate" placeholder="e.g., €50, $75 per action">
+                                        <small>Cost per acquisition/action</small>
+                                    </div>
+                                    <div class="form-group" id="rsFieldGroup" style="display: none;">
+                                        <label for="revshareRate">📊 RevShare %</label>
+                                        <input type="text" id="revshareRate" placeholder="e.g., 25%, 30%">
+                                        <small>Revenue share percentage</small>
+                                    </div>
+                                </div>
+                                <div class="form-row" id="flatFeeRow" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="flatFeeAmount">💵 Flat Fee Amount</label>
+                                        <input type="text" id="flatFeeAmount" placeholder="e.g., €2000/month">
+                                        <small>Fixed monthly/yearly amount</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
+                                <label for="period">📅 Period</label>
+                                <input type="text" id="period" placeholder="e.g., Monthly, Q1 2024, 6 months">
+                                <small>Deal duration or billing period</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="cap">🎯 Cap</label>
+                                <input type="text" id="cap" placeholder="e.g., 100 FTDs, €5000/month">
+                                <small>Maximum cap or limit</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🎯 KPI Metrics</label>
+                            <div class="checkbox-group" id="kpiCheckboxes">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="duplicates"> <span class="checkbox-label">Duplicates</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="self-excluded"> <span class="checkbox-label">Self-excluded</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="disabled"> <span class="checkbox-label">Disabled</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="fraud"> <span class="checkbox-label">Fraud</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="custom"> <span class="checkbox-label">Custom</span>
+                                </label>
+                            </div>
+                            <small>Select applicable KPI tracking metrics</small>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">🔗 URLs & Positions</div>
+                        
+                        <div class="urls-container" id="urlsContainer">
+                            <!-- URL entries will be added dynamically -->
+                        </div>
+                        <button type="button" class="btn-secondary btn-small" onclick="addUrl()" style="margin-top: 0.5rem;">
+                            ➕ Add URL
+                        </button>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">👤 Contact Info</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactName">Contact Person</label>
+                                <input type="text" id="contactName" placeholder="e.g., John Smith">
+                            </div>
+                            <div class="form-group">
                                 <label for="contactEmail">Contact Email</label>
                                 <input type="email" id="contactEmail" placeholder="john@company.com">
                             </div>
-                            <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" id="website" placeholder="https://company.com">
-                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="website">Website</label>
+                            <input type="url" id="website" placeholder="https://company.com">
                         </div>
                     </div>
 
@@ -1288,8 +1572,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="nextSteps">Next Steps</label>
-                            <textarea id="nextSteps" placeholder="What needs to be done next? Action items, follow-ups..."></textarea>
+                            <label for="comments">💬 Comments</label>
+                            <textarea id="comments" placeholder="Internal comments, updates, follow-ups..."></textarea>
                         </div>
                     </div>
                 </form>
@@ -1312,15 +1596,30 @@
             </div>
             <div class="view-body">
                 <div class="view-meta" id="viewMeta"></div>
+
+                <div class="view-section" id="viewRatesSection" style="display: none;">
+                    <div class="view-section-title">💰 Revenue Details</div>
+                    <div class="view-section-content" id="viewRates"></div>
+                </div>
+
+                <div class="view-section" id="viewKpiSection" style="display: none;">
+                    <div class="view-section-title">🎯 KPI Metrics</div>
+                    <div class="view-section-content" id="viewKpi"></div>
+                </div>
+
+                <div class="view-section" id="viewUrlsSection" style="display: none;">
+                    <div class="view-section-title">🔗 URLs & Positions</div>
+                    <div class="view-section-content" id="viewUrls"></div>
+                </div>
                 
                 <div class="view-section" id="viewDetailsSection">
                     <div class="view-section-title">📝 Details & Notes</div>
                     <div class="view-section-content" id="viewDetails"></div>
                 </div>
 
-                <div class="view-section" id="viewNextStepsSection">
-                    <div class="view-section-title">🎯 Next Steps</div>
-                    <div class="view-section-content" id="viewNextSteps"></div>
+                <div class="view-section" id="viewCommentsSection">
+                    <div class="view-section-title">💬 Comments</div>
+                    <div class="view-section-content" id="viewComments"></div>
                 </div>
             </div>
             <div class="view-footer">
@@ -1524,7 +1823,6 @@
                 deals.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 renderTable();
                 updateStats();
-                updateGeoFilter();
             });
         }
 
@@ -1548,19 +1846,50 @@
                     document.getElementById('dealId').value = deal.id;
                     document.getElementById('crmId').value = deal.crmId || '';
                     document.getElementById('partnerName').value = deal.partnerName || '';
-                    document.getElementById('geo').value = deal.geo || '';
+                    
+                    // GEO checkboxes
+                    setCheckedValues('geo', deal.geos || []);
+                    
                     document.getElementById('source').value = deal.source || '';
                     document.getElementById('model').value = deal.model || '';
                     document.getElementById('status').value = deal.status || 'New';
-                    document.getElementById('dealValue').value = deal.dealValue || '';
+                    
+                    // Revenue model fields
+                    document.getElementById('feeAmount').value = deal.feeAmount || '';
+                    document.getElementById('cpaRate').value = deal.cpaRate || '';
+                    document.getElementById('revshareRate').value = deal.revshareRate || '';
+                    document.getElementById('flatFeeAmount').value = deal.flatFeeAmount || '';
+                    toggleModelFields();
+                    
+                    // New fields
+                    document.getElementById('period').value = deal.period || '';
+                    document.getElementById('cap').value = deal.cap || '';
+                    
+                    // KPI checkboxes
+                    setCheckedValues('kpi', deal.kpis || []);
+                    
+                    // URLs
+                    setUrls(deal.urls || []);
+                    
                     document.getElementById('contactName').value = deal.contactName || '';
                     document.getElementById('contactEmail').value = deal.contactEmail || '';
                     document.getElementById('website').value = deal.website || '';
                     document.getElementById('details').value = deal.details || '';
-                    document.getElementById('nextSteps').value = deal.nextSteps || '';
+                    document.getElementById('comments').value = deal.comments || '';
                 }
             } else {
                 title.textContent = '➕ Add New Deal';
+                // Reset checkboxes
+                setCheckedValues('geo', []);
+                setCheckedValues('kpi', []);
+                // Reset URLs
+                setUrls([]);
+                // Reset model fields
+                document.getElementById('feeAmount').value = '';
+                document.getElementById('cpaRate').value = '';
+                document.getElementById('revshareRate').value = '';
+                document.getElementById('flatFeeAmount').value = '';
+                toggleModelFields();
             }
 
             modal.classList.add('active');
@@ -1568,25 +1897,194 @@
 
         function closeModal() {
             document.getElementById('dealModal').classList.remove('active');
+            // Reset model fields
+            toggleModelFields();
+        }
+
+        // Toggle Revenue Model Fields
+        function toggleModelFields() {
+            const model = document.getElementById('model').value;
+            const modelFields = document.getElementById('modelFields');
+            const feeFieldRow = document.getElementById('feeFieldRow');
+            const cpaFieldGroup = document.getElementById('cpaFieldGroup');
+            const rsFieldGroup = document.getElementById('rsFieldGroup');
+            const flatFeeRow = document.getElementById('flatFeeRow');
+
+            // Hide all first
+            modelFields.style.display = 'none';
+            feeFieldRow.style.display = 'none';
+            cpaFieldGroup.style.display = 'none';
+            rsFieldGroup.style.display = 'none';
+            flatFeeRow.style.display = 'none';
+
+            if (!model) return;
+
+            modelFields.style.display = 'block';
+
+            switch(model) {
+                case 'CPA':
+                    cpaFieldGroup.style.display = 'block';
+                    break;
+                case 'RevShare':
+                    rsFieldGroup.style.display = 'block';
+                    break;
+                case 'Hybrid':
+                    cpaFieldGroup.style.display = 'block';
+                    rsFieldGroup.style.display = 'block';
+                    break;
+                case 'Flat Fee':
+                    flatFeeRow.style.display = 'flex';
+                    break;
+                case 'Fee + Hybrid':
+                    feeFieldRow.style.display = 'flex';
+                    cpaFieldGroup.style.display = 'block';
+                    rsFieldGroup.style.display = 'block';
+                    break;
+                case 'Fee + CPA':
+                    feeFieldRow.style.display = 'flex';
+                    cpaFieldGroup.style.display = 'block';
+                    break;
+                case 'Fee + RS':
+                    feeFieldRow.style.display = 'flex';
+                    rsFieldGroup.style.display = 'block';
+                    break;
+            }
+        }
+
+        // URL Management
+        function generatePositionOptions() {
+            let options = '<option value="">Pos</option>';
+            for (let i = 1; i <= 50; i++) {
+                options += `<option value="${i}">${i}</option>`;
+            }
+            return options;
+        }
+
+        function addUrl() {
+            const container = document.getElementById('urlsContainer');
+            const index = container.children.length;
+            const entry = document.createElement('div');
+            entry.className = 'url-entry';
+            entry.dataset.index = index;
+            entry.innerHTML = `
+                <div class="url-row">
+                    <input type="url" class="url-input" placeholder="https://example.com/offer" data-field="url">
+                    <select class="position-select" data-field="position">
+                        ${generatePositionOptions()}
+                    </select>
+                    <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
+                </div>
+            `;
+            container.appendChild(entry);
+        }
+
+        function removeUrl(btn) {
+            const entry = btn.closest('.url-entry');
+            const container = document.getElementById('urlsContainer');
+            if (container.children.length > 1) {
+                entry.remove();
+            } else {
+                // Clear the last one instead of removing
+                entry.querySelector('.url-input').value = '';
+                entry.querySelector('.position-select').value = '';
+            }
+        }
+
+        function getUrls() {
+            const container = document.getElementById('urlsContainer');
+            const entries = container.querySelectorAll('.url-entry');
+            const urls = [];
+            entries.forEach(entry => {
+                const url = entry.querySelector('.url-input').value.trim();
+                const position = entry.querySelector('.position-select').value;
+                if (url) {
+                    urls.push({ url, position });
+                }
+            });
+            return urls;
+        }
+
+        function setUrls(urls) {
+            const container = document.getElementById('urlsContainer');
+            container.innerHTML = '';
+            
+            if (!urls || urls.length === 0) {
+                // Add one empty entry
+                addUrl();
+                return;
+            }
+
+            urls.forEach((urlData, index) => {
+                const entry = document.createElement('div');
+                entry.className = 'url-entry';
+                entry.dataset.index = index;
+                entry.innerHTML = `
+                    <div class="url-row">
+                        <input type="url" class="url-input" placeholder="https://example.com/offer" data-field="url" value="${escapeHtml(urlData.url || '')}">
+                        <select class="position-select" data-field="position">
+                            ${generatePositionOptions()}
+                        </select>
+                        <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(entry);
+                if (urlData.position) {
+                    entry.querySelector('.position-select').value = urlData.position;
+                }
+            });
+        }
+
+        // Get/Set checkboxes
+        function getCheckedValues(name) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function setCheckedValues(name, values) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
+            checkboxes.forEach(cb => {
+                cb.checked = values && values.includes(cb.value);
+            });
         }
 
         async function saveDeal(event) {
             event.preventDefault();
 
             const id = document.getElementById('dealId').value || generateId();
+            const geos = getCheckedValues('geo');
+            
+            // Validate at least one GEO is selected
+            if (geos.length === 0) {
+                showToast('Please select at least one GEO region', 'error');
+                return;
+            }
+
             const dealData = {
                 crmId: document.getElementById('crmId').value.trim(),
                 partnerName: document.getElementById('partnerName').value.trim(),
-                geo: document.getElementById('geo').value.trim().toUpperCase(),
+                geos: geos,
+                geo: geos.join(', '), // For backward compatibility and display
                 source: document.getElementById('source').value.trim(),
                 model: document.getElementById('model').value,
                 status: document.getElementById('status').value,
-                dealValue: document.getElementById('dealValue').value.trim(),
+                
+                // Revenue model fields
+                feeAmount: document.getElementById('feeAmount').value.trim(),
+                cpaRate: document.getElementById('cpaRate').value.trim(),
+                revshareRate: document.getElementById('revshareRate').value.trim(),
+                flatFeeAmount: document.getElementById('flatFeeAmount').value.trim(),
+                
+                // New fields
+                period: document.getElementById('period').value.trim(),
+                cap: document.getElementById('cap').value.trim(),
+                kpis: getCheckedValues('kpi'),
+                urls: getUrls(),
+                
                 contactName: document.getElementById('contactName').value.trim(),
                 contactEmail: document.getElementById('contactEmail').value.trim(),
                 website: document.getElementById('website').value.trim(),
                 details: document.getElementById('details').value.trim(),
-                nextSteps: document.getElementById('nextSteps').value.trim(),
+                comments: document.getElementById('comments').value.trim(),
                 updatedAt: Date.now()
             };
 
@@ -1623,10 +2121,16 @@
 
             document.getElementById('viewPartnerName').textContent = deal.partnerName;
             
+            // Geo badges from array
+            const geoBadges = (deal.geos || [deal.geo]).map(g => {
+                const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                return `<span class="geo-badge">${flags[g] || ''} ${escapeHtml(g)}</span>`;
+            }).join('');
+
             // Badges
             const badgesHtml = `
                 ${deal.crmId ? `<span class="crm-id" style="background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.4);">ID: ${escapeHtml(deal.crmId)}</span>` : ''}
-                <span class="geo-badge">${escapeHtml(deal.geo)}</span>
+                ${geoBadges}
                 ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
                 <span class="status-badge status-${deal.status.toLowerCase()}">
                     <span class="status-dot"></span>
@@ -1638,9 +2142,10 @@
             // Meta info
             const metaItems = [];
             if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan);">${escapeHtml(deal.crmId)}</span>` });
-            if (deal.source) metaItems.push({ label: 'Source', value: deal.source });
-            if (deal.dealValue) metaItems.push({ label: 'Deal Value', value: deal.dealValue });
-            if (deal.contactName) metaItems.push({ label: 'Contact', value: deal.contactName });
+            if (deal.source) metaItems.push({ label: 'Source', value: escapeHtml(deal.source) });
+            if (deal.period) metaItems.push({ label: 'Period', value: escapeHtml(deal.period) });
+            if (deal.cap) metaItems.push({ label: 'Cap', value: escapeHtml(deal.cap) });
+            if (deal.contactName) metaItems.push({ label: 'Contact', value: escapeHtml(deal.contactName) });
             if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
             if (deal.website) metaItems.push({ label: 'Website', value: `<a href="${escapeHtml(deal.website)}" target="_blank" style="color: var(--accent-blue);">Visit ↗</a>` });
 
@@ -1650,6 +2155,65 @@
                     <div class="view-meta-value">${item.value}</div>
                 </div>
             `).join('');
+
+            // Revenue/Rates Section
+            const ratesSection = document.getElementById('viewRatesSection');
+            const ratesContent = document.getElementById('viewRates');
+            const rateItems = [];
+            
+            if (deal.feeAmount) rateItems.push({ label: 'Fee', value: deal.feeAmount });
+            if (deal.cpaRate) rateItems.push({ label: 'CPA Rate', value: deal.cpaRate });
+            if (deal.revshareRate) rateItems.push({ label: 'RevShare', value: deal.revshareRate });
+            if (deal.flatFeeAmount) rateItems.push({ label: 'Flat Fee', value: deal.flatFeeAmount });
+
+            if (rateItems.length > 0) {
+                ratesSection.style.display = 'block';
+                ratesContent.innerHTML = `
+                    <div class="rate-display">
+                        ${rateItems.map(item => `
+                            <div class="rate-item">
+                                <div class="rate-label">${item.label}</div>
+                                <div class="rate-value">${escapeHtml(item.value)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                ratesSection.style.display = 'none';
+            }
+
+            // KPI Section
+            const kpiSection = document.getElementById('viewKpiSection');
+            const kpiContent = document.getElementById('viewKpi');
+            if (deal.kpis && deal.kpis.length > 0) {
+                kpiSection.style.display = 'block';
+                kpiContent.innerHTML = `
+                    <div class="kpi-badges">
+                        ${deal.kpis.map(kpi => `<span class="kpi-badge">${escapeHtml(kpi)}</span>`).join('')}
+                    </div>
+                `;
+            } else {
+                kpiSection.style.display = 'none';
+            }
+
+            // URLs Section
+            const urlsSection = document.getElementById('viewUrlsSection');
+            const urlsContent = document.getElementById('viewUrls');
+            if (deal.urls && deal.urls.length > 0) {
+                urlsSection.style.display = 'block';
+                urlsContent.innerHTML = `
+                    <div class="url-list">
+                        ${deal.urls.map(urlItem => `
+                            <div class="url-list-item">
+                                ${urlItem.position ? `<span class="url-position">#${urlItem.position}</span>` : ''}
+                                <a href="${escapeHtml(urlItem.url)}" target="_blank" class="url-link">${escapeHtml(urlItem.url)}</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                urlsSection.style.display = 'none';
+            }
 
             // Details
             const detailsSection = document.getElementById('viewDetailsSection');
@@ -1664,17 +2228,17 @@
                 detailsContent.classList.add('empty');
             }
 
-            // Next Steps
-            const nextStepsSection = document.getElementById('viewNextStepsSection');
-            const nextStepsContent = document.getElementById('viewNextSteps');
-            if (deal.nextSteps) {
-                nextStepsSection.style.display = 'block';
-                nextStepsContent.textContent = deal.nextSteps;
-                nextStepsContent.classList.remove('empty');
+            // Comments (replaced Next Steps)
+            const commentsSection = document.getElementById('viewCommentsSection');
+            const commentsContent = document.getElementById('viewComments');
+            if (deal.comments) {
+                commentsSection.style.display = 'block';
+                commentsContent.textContent = deal.comments;
+                commentsContent.classList.remove('empty');
             } else {
-                nextStepsSection.style.display = 'block';
-                nextStepsContent.textContent = 'No next steps defined.';
-                nextStepsContent.classList.add('empty');
+                commentsSection.style.display = 'block';
+                commentsContent.textContent = 'No comments yet.';
+                commentsContent.classList.add('empty');
             }
 
             // Timestamp
@@ -1734,7 +2298,14 @@
             }
 
             emptyState.style.display = 'none';
-            tbody.innerHTML = filteredDeals.map((deal, index) => `
+            tbody.innerHTML = filteredDeals.map((deal, index) => {
+                // Generate geo badges with flags
+                const geoDisplay = (deal.geos || [deal.geo]).map(g => {
+                    const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                    return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
+                }).join(' ');
+
+                return `
                 <tr>
                     <td><span class="row-number">${index + 1}</span></td>
                     <td><span class="crm-id">${deal.crmId ? escapeHtml(deal.crmId) : '<span style="color: var(--text-muted);">—</span>'}</span></td>
@@ -1744,7 +2315,7 @@
                             ${deal.source ? `<span class="partner-source">via ${escapeHtml(deal.source)}</span>` : ''}
                         </div>
                     </td>
-                    <td><span class="geo-badge">${escapeHtml(deal.geo)}</span></td>
+                    <td>${geoDisplay}</td>
                     <td>${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : '<span style="color: var(--text-muted);">—</span>'}</td>
                     <td>
                         <span class="status-badge status-${deal.status.toLowerCase()}">
@@ -1752,8 +2323,8 @@
                             ${deal.status}
                         </span>
                     </td>
-                    <td class="next-steps-cell">
-                        <div class="next-steps-text">${escapeHtml(deal.nextSteps) || '<span style="color: var(--text-muted);">—</span>'}</div>
+                    <td class="comments-cell">
+                        <div class="comments-text">${escapeHtml(deal.comments) || '<span style="color: var(--text-muted);">—</span>'}</div>
                     </td>
                     <td>
                         <div class="actions-cell">
@@ -1763,7 +2334,7 @@
                         </div>
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
         }
 
         // Filtering
@@ -1774,7 +2345,11 @@
             const search = document.getElementById('searchInput').value.toLowerCase();
 
             return deals.filter(deal => {
-                if (geo && deal.geo !== geo) return false;
+                // Check GEO - support both old geo string and new geos array
+                if (geo) {
+                    const dealGeos = deal.geos || [deal.geo];
+                    if (!dealGeos.includes(geo)) return false;
+                }
                 if (model && deal.model !== model) return false;
                 if (status && deal.status !== status) return false;
                 if (search && !deal.partnerName.toLowerCase().includes(search)) return false;
@@ -1794,18 +2369,7 @@
             renderTable();
         }
 
-        function updateGeoFilter() {
-            const geos = [...new Set(deals.map(d => d.geo).filter(Boolean))].sort();
-            const select = document.getElementById('filterGeo');
-            const currentValue = select.value;
-            
-            select.innerHTML = '<option value="">🌍 All Geos</option>' + 
-                geos.map(geo => `<option value="${escapeHtml(geo)}">${escapeHtml(geo)}</option>`).join('');
-            
-            if (geos.includes(currentValue)) {
-                select.value = currentValue;
-            }
-        }
+        // GEO filter is now fixed with UK, NL, DE options
 
         // Stats
         function updateStats() {
