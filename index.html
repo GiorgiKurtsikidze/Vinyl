@@ -444,6 +444,17 @@
             border-radius: 6px;
         }
 
+        .crm-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
         .partner-cell {
             display: flex;
             flex-direction: column;
@@ -1153,6 +1164,7 @@
                     <thead>
                         <tr>
                             <th style="width: 50px">#</th>
+                            <th style="width: 100px">ID</th>
                             <th>Partner</th>
                             <th>Geo</th>
                             <th>Model</th>
@@ -1187,9 +1199,16 @@
                     <div class="form-section">
                         <div class="form-section-title">📋 Basic Information</div>
                         
-                        <div class="form-group">
-                            <label for="partnerName">Partner Name <span class="required">*</span></label>
-                            <input type="text" id="partnerName" required placeholder="e.g., Acme Corp, BetterAds Network">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crmId">Deal ID</label>
+                                <input type="text" id="crmId" placeholder="e.g., CRM-12345, D-001">
+                                <small>Your CRM or reference ID</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="partnerName">Partner Name <span class="required">*</span></label>
+                                <input type="text" id="partnerName" required placeholder="e.g., Acme Corp, BetterAds Network">
+                            </div>
                         </div>
 
                         <div class="form-row">
@@ -1527,6 +1546,7 @@
                 if (deal) {
                     title.textContent = '✏️ Edit Deal';
                     document.getElementById('dealId').value = deal.id;
+                    document.getElementById('crmId').value = deal.crmId || '';
                     document.getElementById('partnerName').value = deal.partnerName || '';
                     document.getElementById('geo').value = deal.geo || '';
                     document.getElementById('source').value = deal.source || '';
@@ -1555,6 +1575,7 @@
 
             const id = document.getElementById('dealId').value || generateId();
             const dealData = {
+                crmId: document.getElementById('crmId').value.trim(),
                 partnerName: document.getElementById('partnerName').value.trim(),
                 geo: document.getElementById('geo').value.trim().toUpperCase(),
                 source: document.getElementById('source').value.trim(),
@@ -1604,6 +1625,7 @@
             
             // Badges
             const badgesHtml = `
+                ${deal.crmId ? `<span class="crm-id" style="background: rgba(6, 182, 212, 0.2); border: 1px solid rgba(6, 182, 212, 0.4);">ID: ${escapeHtml(deal.crmId)}</span>` : ''}
                 <span class="geo-badge">${escapeHtml(deal.geo)}</span>
                 ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
                 <span class="status-badge status-${deal.status.toLowerCase()}">
@@ -1615,6 +1637,7 @@
 
             // Meta info
             const metaItems = [];
+            if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan);">${escapeHtml(deal.crmId)}</span>` });
             if (deal.source) metaItems.push({ label: 'Source', value: deal.source });
             if (deal.dealValue) metaItems.push({ label: 'Deal Value', value: deal.dealValue });
             if (deal.contactName) metaItems.push({ label: 'Contact', value: deal.contactName });
@@ -1714,6 +1737,7 @@
             tbody.innerHTML = filteredDeals.map((deal, index) => `
                 <tr>
                     <td><span class="row-number">${index + 1}</span></td>
+                    <td><span class="crm-id">${deal.crmId ? escapeHtml(deal.crmId) : '<span style="color: var(--text-muted);">—</span>'}</span></td>
                     <td>
                         <div class="partner-cell">
                             <span class="partner-name">${escapeHtml(deal.partnerName)}</span>
