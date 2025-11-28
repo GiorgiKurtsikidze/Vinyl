@@ -1865,6 +1865,7 @@
                                     <option value="Social">📱 Social</option>
                                     <option value="Retargeting">🎯 Retargeting</option>
                                     <option value="Influencers">⭐ Influencers</option>
+                                    <option value="SMS/Email">📨 SMS/Email</option>
                                     <option value="Network">🌐 Network</option>
                                 </select>
                             </div>
@@ -2954,7 +2955,7 @@
                 }).join(' ');
 
                 // Source type icons
-                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'Network': '🌐' };
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Network': '🌐' };
                 let sourceDisplay = '<span style="color: var(--text-muted);">—</span>';
                 if (deal.sourceType === 'Network' && deal.networkName) {
                     sourceDisplay = `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`;
@@ -3003,7 +3004,7 @@
                     return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
                 }).join(' ');
 
-                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'Network': '🌐' };
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Network': '🌐' };
                 const mobileSourceDisplay = deal.sourceType === 'Network' && deal.networkName 
                     ? `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`
                     : (deal.sourceType ? `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : '');
@@ -3205,13 +3206,13 @@
                 .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
 
             // Source Chart
-            const sourceCounts = { 'SEO': 0, 'PPC': 0, 'Social': 0, 'Retargeting': 0, 'Influencers': 0 };
+            const sourceCounts = { 'SEO': 0, 'PPC': 0, 'Social': 0, 'Retargeting': 0, 'Influencers': 0, 'SMS/Email': 0, 'Network': 0 };
             deals.forEach(d => {
                 if (d.sourceType && sourceCounts[d.sourceType] !== undefined) {
                     sourceCounts[d.sourceType]++;
                 }
             });
-            const sourceColors = { 'SEO': 'bar-green', 'PPC': 'bar-blue', 'Social': 'bar-pink', 'Retargeting': 'bar-cyan', 'Influencers': 'bar-purple' };
+            const sourceColors = { 'SEO': 'bar-green', 'PPC': 'bar-blue', 'Social': 'bar-pink', 'Retargeting': 'bar-cyan', 'Influencers': 'bar-purple', 'SMS/Email': 'bar-orange', 'Network': 'bar-yellow' };
             document.getElementById('sourceChart').innerHTML = Object.entries(sourceCounts)
                 .filter(([_, count]) => count > 0)
                 .map(([name, count]) => renderBarItem(name, count, total, sourceColors[name]))
