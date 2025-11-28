@@ -479,12 +479,11 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
             font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(168, 85, 247, 0.4) 100%);
+            color: #1e1e2e;
+            background: #fbbf24;
             padding: 0.3rem 0.6rem;
             border-radius: 6px;
-            border: 1px solid rgba(168, 85, 247, 0.5);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            border: 1px solid #f59e0b;
         }
 
         /* Checkbox Groups */
@@ -1181,16 +1180,18 @@
 
         .view-meta {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .view-meta-item {
             background: var(--bg-tertiary);
-            padding: 1rem;
+            padding: 0.75rem;
             border-radius: 12px;
             border: 1px solid var(--border-color);
+            overflow: hidden;
+            min-width: 0;
         }
 
         .view-meta-label {
@@ -1203,9 +1204,15 @@
         }
 
         .view-meta-value {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-primary);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .view-meta-value a {
+            word-break: break-all;
         }
 
         .view-footer {
@@ -1471,6 +1478,16 @@
 
             .view-meta {
                 grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+            
+            .view-meta-item {
+                padding: 0.65rem;
+                overflow: hidden;
+            }
+            
+            .view-meta-value {
+                font-size: 0.85rem;
             }
 
             .modal {
@@ -1527,10 +1544,12 @@
             .mobile-card-id {
                 font-family: 'JetBrains Mono', monospace;
                 font-size: 0.7rem;
-                color: var(--accent-cyan);
-                background: rgba(6, 182, 212, 0.1);
+                font-weight: 700;
+                color: #1e1e2e;
+                background: #fbbf24;
                 padding: 0.2rem 0.5rem;
                 border-radius: 4px;
+                border: 1px solid #f59e0b;
             }
 
             .mobile-card-badges {
@@ -1580,6 +1599,43 @@
             .mobile-card-actions button {
                 flex: 1;
                 font-size: 0.8rem;
+            }
+
+            /* View modal mobile styles */
+            .view-meta {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .view-meta-item {
+                padding: 0.6rem;
+            }
+            
+            .view-meta-value {
+                font-size: 0.85rem;
+            }
+            
+            .view-body {
+                padding: 1rem;
+            }
+            
+            .view-header {
+                padding: 1rem;
+            }
+            
+            .view-footer {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .network-sources-display {
+                gap: 0.4rem;
+            }
+            
+            .network-source-view-item {
+                padding: 0.4rem;
             }
 
             .charts-row {
@@ -2880,7 +2936,7 @@
 
             // Meta info
             const metaItems = [];
-            if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fff; background: linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(168, 85, 247, 0.4) 100%); padding: 0.2rem 0.5rem; border-radius: 4px; border: 1px solid rgba(168, 85, 247, 0.5);">${escapeHtml(deal.crmId)}</span>` });
+            if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span class="crm-id">${escapeHtml(deal.crmId)}</span>` });
             if (deal.assignedTo) metaItems.push({ label: 'Assigned To', value: `<span style="font-weight: 700; color: var(--accent-purple);">👤 ${escapeHtml(deal.assignedTo)}</span>` });
             
             // Source Type with Network details
