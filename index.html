@@ -434,11 +434,17 @@
         .sort-icon {
             font-size: 0.65rem;
             margin-left: 0.25rem;
-            opacity: 0.5;
+            opacity: 0.4;
+            transition: opacity 0.2s;
+        }
+
+        th.sortable:hover .sort-icon {
+            opacity: 0.7;
         }
 
         th.sortable.active .sort-icon {
             opacity: 1;
+            color: var(--accent-blue);
         }
 
         td {
@@ -530,6 +536,53 @@
             padding: 1rem;
             margin-bottom: 1rem;
             animation: slideDown 0.2s ease;
+        }
+
+        /* Network Details */
+        .network-details {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: slideDown 0.2s ease;
+        }
+
+        .network-details-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .network-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .network-sources-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+
+        .network-source-tag {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            color: var(--text-secondary);
         }
 
         @keyframes slideDown {
@@ -1736,14 +1789,14 @@
                     <thead>
                         <tr>
                             <th style="width: 50px">#</th>
-                            <th style="width: 100px" class="sortable" onclick="toggleSort('crmId')">ID <span class="sort-icon" id="sort-crmId"></span></th>
-                            <th class="sortable" onclick="toggleSort('partnerName')">Partner <span class="sort-icon" id="sort-partnerName"></span></th>
-                            <th class="sortable" onclick="toggleSort('geo')">Geo <span class="sort-icon" id="sort-geo"></span></th>
-                            <th class="sortable" onclick="toggleSort('sourceType')">Source <span class="sort-icon" id="sort-sourceType"></span></th>
-                            <th class="sortable" onclick="toggleSort('model')">Model <span class="sort-icon" id="sort-model"></span></th>
-                            <th class="sortable" onclick="toggleSort('assignedTo')">Assigned <span class="sort-icon" id="sort-assignedTo"></span></th>
-                            <th class="sortable" onclick="toggleSort('status')">Status <span class="sort-icon" id="sort-status"></span></th>
-                            <th class="sortable" onclick="toggleSort('comments')">Comments <span class="sort-icon" id="sort-comments"></span></th>
+                            <th style="width: 100px" class="sortable" onclick="toggleSort('crmId')">ID <span class="sort-icon" id="sort-crmId">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('partnerName')">Partner <span class="sort-icon" id="sort-partnerName">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('geo')">Geo <span class="sort-icon" id="sort-geo">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('sourceType')">Source <span class="sort-icon" id="sort-sourceType">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('model')">Model <span class="sort-icon" id="sort-model">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('assignedTo')">Assigned <span class="sort-icon" id="sort-assignedTo">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('status')">Status <span class="sort-icon" id="sort-status">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('comments')">Comments <span class="sort-icon" id="sort-comments">⇅</span></th>
                             <th style="width: 140px">Actions</th>
                         </tr>
                     </thead>
@@ -1805,14 +1858,61 @@
                             </div>
                             <div class="form-group">
                                 <label for="sourceType">Source Type</label>
-                                <select id="sourceType" onchange="updatePositionVisibility()">
+                                <select id="sourceType" onchange="updateSourceTypeFields()">
                                     <option value="">Select source...</option>
                                     <option value="SEO">🔍 SEO</option>
                                     <option value="PPC">💰 PPC</option>
                                     <option value="Social">📱 Social</option>
                                     <option value="Retargeting">🎯 Retargeting</option>
                                     <option value="Influencers">⭐ Influencers</option>
+                                    <option value="Network">🌐 Network</option>
                                 </select>
+                            </div>
+                        </div>
+
+                        <!-- Network Details (shown when Network is selected) -->
+                        <div class="network-details" id="networkDetails" style="display: none;">
+                            <div class="network-details-header">🌐 Network Details</div>
+                            <div class="form-group">
+                                <label for="networkName">Network Name</label>
+                                <input type="text" id="networkName" placeholder="e.g., TrafficStars, PropellerAds">
+                            </div>
+                            <div class="form-group">
+                                <label for="networkAccountId">Account/Publisher ID</label>
+                                <input type="text" id="networkAccountId" placeholder="e.g., ACC-12345">
+                            </div>
+                            <div class="form-group">
+                                <label>Traffic Sources Included</label>
+                                <div class="checkbox-group" id="networkSourcesGroup">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="SEO"> <span class="checkbox-label">🔍 SEO</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="PPC"> <span class="checkbox-label">💰 PPC</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Social"> <span class="checkbox-label">📱 Social</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Retargeting"> <span class="checkbox-label">🎯 Retargeting</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Influencers"> <span class="checkbox-label">⭐ Influencers</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Display"> <span class="checkbox-label">🖼️ Display</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Native"> <span class="checkbox-label">📰 Native</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Push"> <span class="checkbox-label">🔔 Push</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="networkSources" value="Email"> <span class="checkbox-label">📧 Email</span>
+                                    </label>
+                                </div>
+                                <small>Select all traffic types this network provides</small>
                             </div>
                         </div>
 
@@ -2227,6 +2327,12 @@
                     document.getElementById('assignedTo').value = deal.assignedTo || '';
                     document.getElementById('contactEmail').value = deal.contactEmail || '';
                     document.getElementById('contactMethod').value = deal.contactMethod || '';
+                    
+                    // Network fields
+                    document.getElementById('networkName').value = deal.networkName || '';
+                    document.getElementById('networkAccountId').value = deal.networkAccountId || '';
+                    setCheckedValues('networkSources', deal.networkSources || []);
+                    updateSourceTypeFields();
                     document.getElementById('model').value = deal.model || '';
                     document.getElementById('status').value = deal.status || 'Contacted';
                     
@@ -2252,6 +2358,7 @@
                 // Reset checkboxes
                 setCheckedValues('geo', []);
                 setCheckedValues('kpi', []);
+                setCheckedValues('networkSources', []);
                 // Reset URLs
                 setUrls([]);
                 // Reset model fields
@@ -2259,7 +2366,11 @@
                 document.getElementById('cpaRate').value = '';
                 document.getElementById('revshareRate').value = '';
                 document.getElementById('flatFeeAmount').value = '';
+                // Reset network fields
+                document.getElementById('networkName').value = '';
+                document.getElementById('networkAccountId').value = '';
                 toggleModelFields();
+                updateSourceTypeFields();
             }
 
             modal.classList.add('active');
@@ -2336,8 +2447,16 @@
             return sourceType === 'SEO';
         }
 
-        function updatePositionVisibility() {
+        function isSourceNetwork() {
+            const sourceType = document.getElementById('sourceType').value;
+            return sourceType === 'Network';
+        }
+
+        function updateSourceTypeFields() {
             const isSEO = isSourceSEO();
+            const isNetwork = isSourceNetwork();
+            
+            // Position visibility (SEO only)
             const positionLabel = document.getElementById('positionLabel');
             const positionSelects = document.querySelectorAll('.position-select');
             
@@ -2348,6 +2467,17 @@
             positionSelects.forEach(select => {
                 select.style.display = isSEO ? 'block' : 'none';
             });
+
+            // Network details visibility
+            const networkDetails = document.getElementById('networkDetails');
+            if (networkDetails) {
+                networkDetails.style.display = isNetwork ? 'block' : 'none';
+            }
+        }
+
+        // Keep old function name for compatibility
+        function updatePositionVisibility() {
+            updateSourceTypeFields();
         }
 
         function addUrl() {
@@ -2462,6 +2592,10 @@
                 assignedTo: document.getElementById('assignedTo').value,
                 contactEmail: document.getElementById('contactEmail').value.trim(),
                 contactMethod: document.getElementById('contactMethod').value.trim(),
+                // Network fields
+                networkName: document.getElementById('networkName').value.trim(),
+                networkAccountId: document.getElementById('networkAccountId').value.trim(),
+                networkSources: getCheckedValues('networkSources'),
                 model: document.getElementById('model').value,
                 status: document.getElementById('status').value,
                 
@@ -2560,7 +2694,19 @@
             const metaItems = [];
             if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span style="font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan);">${escapeHtml(deal.crmId)}</span>` });
             if (deal.assignedTo) metaItems.push({ label: 'Assigned To', value: `<span style="font-weight: 700; color: var(--accent-purple);">👤 ${escapeHtml(deal.assignedTo)}</span>` });
-            if (deal.sourceType) metaItems.push({ label: 'Source Type', value: escapeHtml(deal.sourceType) });
+            
+            // Source Type with Network details
+            if (deal.sourceType === 'Network' && deal.networkName) {
+                let networkDisplay = `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`;
+                if (deal.networkSources && deal.networkSources.length > 0) {
+                    networkDisplay += `<div class="network-sources-display">${deal.networkSources.map(s => `<span class="network-source-tag">${escapeHtml(s)}</span>`).join('')}</div>`;
+                }
+                metaItems.push({ label: 'Network', value: networkDisplay });
+                if (deal.networkAccountId) metaItems.push({ label: 'Account ID', value: `<span style="font-family: 'JetBrains Mono', monospace;">${escapeHtml(deal.networkAccountId)}</span>` });
+            } else if (deal.sourceType) {
+                metaItems.push({ label: 'Source Type', value: escapeHtml(deal.sourceType) });
+            }
+            
             if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
             if (deal.contactMethod) metaItems.push({ label: 'Contact', value: escapeHtml(deal.contactMethod) });
             if (deal.cap) metaItems.push({ label: 'Cap', value: escapeHtml(deal.cap) });
@@ -2808,10 +2954,13 @@
                 }).join(' ');
 
                 // Source type icons
-                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐' };
-                const sourceDisplay = deal.sourceType ? 
-                    `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : 
-                    '<span style="color: var(--text-muted);">—</span>';
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'Network': '🌐' };
+                let sourceDisplay = '<span style="color: var(--text-muted);">—</span>';
+                if (deal.sourceType === 'Network' && deal.networkName) {
+                    sourceDisplay = `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`;
+                } else if (deal.sourceType) {
+                    sourceDisplay = `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>`;
+                }
 
                 return `
                 <tr>
@@ -2854,7 +3003,10 @@
                     return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
                 }).join(' ');
 
-                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐' };
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'Network': '🌐' };
+                const mobileSourceDisplay = deal.sourceType === 'Network' && deal.networkName 
+                    ? `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`
+                    : (deal.sourceType ? `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : '');
 
                 return `
                 <div class="mobile-card">
@@ -2864,7 +3016,7 @@
                     </div>
                     <div class="mobile-card-badges">
                         ${geoDisplay}
-                        ${deal.sourceType ? `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : ''}
+                        ${mobileSourceDisplay}
                         ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
                         <span class="status-badge status-${deal.status.toLowerCase()}">
                             <span class="status-dot"></span>
@@ -2942,9 +3094,9 @@
         }
 
         function updateSortIcons() {
-            // Clear all sort icons and active states
+            // Reset all sort icons to default and remove active states
             document.querySelectorAll('.sort-icon').forEach(icon => {
-                icon.textContent = '';
+                icon.textContent = '⇅';
             });
             document.querySelectorAll('th.sortable').forEach(th => {
                 th.classList.remove('active');
