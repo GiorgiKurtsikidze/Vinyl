@@ -1959,6 +1959,7 @@
                 <div class="view-timestamp" id="viewTimestamp"></div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn-secondary" onclick="closeViewModal()">Close</button>
+                    <button class="btn-secondary" id="viewCopyBtn" onclick="">📋 Copy</button>
                     <button class="btn-primary" id="viewEditBtn" onclick="">✏️ Edit</button>
                 </div>
             </div>
@@ -2443,6 +2444,31 @@
             }
         }
 
+        async function copyDeal(id) {
+            const deal = deals.find(d => d.id === id);
+            if (!deal) return;
+
+            const newId = generateId();
+            const copiedDeal = {
+                ...deal,
+                crmId: deal.crmId ? `${deal.crmId}-COPY` : '',
+                partnerName: `${deal.partnerName} (Copy)`,
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            };
+            
+            // Remove the old id
+            delete copiedDeal.id;
+
+            try {
+                await db.ref('deals/' + newId).set(copiedDeal);
+                showToast('📋 Deal copied!', 'success');
+            } catch (error) {
+                console.error('Copy error:', error);
+                showToast('Failed to copy deal.', 'error');
+            }
+        }
+
         // View Deal
         function viewDeal(dealId) {
             const deal = deals.find(d => d.id === dealId);
@@ -2566,6 +2592,12 @@
             document.getElementById('viewEditBtn').onclick = () => {
                 closeViewModal();
                 openModal(dealId);
+            };
+
+            // Copy button
+            document.getElementById('viewCopyBtn').onclick = () => {
+                closeViewModal();
+                copyDeal(dealId);
             };
 
             document.getElementById('viewModal').classList.add('active');
@@ -2745,6 +2777,7 @@
                         <div class="actions-cell">
                             <button class="btn-secondary btn-icon btn-small" onclick="viewDeal('${deal.id}')" title="View Details">👁️</button>
                             <button class="btn-secondary btn-icon btn-small" onclick="openModal('${deal.id}')" title="Edit">✏️</button>
+                            <button class="btn-secondary btn-icon btn-small" onclick="copyDeal('${deal.id}')" title="Copy Deal">📋</button>
                             <button class="btn-danger btn-icon btn-small" onclick="deleteDeal('${deal.id}')" title="Delete">🗑️</button>
                         </div>
                     </td>
@@ -2783,6 +2816,7 @@
                     <div class="mobile-card-actions">
                         <button class="btn-primary btn-small" onclick="viewDeal('${deal.id}')">👁️ View</button>
                         <button class="btn-secondary btn-small" onclick="openModal('${deal.id}')">✏️ Edit</button>
+                        <button class="btn-secondary btn-small" onclick="copyDeal('${deal.id}')">📋 Copy</button>
                         <button class="btn-danger btn-small" onclick="deleteDeal('${deal.id}')">🗑️</button>
                     </div>
                 </div>
