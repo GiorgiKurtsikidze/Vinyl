@@ -416,6 +416,31 @@
             border-bottom: 1px solid var(--border-color);
         }
 
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        th.sortable:hover {
+            color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.05);
+        }
+
+        th.sortable.active {
+            color: var(--accent-blue);
+        }
+
+        .sort-icon {
+            font-size: 0.65rem;
+            margin-left: 0.25rem;
+            opacity: 0.5;
+        }
+
+        th.sortable.active .sort-icon {
+            opacity: 1;
+        }
+
         td {
             padding: 0.875rem 1rem;
             border-bottom: 1px solid var(--border-color);
@@ -747,8 +772,10 @@
         .status-approved .status-dot { background: var(--accent-green); }
         .status-active { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3); }
         .status-active .status-dot { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
-        .status-paused { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
-        .status-paused .status-dot { background: var(--accent-orange); }
+        .status-hold { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+        .status-hold .status-dot { background: var(--accent-orange); }
+        .status-waiting { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .status-waiting .status-dot { background: var(--accent-cyan); animation: pulse 1.5s infinite; }
         .status-rejected { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
         .status-rejected .status-dot { background: var(--accent-red); }
 
@@ -1685,8 +1712,9 @@
                         <option value="Contacted">Contacted</option>
                         <option value="Negotiating">Negotiating</option>
                         <option value="Approved">Approved</option>
+                        <option value="Waiting">Waiting to go live</option>
                         <option value="Active">Active</option>
-                        <option value="Paused">Paused</option>
+                        <option value="Hold">Hold</option>
                         <option value="Rejected">Rejected</option>
                     </select>
                 </div>
@@ -1708,14 +1736,14 @@
                     <thead>
                         <tr>
                             <th style="width: 50px">#</th>
-                            <th style="width: 100px">ID</th>
-                            <th>Partner</th>
-                            <th>Geo</th>
-                            <th>Source</th>
-                            <th>Model</th>
-                            <th>Assigned</th>
-                            <th>Status</th>
-                            <th>Comments</th>
+                            <th style="width: 100px" class="sortable" onclick="toggleSort('crmId')">ID <span class="sort-icon" id="sort-crmId"></span></th>
+                            <th class="sortable" onclick="toggleSort('partnerName')">Partner <span class="sort-icon" id="sort-partnerName"></span></th>
+                            <th class="sortable" onclick="toggleSort('geo')">Geo <span class="sort-icon" id="sort-geo"></span></th>
+                            <th class="sortable" onclick="toggleSort('sourceType')">Source <span class="sort-icon" id="sort-sourceType"></span></th>
+                            <th class="sortable" onclick="toggleSort('model')">Model <span class="sort-icon" id="sort-model"></span></th>
+                            <th class="sortable" onclick="toggleSort('assignedTo')">Assigned <span class="sort-icon" id="sort-assignedTo"></span></th>
+                            <th class="sortable" onclick="toggleSort('status')">Status <span class="sort-icon" id="sort-status"></span></th>
+                            <th class="sortable" onclick="toggleSort('comments')">Comments <span class="sort-icon" id="sort-comments"></span></th>
                             <th style="width: 140px">Actions</th>
                         </tr>
                     </thead>
@@ -1777,7 +1805,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="sourceType">Source Type</label>
-                                <select id="sourceType">
+                                <select id="sourceType" onchange="updatePositionVisibility()">
                                     <option value="">Select source...</option>
                                     <option value="SEO">🔍 SEO</option>
                                     <option value="PPC">💰 PPC</option>
@@ -1832,8 +1860,9 @@
                                     <option value="Contacted">🟡 Contacted</option>
                                     <option value="Negotiating">🟣 Negotiating</option>
                                     <option value="Approved">🟢 Approved</option>
+                                    <option value="Waiting">⏳ Waiting to go live</option>
                                     <option value="Active">✅ Active</option>
-                                    <option value="Paused">🟠 Paused</option>
+                                    <option value="Hold">🟠 Hold</option>
                                     <option value="Rejected">🔴 Rejected</option>
                                 </select>
                             </div>
@@ -1900,8 +1929,8 @@
                         </div>
                     </div>
 
-                    <div class="form-section">
-                        <div class="form-section-title">🔗 URLs & Positions</div>
+                    <div class="form-section" id="urlsSection">
+                        <div class="form-section-title">🔗 URLs <span id="positionLabel" style="display: none;">& Positions (SEO)</span></div>
                         
                         <div class="urls-container" id="urlsContainer">
                             <!-- URL entries will be added dynamically -->
@@ -2001,6 +2030,9 @@
         let deals = [];
         let isConfigured = false;
         let currentSessionId = null;
+        
+        // Sorting state
+        let currentSort = { field: null, direction: 'none' }; // direction: 'none', 'asc', 'desc'
 
         // Check if Firebase is configured
         function checkFirebaseConfig() {
@@ -2292,10 +2324,30 @@
         // URL Management
         function generatePositionOptions() {
             let options = '<option value="">Pos</option>';
+            options += '<option value="?">❓ ?</option>';
             for (let i = 1; i <= 50; i++) {
                 options += `<option value="${i}">${i}</option>`;
             }
             return options;
+        }
+
+        function isSourceSEO() {
+            const sourceType = document.getElementById('sourceType').value;
+            return sourceType === 'SEO';
+        }
+
+        function updatePositionVisibility() {
+            const isSEO = isSourceSEO();
+            const positionLabel = document.getElementById('positionLabel');
+            const positionSelects = document.querySelectorAll('.position-select');
+            
+            if (positionLabel) {
+                positionLabel.style.display = isSEO ? 'inline' : 'none';
+            }
+            
+            positionSelects.forEach(select => {
+                select.style.display = isSEO ? 'block' : 'none';
+            });
         }
 
         function addUrl() {
@@ -2304,10 +2356,11 @@
             const entry = document.createElement('div');
             entry.className = 'url-entry';
             entry.dataset.index = index;
+            const isSEO = isSourceSEO();
             entry.innerHTML = `
                 <div class="url-row">
                     <input type="url" class="url-input" placeholder="https://example.com/offer" data-field="url">
-                    <select class="position-select" data-field="position">
+                    <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
                         ${generatePositionOptions()}
                     </select>
                     <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
@@ -2345,10 +2398,12 @@
         function setUrls(urls) {
             const container = document.getElementById('urlsContainer');
             container.innerHTML = '';
+            const isSEO = isSourceSEO();
             
             if (!urls || urls.length === 0) {
                 // Add one empty entry
                 addUrl();
+                updatePositionVisibility();
                 return;
             }
 
@@ -2359,7 +2414,7 @@
                 entry.innerHTML = `
                     <div class="url-row">
                         <input type="url" class="url-input" placeholder="https://example.com/offer" data-field="url" value="${escapeHtml(urlData.url || '')}">
-                        <select class="position-select" data-field="position">
+                        <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
                             ${generatePositionOptions()}
                         </select>
                         <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
@@ -2370,6 +2425,7 @@
                     entry.querySelector('.position-select').value = urlData.position;
                 }
             });
+            updatePositionVisibility();
         }
 
         // Get/Set checkboxes
@@ -2732,8 +2788,9 @@
             const tbody = document.getElementById('dealsTable');
             const emptyState = document.getElementById('emptyState');
             const filteredDeals = getFilteredDeals();
+            const sortedDeals = sortDeals(filteredDeals);
 
-            if (filteredDeals.length === 0) {
+            if (sortedDeals.length === 0) {
                 tbody.innerHTML = '';
                 document.getElementById('mobileCards').innerHTML = '';
                 emptyState.style.display = 'block';
@@ -2743,7 +2800,7 @@
             emptyState.style.display = 'none';
             
             // Desktop table
-            tbody.innerHTML = filteredDeals.map((deal, index) => {
+            tbody.innerHTML = sortedDeals.map((deal, index) => {
                 // Generate geo badges with flags
                 const geoDisplay = (deal.geos || [deal.geo]).map(g => {
                     const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
@@ -2791,7 +2848,7 @@
 
             // Mobile cards
             const mobileCards = document.getElementById('mobileCards');
-            mobileCards.innerHTML = filteredDeals.map((deal, index) => {
+            mobileCards.innerHTML = sortedDeals.map((deal, index) => {
                 const geoDisplay = (deal.geos || [deal.geo]).map(g => {
                     const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
                     return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
@@ -2863,16 +2920,85 @@
             renderTable();
         }
 
+        // Sorting
+        function toggleSort(field) {
+            // Cycle through: none -> asc -> desc -> none
+            if (currentSort.field !== field) {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            } else {
+                if (currentSort.direction === 'none') {
+                    currentSort.direction = 'asc';
+                } else if (currentSort.direction === 'asc') {
+                    currentSort.direction = 'desc';
+                } else {
+                    currentSort.direction = 'none';
+                    currentSort.field = null;
+                }
+            }
+            
+            updateSortIcons();
+            renderTable();
+        }
+
+        function updateSortIcons() {
+            // Clear all sort icons and active states
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.textContent = '';
+            });
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('active');
+            });
+
+            // Set current sort icon
+            if (currentSort.field && currentSort.direction !== 'none') {
+                const icon = document.getElementById(`sort-${currentSort.field}`);
+                const th = icon?.closest('th');
+                if (icon) {
+                    icon.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+                }
+                if (th) {
+                    th.classList.add('active');
+                }
+            }
+        }
+
+        function sortDeals(dealsToSort) {
+            if (!currentSort.field || currentSort.direction === 'none') {
+                // Default: sort by createdAt descending (newest first)
+                return [...dealsToSort].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+
+            return [...dealsToSort].sort((a, b) => {
+                let valA = a[currentSort.field] || '';
+                let valB = b[currentSort.field] || '';
+
+                // Handle arrays (like geos)
+                if (Array.isArray(valA)) valA = valA.join(', ');
+                if (Array.isArray(valB)) valB = valB.join(', ');
+
+                // Convert to strings for comparison
+                valA = String(valA).toLowerCase();
+                valB = String(valB).toLowerCase();
+
+                let comparison = 0;
+                if (valA < valB) comparison = -1;
+                if (valA > valB) comparison = 1;
+
+                return currentSort.direction === 'desc' ? -comparison : comparison;
+            });
+        }
+
         // GEO filter is now fixed with UK, NL, DE options
 
         // Stats
         function updateStats() {
             document.getElementById('totalDeals').textContent = deals.length;
-            document.getElementById('activeDeals').textContent = deals.filter(d => d.status === 'Active').length;
+            document.getElementById('activeDeals').textContent = deals.filter(d => d.status === 'Active' || d.status === 'Waiting').length;
             document.getElementById('pendingDeals').textContent = deals.filter(d => 
                 ['Contacted', 'Negotiating', 'Approved'].includes(d.status)
             ).length;
-            document.getElementById('rejectedDeals').textContent = deals.filter(d => d.status === 'Rejected').length;
+            document.getElementById('rejectedDeals').textContent = deals.filter(d => d.status === 'Rejected' || d.status === 'Hold').length;
 
             // Render charts
             renderCharts();
@@ -2884,10 +3010,11 @@
             // Status Chart
             const statusCounts = {
                 'Active': { count: 0, color: 'bar-green' },
+                'Waiting': { count: 0, color: 'bar-cyan' },
                 'Contacted': { count: 0, color: 'bar-yellow' },
                 'Negotiating': { count: 0, color: 'bar-purple' },
-                'Approved': { count: 0, color: 'bar-cyan' },
-                'Paused': { count: 0, color: 'bar-orange' },
+                'Approved': { count: 0, color: 'bar-blue' },
+                'Hold': { count: 0, color: 'bar-orange' },
                 'Rejected': { count: 0, color: 'bar-red' }
             };
             deals.forEach(d => {
@@ -3001,10 +3128,7 @@
             }
         });
 
-        // Modal overlay click
-        document.getElementById('dealModal').addEventListener('click', (e) => {
-            if (e.target.classList.contains('modal-overlay')) closeModal();
-        });
+        // Modal overlay click - Only view modal closes on outside click, edit modal requires X button
         document.getElementById('viewModal').addEventListener('click', (e) => {
             if (e.target.classList.contains('modal-overlay')) closeViewModal();
         });
