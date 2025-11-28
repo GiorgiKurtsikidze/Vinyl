@@ -552,8 +552,51 @@
             font-size: 0.85rem;
             font-weight: 700;
             color: var(--accent-cyan);
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             padding-bottom: 0.5rem;
+        }
+        
+        .network-sources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .network-source-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .network-source-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .network-source-toggle {
+            margin: 0;
+        }
+        
+        .network-source-details {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .network-source-input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+        }
+        
+        .network-source-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
             border-bottom: 1px solid rgba(6, 182, 212, 0.2);
         }
 
@@ -572,17 +615,32 @@
 
         .network-sources-display {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem;
+            flex-direction: column;
+            gap: 0.5rem;
             margin-top: 0.5rem;
         }
 
+        .network-source-view-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
         .network-source-tag {
-            font-size: 0.65rem;
-            padding: 0.2rem 0.5rem;
-            background: var(--bg-tertiary);
-            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .network-source-detail {
+            font-size: 0.7rem;
             color: var(--text-secondary);
+            padding-left: 1rem;
+            font-style: italic;
         }
 
         @keyframes slideDown {
@@ -1866,6 +1924,7 @@
                                     <option value="Retargeting">🎯 Retargeting</option>
                                     <option value="Influencers">⭐ Influencers</option>
                                     <option value="SMS/Email">📨 SMS/Email</option>
+                                    <option value="Tipsters">🎰 Tipsters</option>
                                     <option value="Network">🌐 Network</option>
                                 </select>
                             </div>
@@ -1873,47 +1932,110 @@
 
                         <!-- Network Details (shown when Network is selected) -->
                         <div class="network-details" id="networkDetails" style="display: none;">
-                            <div class="network-details-header">🌐 Network Details</div>
-                            <div class="form-group">
-                                <label for="networkName">Network Name</label>
-                                <input type="text" id="networkName" placeholder="e.g., TrafficStars, PropellerAds">
-                            </div>
-                            <div class="form-group">
-                                <label for="networkAccountId">Account/Publisher ID</label>
-                                <input type="text" id="networkAccountId" placeholder="e.g., ACC-12345">
-                            </div>
-                            <div class="form-group">
-                                <label>Traffic Sources Included</label>
-                                <div class="checkbox-group" id="networkSourcesGroup">
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="SEO"> <span class="checkbox-label">🔍 SEO</span>
+                            <div class="network-details-header">🌐 Network Traffic Sources</div>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Select traffic sources this network provides and fill in details for each:</p>
+                            
+                            <div class="network-sources-list" id="networkSourcesList">
+                                <!-- SEO -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="SEO" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🔍 SEO</span>
                                     </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="PPC"> <span class="checkbox-label">💰 PPC</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Social"> <span class="checkbox-label">📱 Social</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Retargeting"> <span class="checkbox-label">🎯 Retargeting</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Influencers"> <span class="checkbox-label">⭐ Influencers</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Display"> <span class="checkbox-label">🖼️ Display</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Native"> <span class="checkbox-label">📰 Native</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Push"> <span class="checkbox-label">🔔 Push</span>
-                                    </label>
-                                    <label class="checkbox-item">
-                                        <input type="checkbox" name="networkSources" value="Email"> <span class="checkbox-label">📧 Email</span>
-                                    </label>
+                                    <div class="network-source-details" data-source="SEO" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="SEO" placeholder="SEO details (positions, keywords, etc.)">
+                                    </div>
                                 </div>
-                                <small>Select all traffic types this network provides</small>
+                                <!-- PPC -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="PPC" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">💰 PPC</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="PPC" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="PPC" placeholder="PPC details (campaigns, budget, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Social -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Social" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">📱 Social</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Social" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Social" placeholder="Social details (platforms, accounts, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Retargeting -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Retargeting" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🎯 Retargeting</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Retargeting" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Retargeting" placeholder="Retargeting details (pixels, audiences, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Influencers -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Influencers" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">⭐ Influencers</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Influencers" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Influencers" placeholder="Influencer details (names, reach, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Tipsters -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Tipsters" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🎰 Tipsters</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Tipsters" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Tipsters" placeholder="Tipster details (channels, followers, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Display -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Display" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🖼️ Display</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Display" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Display" placeholder="Display details (placements, formats, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Native -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Native" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">📰 Native</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Native" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Native" placeholder="Native details (publishers, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Push -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Push" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🔔 Push</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Push" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Push" placeholder="Push details (subscribers, etc.)">
+                                    </div>
+                                </div>
+                                <!-- SMS/Email -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="SMS/Email" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">📨 SMS/Email</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="SMS/Email" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="SMS/Email" placeholder="SMS/Email details (list size, etc.)">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -2330,9 +2452,7 @@
                     document.getElementById('contactMethod').value = deal.contactMethod || '';
                     
                     // Network fields
-                    document.getElementById('networkName').value = deal.networkName || '';
-                    document.getElementById('networkAccountId').value = deal.networkAccountId || '';
-                    setCheckedValues('networkSources', deal.networkSources || []);
+                    setNetworkSourcesWithDetails(deal.networkSources || []);
                     updateSourceTypeFields();
                     document.getElementById('model').value = deal.model || '';
                     document.getElementById('status').value = deal.status || 'Contacted';
@@ -2368,8 +2488,7 @@
                 document.getElementById('revshareRate').value = '';
                 document.getElementById('flatFeeAmount').value = '';
                 // Reset network fields
-                document.getElementById('networkName').value = '';
-                document.getElementById('networkAccountId').value = '';
+                setNetworkSourcesWithDetails([]);
                 toggleModelFields();
                 updateSourceTypeFields();
             }
@@ -2480,6 +2599,20 @@
         function updatePositionVisibility() {
             updateSourceTypeFields();
         }
+        
+        // Toggle network source details when checkbox is changed
+        function toggleNetworkSourceDetails(checkbox) {
+            const source = checkbox.value;
+            const detailsDiv = document.querySelector(`.network-source-details[data-source="${source}"]`);
+            if (detailsDiv) {
+                detailsDiv.style.display = checkbox.checked ? 'block' : 'none';
+                if (!checkbox.checked) {
+                    // Clear the input when unchecked
+                    const input = detailsDiv.querySelector('input');
+                    if (input) input.value = '';
+                }
+            }
+        }
 
         function addUrl() {
             const container = document.getElementById('urlsContainer');
@@ -2571,6 +2704,52 @@
                 cb.checked = values && values.includes(cb.value);
             });
         }
+        
+        // Get network sources with their detail text
+        function getNetworkSourcesWithDetails() {
+            const checkboxes = document.querySelectorAll('input[name="networkSources"]:checked');
+            const sources = [];
+            checkboxes.forEach(cb => {
+                const source = cb.value;
+                const input = document.querySelector(`.network-source-input[data-source="${source}"]`);
+                sources.push({
+                    type: source,
+                    details: input ? input.value.trim() : ''
+                });
+            });
+            return sources;
+        }
+        
+        // Set network sources with their detail text
+        function setNetworkSourcesWithDetails(sources) {
+            // Clear all checkboxes and inputs first
+            const allCheckboxes = document.querySelectorAll('input[name="networkSources"]');
+            const allInputs = document.querySelectorAll('.network-source-input');
+            const allDetails = document.querySelectorAll('.network-source-details');
+            
+            allCheckboxes.forEach(cb => cb.checked = false);
+            allInputs.forEach(input => input.value = '');
+            allDetails.forEach(detail => detail.style.display = 'none');
+            
+            if (!sources) return;
+            
+            // Handle old format (array of strings) and new format (array of objects)
+            sources.forEach(source => {
+                const sourceType = typeof source === 'object' ? source.type : source;
+                const sourceDetails = typeof source === 'object' ? source.details : '';
+                
+                const checkbox = document.querySelector(`input[name="networkSources"][value="${sourceType}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    const detailsDiv = document.querySelector(`.network-source-details[data-source="${sourceType}"]`);
+                    if (detailsDiv) {
+                        detailsDiv.style.display = 'block';
+                        const input = detailsDiv.querySelector('input');
+                        if (input) input.value = sourceDetails;
+                    }
+                }
+            });
+        }
 
         async function saveDeal(event) {
             event.preventDefault();
@@ -2594,9 +2773,7 @@
                 contactEmail: document.getElementById('contactEmail').value.trim(),
                 contactMethod: document.getElementById('contactMethod').value.trim(),
                 // Network fields
-                networkName: document.getElementById('networkName').value.trim(),
-                networkAccountId: document.getElementById('networkAccountId').value.trim(),
-                networkSources: getCheckedValues('networkSources'),
+                networkSources: getNetworkSourcesWithDetails(),
                 model: document.getElementById('model').value,
                 status: document.getElementById('status').value,
                 
@@ -2697,15 +2874,25 @@
             if (deal.assignedTo) metaItems.push({ label: 'Assigned To', value: `<span style="font-weight: 700; color: var(--accent-purple);">👤 ${escapeHtml(deal.assignedTo)}</span>` });
             
             // Source Type with Network details
-            if (deal.sourceType === 'Network' && deal.networkName) {
-                let networkDisplay = `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`;
+            if (deal.sourceType === 'Network') {
+                metaItems.push({ label: 'Source Type', value: `<span class="network-badge">🌐 Network</span>` });
                 if (deal.networkSources && deal.networkSources.length > 0) {
-                    networkDisplay += `<div class="network-sources-display">${deal.networkSources.map(s => `<span class="network-source-tag">${escapeHtml(s)}</span>`).join('')}</div>`;
+                    let sourcesDisplay = '<div class="network-sources-display">';
+                    deal.networkSources.forEach(s => {
+                        const sourceType = typeof s === 'object' ? s.type : s;
+                        const sourceDetails = typeof s === 'object' ? s.details : '';
+                        const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰', 'Display': '🖼️', 'Native': '📰', 'Push': '🔔' };
+                        sourcesDisplay += `<div class="network-source-view-item">
+                            <span class="network-source-tag">${sourceIcons[sourceType] || ''} ${escapeHtml(sourceType)}</span>
+                            ${sourceDetails ? `<span class="network-source-detail">${escapeHtml(sourceDetails)}</span>` : ''}
+                        </div>`;
+                    });
+                    sourcesDisplay += '</div>';
+                    metaItems.push({ label: 'Traffic Sources', value: sourcesDisplay });
                 }
-                metaItems.push({ label: 'Network', value: networkDisplay });
-                if (deal.networkAccountId) metaItems.push({ label: 'Account ID', value: `<span style="font-family: 'JetBrains Mono', monospace;">${escapeHtml(deal.networkAccountId)}</span>` });
             } else if (deal.sourceType) {
-                metaItems.push({ label: 'Source Type', value: escapeHtml(deal.sourceType) });
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰' };
+                metaItems.push({ label: 'Source Type', value: `${sourceIcons[deal.sourceType] || ''} ${escapeHtml(deal.sourceType)}` });
             }
             
             if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
@@ -2955,10 +3142,10 @@
                 }).join(' ');
 
                 // Source type icons
-                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Network': '🌐' };
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰', 'Network': '🌐' };
                 let sourceDisplay = '<span style="color: var(--text-muted);">—</span>';
-                if (deal.sourceType === 'Network' && deal.networkName) {
-                    sourceDisplay = `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`;
+                if (deal.sourceType === 'Network') {
+                    sourceDisplay = `<span class="network-badge">🌐 Network</span>`;
                 } else if (deal.sourceType) {
                     sourceDisplay = `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>`;
                 }
@@ -3004,9 +3191,9 @@
                     return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
                 }).join(' ');
 
-                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Network': '🌐' };
-                const mobileSourceDisplay = deal.sourceType === 'Network' && deal.networkName 
-                    ? `<span class="network-badge">🌐 ${escapeHtml(deal.networkName)}</span>`
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰', 'Network': '🌐' };
+                const mobileSourceDisplay = deal.sourceType === 'Network' 
+                    ? `<span class="network-badge">🌐 Network</span>`
                     : (deal.sourceType ? `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : '');
 
                 return `
@@ -3206,13 +3393,13 @@
                 .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
 
             // Source Chart
-            const sourceCounts = { 'SEO': 0, 'PPC': 0, 'Social': 0, 'Retargeting': 0, 'Influencers': 0, 'SMS/Email': 0, 'Network': 0 };
+            const sourceCounts = { 'SEO': 0, 'PPC': 0, 'Social': 0, 'Retargeting': 0, 'Influencers': 0, 'SMS/Email': 0, 'Tipsters': 0, 'Network': 0 };
             deals.forEach(d => {
                 if (d.sourceType && sourceCounts[d.sourceType] !== undefined) {
                     sourceCounts[d.sourceType]++;
                 }
             });
-            const sourceColors = { 'SEO': 'bar-green', 'PPC': 'bar-blue', 'Social': 'bar-pink', 'Retargeting': 'bar-cyan', 'Influencers': 'bar-purple', 'SMS/Email': 'bar-orange', 'Network': 'bar-yellow' };
+            const sourceColors = { 'SEO': 'bar-green', 'PPC': 'bar-blue', 'Social': 'bar-pink', 'Retargeting': 'bar-cyan', 'Influencers': 'bar-purple', 'SMS/Email': 'bar-orange', 'Tipsters': 'bar-red', 'Network': 'bar-yellow' };
             document.getElementById('sourceChart').innerHTML = Object.entries(sourceCounts)
                 .filter(([_, count]) => count > 0)
                 .map(([name, count]) => renderBarItem(name, count, total, sourceColors[name]))
