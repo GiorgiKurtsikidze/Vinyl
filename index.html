@@ -890,8 +890,8 @@
         .status-negotiating .status-dot { background: var(--accent-purple); }
         .status-approved { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
         .status-approved .status-dot { background: var(--accent-green); }
-        .status-active { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3); }
-        .status-active .status-dot { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+        .status-live { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .status-live .status-dot { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
         .status-hold { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
         .status-hold .status-dot { background: var(--accent-orange); }
         .status-waiting { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
@@ -1262,7 +1262,7 @@
         }
 
         .stat-total::before { background: var(--gradient-1); }
-        .stat-active::before { background: var(--accent-green); }
+        .stat-live::before { background: var(--accent-green); }
         .stat-pending::before { background: var(--accent-yellow); }
         .stat-rejected::before { background: var(--accent-red); }
 
@@ -1283,7 +1283,7 @@
         }
 
         .stat-total .stat-value { color: var(--accent-blue); }
-        .stat-active .stat-value { color: var(--accent-green); }
+        .stat-live .stat-value { color: var(--accent-green); }
         .stat-pending .stat-value { color: var(--accent-yellow); }
         .stat-rejected .stat-value { color: var(--accent-red); }
 
@@ -1827,9 +1827,9 @@
                         <div class="stat-value" id="totalDeals">0</div>
                         <div class="stat-label">Total Deals</div>
                     </div>
-                    <div class="stat-card stat-active">
-                        <div class="stat-value" id="activeDeals">0</div>
-                        <div class="stat-label">Active</div>
+                    <div class="stat-card stat-live">
+                        <div class="stat-value" id="liveDeals">0</div>
+                        <div class="stat-label">Live</div>
                     </div>
                     <div class="stat-card stat-pending">
                         <div class="stat-value" id="pendingDeals">0</div>
@@ -1888,11 +1888,11 @@
                         <option value="">📋 All Statuses</option>
                         <option value="Contacted">Contacted</option>
                         <option value="Negotiating">Negotiating</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Waiting">Waiting to go live</option>
-                        <option value="Active">Active</option>
-                        <option value="Hold">Hold</option>
-                        <option value="Rejected">Rejected</option>
+<option value="Approved">Approved</option>
+                                        <option value="Waiting">Waiting to go live</option>
+                                        <option value="Live">Live</option>
+                                        <option value="Hold">Hold</option>
+                                        <option value="Rejected">Rejected</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -2150,7 +2150,7 @@
                                     <option value="Negotiating">🟣 Negotiating</option>
                                     <option value="Approved">🟢 Approved</option>
                                     <option value="Waiting">⏳ Waiting to go live</option>
-                                    <option value="Active">✅ Active</option>
+                                    <option value="Live">✅ Live</option>
                                     <option value="Hold">🟠 Hold</option>
                                     <option value="Rejected">🔴 Rejected</option>
                                 </select>
@@ -3400,7 +3400,7 @@
         // Stats
         function updateStats() {
             document.getElementById('totalDeals').textContent = deals.length;
-            document.getElementById('activeDeals').textContent = deals.filter(d => d.status === 'Active' || d.status === 'Waiting').length;
+            document.getElementById('liveDeals').textContent = deals.filter(d => d.status === 'Live').length;
             document.getElementById('pendingDeals').textContent = deals.filter(d => 
                 ['Contacted', 'Negotiating', 'Approved'].includes(d.status)
             ).length;
@@ -3415,7 +3415,7 @@
 
             // Status Chart
             const statusCounts = {
-                'Active': { count: 0, color: 'bar-green' },
+                'Live': { count: 0, color: 'bar-green' },
                 'Waiting': { count: 0, color: 'bar-cyan' },
                 'Contacted': { count: 0, color: 'bar-yellow' },
                 'Negotiating': { count: 0, color: 'bar-purple' },
