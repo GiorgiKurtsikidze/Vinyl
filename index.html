@@ -947,9 +947,9 @@
         }
 
         .geo-rate-item {
-            display: grid;
-            grid-template-columns: 80px 1fr 1fr;
-            gap: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             align-items: center;
             padding: 0.75rem;
             background: var(--bg-secondary);
@@ -963,14 +963,18 @@
 
         .geo-rate-label {
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.3rem;
+            min-width: 60px;
+            flex-shrink: 0;
         }
 
         .geo-rate-input {
-            padding: 0.5rem 0.75rem;
+            flex: 1;
+            min-width: 120px;
+            padding: 0.6rem 0.75rem;
             font-size: 0.85rem;
         }
 
@@ -3008,8 +3012,8 @@
                 list.innerHTML = geos.map(geo => `
                     <div class="geo-rate-item">
                         <div class="geo-rate-label">${flags[geo] || ''} ${geo}</div>
-                        ${showsCPA ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="cpa" placeholder="CPA rate">` : '<div></div>'}
-                        ${showsRS ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="rs" placeholder="RevShare %">` : '<div></div>'}
+                        ${showsCPA ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="cpa" placeholder="CPA (e.g. €250)">` : ''}
+                        ${showsRS ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="rs" placeholder="RS (e.g. 30%)">` : ''}
                     </div>
                 `).join('');
             } else {
@@ -3630,6 +3634,8 @@
                 
                 // Search across multiple fields
                 if (search) {
+                    // Build searchable text from all fields including tags
+                    const tagsText = Array.isArray(deal.tags) ? deal.tags.join(' ') : '';
                     const searchableFields = [
                         deal.partnerName || '',
                         deal.crmId || '',
@@ -3639,7 +3645,7 @@
                         deal.sourceType || '',
                         deal.model || '',
                         deal.cap || '',
-                        (deal.tags || []).join(' ') // Include tags in search
+                        tagsText
                     ].join(' ').toLowerCase();
                     
                     if (!searchableFields.includes(search)) return false;
