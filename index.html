@@ -864,6 +864,150 @@
             color: var(--accent-purple);
         }
 
+        /* Tags */
+        .tag-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--accent-pink);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .tags-input-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            min-height: 42px;
+            align-items: center;
+        }
+
+        .tags-input-wrapper:focus-within {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+        }
+
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.5rem;
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--accent-pink);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .tag-remove:hover {
+            opacity: 1;
+        }
+
+        .tag-input {
+            flex: 1;
+            min-width: 100px;
+            border: none !important;
+            background: transparent !important;
+            padding: 0.25rem !important;
+            box-shadow: none !important;
+        }
+
+        .tag-input:focus {
+            outline: none !important;
+        }
+
+        /* Per-GEO Rates */
+        .geo-rates-container {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            animation: slideDown 0.2s ease;
+        }
+
+        .geo-rate-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .geo-rate-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .geo-rate-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .geo-rate-input {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .geo-rate-view {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .geo-rate-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            min-width: 120px;
+        }
+
+        .geo-rate-card-geo {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .geo-rate-card-values {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .geo-rate-card-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -1969,13 +2113,13 @@
                                 <label>GEO <span class="required">*</span></label>
                                 <div class="checkbox-group" id="geoCheckboxes">
                                     <label class="checkbox-item">
-                                        <input type="checkbox" name="geo" value="UK"> <span class="checkbox-label">🇬🇧 UK</span>
+                                        <input type="checkbox" name="geo" value="UK" onchange="updateGeoRatesUI()"> <span class="checkbox-label">🇬🇧 UK</span>
                                     </label>
                                     <label class="checkbox-item">
-                                        <input type="checkbox" name="geo" value="NL"> <span class="checkbox-label">🇳🇱 NL</span>
+                                        <input type="checkbox" name="geo" value="NL" onchange="updateGeoRatesUI()"> <span class="checkbox-label">🇳🇱 NL</span>
                                     </label>
                                     <label class="checkbox-item">
-                                        <input type="checkbox" name="geo" value="DE"> <span class="checkbox-label">🇩🇪 DE</span>
+                                        <input type="checkbox" name="geo" value="DE" onchange="updateGeoRatesUI()"> <span class="checkbox-label">🇩🇪 DE</span>
                                     </label>
                                 </div>
                                 <small>Select one or multiple regions</small>
@@ -2124,6 +2268,14 @@
                                 <input type="text" id="contactMethod" placeholder="@telegram_handle or link">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label>🏷️ Tags</label>
+                            <div class="tags-input-wrapper" id="tagsWrapper" onclick="document.getElementById('tagsInput').focus()">
+                                <input type="text" class="tag-input" id="tagsInput" placeholder="Type tag and press Enter..." onkeydown="handleTagInput(event)">
+                            </div>
+                            <small>Press Enter to add tags (e.g., nicknames, categories)</small>
+                        </div>
                     </div>
 
                     <div class="form-section">
@@ -2169,14 +2321,14 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group" id="cpaFieldGroup" style="display: none;">
-                                        <label for="cpaRate">💰 CPA Rate</label>
+                                        <label for="cpaRate">💰 CPA Rate (Default)</label>
                                         <input type="text" id="cpaRate" placeholder="e.g., €50, $75 per action">
-                                        <small>Cost per acquisition/action</small>
+                                        <small>Default CPA rate</small>
                                     </div>
                                     <div class="form-group" id="rsFieldGroup" style="display: none;">
-                                        <label for="revshareRate">📊 RevShare %</label>
+                                        <label for="revshareRate">📊 RevShare % (Default)</label>
                                         <input type="text" id="revshareRate" placeholder="e.g., 25%, 30%">
-                                        <small>Revenue share percentage</small>
+                                        <small>Default revenue share</small>
                                     </div>
                                 </div>
                                 <div class="form-row" id="flatFeeRow" style="display: none;">
@@ -2185,6 +2337,14 @@
                                         <input type="text" id="flatFeeAmount" placeholder="e.g., €2000/month">
                                         <small>Fixed monthly/yearly amount</small>
                                     </div>
+                                </div>
+                                
+                                <!-- Per-GEO Rates -->
+                                <div class="geo-rates-container" id="geoRatesContainer" style="display: none;">
+                                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); margin-bottom: 0.75rem;">
+                                        🌍 Per-GEO Rates <span style="color: var(--text-muted); font-weight: 400;">(override defaults)</span>
+                                    </div>
+                                    <div id="geoRatesList"></div>
                                 </div>
                             </div>
                         </div>
@@ -2529,6 +2689,10 @@
                     document.getElementById('revshareRate').value = deal.revshareRate || '';
                     document.getElementById('flatFeeAmount').value = deal.flatFeeAmount || '';
                     toggleModelFields();
+                    setGeoRates(deal.geoRates || null);
+                    
+                    // Tags
+                    setTags(deal.tags || []);
                     
                     document.getElementById('cap').value = deal.cap || '';
                     
@@ -2555,8 +2719,11 @@
                 document.getElementById('flatFeeAmount').value = '';
                 // Reset network fields
                 setNetworkSourcesWithDetails([]);
+                // Reset tags
+                setTags([]);
                 toggleModelFields();
                 updateSourceTypeFields();
+                updateGeoRatesUI();
             }
 
             modal.classList.add('active');
@@ -2584,7 +2751,10 @@
             rsFieldGroup.style.display = 'none';
             flatFeeRow.style.display = 'none';
 
-            if (!model) return;
+            if (!model) {
+                updateGeoRatesUI();
+                return;
+            }
 
             modelFields.style.display = 'block';
 
@@ -2616,6 +2786,9 @@
                     rsFieldGroup.style.display = 'block';
                     break;
             }
+            
+            // Update per-GEO rates visibility
+            updateGeoRatesUI();
         }
 
         // URL Management
@@ -2688,13 +2861,13 @@
             entry.dataset.index = index;
             const isSEO = isSourceSEO();
             entry.innerHTML = `
-                <div class="url-row">
-                    <input type="url" class="url-input" placeholder="https://example.com/offer" data-field="url">
-                    <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
-                        ${generatePositionOptions()}
-                    </select>
-                    <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
-                </div>
+                    <div class="url-row">
+                        <input type="text" class="url-input" placeholder="example.com/offer" data-field="url">
+                        <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
+                            ${generatePositionOptions()}
+                        </select>
+                        <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
+                    </div>
             `;
             container.appendChild(entry);
         }
@@ -2743,7 +2916,7 @@
                 entry.dataset.index = index;
                 entry.innerHTML = `
                     <div class="url-row">
-                        <input type="url" class="url-input" placeholder="https://example.com/offer" data-field="url" value="${escapeHtml(urlData.url || '')}">
+                        <input type="text" class="url-input" placeholder="example.com/offer" data-field="url" value="${escapeHtml(urlData.url || '')}">
                         <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
                             ${generatePositionOptions()}
                         </select>
@@ -2769,6 +2942,107 @@
             checkboxes.forEach(cb => {
                 cb.checked = values && values.includes(cb.value);
             });
+        }
+
+        // Tag handling
+        let currentTags = [];
+
+        function handleTagInput(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = document.getElementById('tagsInput');
+                const tag = input.value.trim();
+                if (tag && !currentTags.includes(tag)) {
+                    currentTags.push(tag);
+                    renderTags();
+                }
+                input.value = '';
+            }
+        }
+
+        function removeTag(index) {
+            currentTags.splice(index, 1);
+            renderTags();
+        }
+
+        function renderTags() {
+            const wrapper = document.getElementById('tagsWrapper');
+            const input = document.getElementById('tagsInput');
+            
+            // Remove existing tags
+            wrapper.querySelectorAll('.tag-item').forEach(el => el.remove());
+            
+            // Add tags before input
+            currentTags.forEach((tag, index) => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag-item';
+                tagEl.innerHTML = `${escapeHtml(tag)} <span class="tag-remove" onclick="removeTag(${index})">×</span>`;
+                wrapper.insertBefore(tagEl, input);
+            });
+        }
+
+        function getTags() {
+            return [...currentTags];
+        }
+
+        function setTags(tags) {
+            currentTags = tags || [];
+            renderTags();
+        }
+
+        // Per-GEO Rates handling
+        function updateGeoRatesUI() {
+            const model = document.getElementById('model').value;
+            const geos = getCheckedValues('geo');
+            const container = document.getElementById('geoRatesContainer');
+            const list = document.getElementById('geoRatesList');
+            
+            // Only show if model requires rates and multiple GEOs selected
+            const showsCPA = ['CPA', 'Hybrid', 'Fee + Hybrid', 'Fee + CPA'].includes(model);
+            const showsRS = ['RevShare', 'Hybrid', 'Fee + Hybrid', 'Fee + RS'].includes(model);
+            
+            if (geos.length > 1 && (showsCPA || showsRS)) {
+                container.style.display = 'block';
+                const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                
+                list.innerHTML = geos.map(geo => `
+                    <div class="geo-rate-item">
+                        <div class="geo-rate-label">${flags[geo] || ''} ${geo}</div>
+                        ${showsCPA ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="cpa" placeholder="CPA rate">` : '<div></div>'}
+                        ${showsRS ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="rs" placeholder="RevShare %">` : '<div></div>'}
+                    </div>
+                `).join('');
+            } else {
+                container.style.display = 'none';
+                list.innerHTML = '';
+            }
+        }
+
+        function getGeoRates() {
+            const rates = {};
+            document.querySelectorAll('.geo-rate-input').forEach(input => {
+                const geo = input.dataset.geo;
+                const type = input.dataset.type;
+                const value = input.value.trim();
+                if (value) {
+                    if (!rates[geo]) rates[geo] = {};
+                    rates[geo][type] = value;
+                }
+            });
+            return Object.keys(rates).length > 0 ? rates : null;
+        }
+
+        function setGeoRates(rates) {
+            if (!rates) return;
+            setTimeout(() => {
+                document.querySelectorAll('.geo-rate-input').forEach(input => {
+                    const geo = input.dataset.geo;
+                    const type = input.dataset.type;
+                    if (rates[geo] && rates[geo][type]) {
+                        input.value = rates[geo][type];
+                    }
+                });
+            }, 50);
         }
         
         // Get network sources with their detail text
@@ -2838,6 +3112,7 @@
                 assignedTo: document.getElementById('assignedTo').value,
                 contactEmail: document.getElementById('contactEmail').value.trim(),
                 contactMethod: document.getElementById('contactMethod').value.trim(),
+                tags: getTags(), // Tags array
                 // Network fields
                 networkSources: getNetworkSourcesWithDetails(),
                 model: document.getElementById('model').value,
@@ -2848,6 +3123,7 @@
                 cpaRate: document.getElementById('cpaRate').value.trim(),
                 revshareRate: document.getElementById('revshareRate').value.trim(),
                 flatFeeAmount: document.getElementById('flatFeeAmount').value.trim(),
+                geoRates: getGeoRates(), // Per-GEO rates
                 
                 cap: document.getElementById('cap').value.trim(),
                 kpis: getCheckedValues('kpi'),
@@ -2964,6 +3240,12 @@
             if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
             if (deal.contactMethod) metaItems.push({ label: 'Contact', value: escapeHtml(deal.contactMethod) });
             if (deal.cap) metaItems.push({ label: 'Cap', value: escapeHtml(deal.cap) });
+            
+            // Tags
+            if (deal.tags && deal.tags.length > 0) {
+                const tagsHtml = deal.tags.map(tag => `<span class="tag-badge">${escapeHtml(tag)}</span>`).join('');
+                metaItems.push({ label: 'Tags', value: `<div class="tags-container">${tagsHtml}</div>` });
+            }
 
             document.getElementById('viewMeta').innerHTML = metaItems.map(item => `
                 <div class="view-meta-item">
@@ -2978,21 +3260,46 @@
             const rateItems = [];
             
             if (deal.feeAmount) rateItems.push({ label: 'Fee', value: deal.feeAmount });
-            if (deal.cpaRate) rateItems.push({ label: 'CPA Rate', value: deal.cpaRate });
-            if (deal.revshareRate) rateItems.push({ label: 'RevShare', value: deal.revshareRate });
+            if (deal.cpaRate) rateItems.push({ label: 'CPA Rate (Default)', value: deal.cpaRate });
+            if (deal.revshareRate) rateItems.push({ label: 'RevShare (Default)', value: deal.revshareRate });
             if (deal.flatFeeAmount) rateItems.push({ label: 'Flat Fee', value: deal.flatFeeAmount });
 
-            if (rateItems.length > 0) {
+            // Build per-GEO rates display
+            let geoRatesHtml = '';
+            if (deal.geoRates && Object.keys(deal.geoRates).length > 0) {
+                const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                geoRatesHtml = `
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                        <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-cyan); margin-bottom: 0.75rem;">🌍 Per-GEO Rates</div>
+                        <div class="geo-rate-view">
+                            ${Object.entries(deal.geoRates).map(([geo, rates]) => `
+                                <div class="geo-rate-card">
+                                    <div class="geo-rate-card-geo">${flags[geo] || ''} ${geo}</div>
+                                    <div class="geo-rate-card-values">
+                                        ${rates.cpa ? `<div class="geo-rate-card-value">CPA: ${escapeHtml(rates.cpa)}</div>` : ''}
+                                        ${rates.rs ? `<div class="geo-rate-card-value">RS: ${escapeHtml(rates.rs)}</div>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (rateItems.length > 0 || geoRatesHtml) {
                 ratesSection.style.display = 'block';
                 ratesContent.innerHTML = `
-                    <div class="rate-display">
-                        ${rateItems.map(item => `
-                            <div class="rate-item">
-                                <div class="rate-label">${item.label}</div>
-                                <div class="rate-value">${escapeHtml(item.value)}</div>
-                            </div>
-                        `).join('')}
-                    </div>
+                    ${rateItems.length > 0 ? `
+                        <div class="rate-display">
+                            ${rateItems.map(item => `
+                                <div class="rate-item">
+                                    <div class="rate-label">${item.label}</div>
+                                    <div class="rate-value">${escapeHtml(item.value)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    ${geoRatesHtml}
                 `;
             } else {
                 ratesSection.style.display = 'none';
@@ -3216,6 +3523,11 @@
                     sourceDisplay = `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>`;
                 }
 
+                // Tags display
+                const tagsDisplay = deal.tags && deal.tags.length > 0 
+                    ? `<div class="tags-container" style="margin-top: 0.25rem;">${deal.tags.slice(0, 2).map(t => `<span class="tag-badge">${escapeHtml(t)}</span>`).join('')}${deal.tags.length > 2 ? `<span class="tag-badge" style="opacity: 0.6;">+${deal.tags.length - 2}</span>` : ''}</div>` 
+                    : '';
+
                 return `
                 <tr>
                     <td><span class="row-number">${index + 1}</span></td>
@@ -3223,6 +3535,7 @@
                     <td>
                         <div class="partner-cell">
                             <span class="partner-name">${escapeHtml(deal.partnerName)}</span>
+                            ${tagsDisplay}
                         </div>
                     </td>
                     <td>${geoDisplay}</td>
@@ -3262,12 +3575,18 @@
                     ? `<span class="network-badge">🌐 Network</span>`
                     : (deal.sourceType ? `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : '');
 
+                // Tags for mobile
+                const mobileTagsDisplay = deal.tags && deal.tags.length > 0 
+                    ? deal.tags.map(t => `<span class="tag-badge">${escapeHtml(t)}</span>`).join('') 
+                    : '';
+
                 return `
                 <div class="mobile-card">
                     <div class="mobile-card-header">
                         <span class="mobile-card-title">${escapeHtml(deal.partnerName)}</span>
                         ${deal.crmId ? `<span class="mobile-card-id">${escapeHtml(deal.crmId)}</span>` : ''}
                     </div>
+                    ${mobileTagsDisplay ? `<div class="tags-container" style="margin-bottom: 0.5rem;">${mobileTagsDisplay}</div>` : ''}
                     <div class="mobile-card-badges">
                         ${geoDisplay}
                         ${mobileSourceDisplay}
@@ -3319,7 +3638,8 @@
                         deal.comments || '',
                         deal.sourceType || '',
                         deal.model || '',
-                        deal.cap || ''
+                        deal.cap || '',
+                        (deal.tags || []).join(' ') // Include tags in search
                     ].join(' ').toLowerCase();
                     
                     if (!searchableFields.includes(search)) return false;
