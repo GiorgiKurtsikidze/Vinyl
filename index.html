@@ -1903,7 +1903,7 @@
                     </select>
                 </div>
                 <div class="filter-group">
-                    <input type="text" id="searchInput" placeholder="🔍 Search partners..." onkeyup="applyFilters()" style="min-width: 200px;">
+                    <input type="text" id="searchInput" placeholder="🔍 Search ID, name, email..." onkeyup="applyFilters()" style="min-width: 200px;">
                 </div>
                 <button class="reset-btn" onclick="resetFilters()">✕ Reset</button>
             </div>
@@ -3297,7 +3297,7 @@
             const model = document.getElementById('filterModel').value;
             const status = document.getElementById('filterStatus').value;
             const assigned = document.getElementById('filterAssigned').value;
-            const search = document.getElementById('searchInput').value.toLowerCase();
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
 
             return deals.filter(deal => {
                 // Check GEO - support both old geo string and new geos array
@@ -3308,7 +3308,22 @@
                 if (model && deal.model !== model) return false;
                 if (status && deal.status !== status) return false;
                 if (assigned && deal.assignedTo !== assigned) return false;
-                if (search && !deal.partnerName.toLowerCase().includes(search)) return false;
+                
+                // Search across multiple fields
+                if (search) {
+                    const searchableFields = [
+                        deal.partnerName || '',
+                        deal.crmId || '',
+                        deal.contactEmail || '',
+                        deal.contactMethod || '',
+                        deal.comments || '',
+                        deal.sourceType || '',
+                        deal.model || '',
+                        deal.cap || ''
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchableFields.includes(search)) return false;
+                }
                 return true;
             });
         }
