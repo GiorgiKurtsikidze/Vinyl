@@ -1,0 +1,3886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broffilka</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --border-color: #2a2a3a;
+            --border-light: #3a3a4a;
+            --text-primary: #f0f0f5;
+            --text-secondary: #9090a0;
+            --text-muted: #606070;
+            --accent-blue: #4a9eff;
+            --accent-green: #22c55e;
+            --accent-yellow: #eab308;
+            --accent-red: #ef4444;
+            --accent-purple: #a855f7;
+            --accent-cyan: #06b6d4;
+            --accent-orange: #f97316;
+            --accent-pink: #ec4899;
+            --accent-lime: #84cc16;
+            --gradient-1: linear-gradient(135deg, #4a9eff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #22c55e 0%, #06b6d4 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(ellipse at 0% 0%, rgba(74, 158, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(34, 197, 94, 0.04) 0%, transparent 50%);
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+
+        .login-logo {
+            width: 72px;
+            height: 72px;
+            background: var(--gradient-1);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 8px 30px rgba(74, 158, 255, 0.3);
+        }
+
+        .login-box h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-box p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.1);
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .login-error {
+            color: var(--accent-red);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            display: none;
+            padding: 0.75rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-radius: 8px;
+        }
+
+        .setup-notice {
+            background: rgba(234, 179, 8, 0.1);
+            border: 1px solid rgba(234, 179, 8, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+        }
+
+        .setup-notice a {
+            color: var(--accent-blue);
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+        }
+
+        .app-container.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--gradient-1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.25);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-left: 1rem;
+            padding: 0.4rem 0.85rem;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--accent-green); }
+            50% { opacity: 0.6; box-shadow: 0 0 4px var(--accent-green); }
+        }
+
+        .sync-dot.offline {
+            background: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red);
+            animation: none;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        button {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            padding: 0.625rem 1.125rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border-color);
+            border-color: var(--border-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(74, 158, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 158, 255, 0.4);
+        }
+
+        .btn-success {
+            background: var(--gradient-2);
+            color: white;
+            border: none;
+        }
+
+        .btn-danger {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .btn-ghost:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .btn-small {
+            padding: 0.4rem 0.7rem;
+            font-size: 0.8rem;
+            border-radius: 8px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .btn-logout {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .btn-logout:hover {
+            color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            flex-wrap: wrap;
+            background: var(--bg-secondary);
+            padding: 1rem 1.25rem;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        select, input[type="text"], input[type="password"], input[type="date"], input[type="email"], input[type="url"], textarea {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            padding: 0.6rem 0.9rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+        }
+
+        select {
+            cursor: pointer;
+            min-width: 130px;
+        }
+
+        .reset-btn {
+            color: var(--accent-blue);
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .reset-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--bg-tertiary);
+        }
+
+        th {
+            text-align: left;
+            padding: 0.875rem 1rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th.sortable {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.2s;
+        }
+
+        th.sortable:hover {
+            color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.05);
+        }
+
+        th.sortable.active {
+            color: var(--accent-blue);
+        }
+
+        .sort-icon {
+            font-size: 0.65rem;
+            margin-left: 0.25rem;
+            opacity: 0.4;
+            transition: opacity 0.2s;
+        }
+
+        th.sortable:hover .sort-icon {
+            opacity: 0.7;
+        }
+
+        th.sortable.active .sort-icon {
+            opacity: 1;
+            color: var(--accent-blue);
+        }
+
+        td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tbody tr {
+            transition: background 0.15s;
+        }
+
+        tbody tr:hover {
+            background: rgba(74, 158, 255, 0.04);
+        }
+
+        .row-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-tertiary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        .crm-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1e1e2e;
+            background: #fbbf24;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid #f59e0b;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.85rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--accent-blue);
+            background: rgba(74, 158, 255, 0.05);
+        }
+
+        .checkbox-item:has(input:checked) {
+            background: rgba(74, 158, 255, 0.15);
+            border-color: var(--accent-blue);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Model Fields */
+        .model-fields {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            animation: slideDown 0.2s ease;
+        }
+
+        /* Network Details */
+        .network-details {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 12px;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            animation: slideDown 0.2s ease;
+        }
+
+        .network-details-header {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.25rem;
+        }
+        
+        .network-details > p {
+            margin-bottom: 0.5rem !important;
+        }
+        
+        .network-sources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-top: 0.5rem;
+        }
+        
+        .network-source-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 0.4rem 0.6rem;
+            transition: all 0.2s ease;
+        }
+        
+        .network-source-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .network-source-toggle {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .network-source-toggle .checkbox-label {
+            font-size: 0.8rem;
+        }
+        
+        .network-source-details {
+            margin-top: 0.4rem;
+            padding-top: 0.4rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .network-source-input {
+            width: 100%;
+            padding: 0.4rem 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--text-primary);
+            font-size: 0.75rem;
+        }
+        
+        .network-source-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.2);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .network-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .network-sources-display {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .network-source-view-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+
+        .network-source-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .network-source-detail {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            padding-left: 1rem;
+            font-style: italic;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .model-fields-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        /* URLs Container */
+        .urls-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .url-entry {
+            animation: slideDown 0.2s ease;
+        }
+
+        .url-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .url-input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .position-select {
+            width: 70px;
+            text-align: center;
+        }
+
+        .remove-url {
+            flex-shrink: 0;
+        }
+
+        /* Comments cell */
+        .comments-cell {
+            max-width: 200px;
+        }
+
+        .comments-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* View Modal URL List */
+        .url-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .url-list-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .url-position {
+            background: var(--accent-purple);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            min-width: 32px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .url-link {
+            flex: 1;
+            color: var(--accent-blue);
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        /* KPI badges in view */
+        .kpi-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .kpi-badge {
+            padding: 0.35rem 0.7rem;
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Rate display in view */
+        .rate-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .rate-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+        }
+
+        .rate-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .rate-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .partner-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .partner-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .partner-source {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .geo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.35rem 0.65rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .model-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .model-cpa { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .model-revshare { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+        .model-hybrid { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+        .model-flat-fee { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .model-fee-hybrid { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+        .model-fee-cpa { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .model-fee-rs { background: rgba(132, 204, 22, 0.15); color: var(--accent-lime); }
+
+        .source-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(249, 115, 22, 0.15);
+            color: var(--accent-orange);
+        }
+
+        .assigned-badge {
+            display: inline-block;
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(168, 85, 247, 0.15);
+            color: var(--accent-purple);
+        }
+
+        /* Tags */
+        .tag-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--accent-pink);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .tags-input-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            min-height: 42px;
+            align-items: center;
+        }
+
+        .tags-input-wrapper:focus-within {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.1);
+        }
+
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.5rem;
+            background: rgba(236, 72, 153, 0.2);
+            color: var(--accent-pink);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .tag-remove:hover {
+            opacity: 1;
+        }
+
+        .tag-input {
+            flex: 1;
+            min-width: 100px;
+            border: none !important;
+            background: transparent !important;
+            padding: 0.25rem !important;
+            box-shadow: none !important;
+        }
+
+        .tag-input:focus {
+            outline: none !important;
+        }
+
+        /* Per-GEO Rates */
+        .geo-rates-container {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            animation: slideDown 0.2s ease;
+        }
+
+        .geo-rate-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 1fr;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .geo-rate-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .geo-rate-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .geo-rate-input {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .geo-rate-view {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .geo-rate-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            min-width: 120px;
+        }
+
+        .geo-rate-card-geo {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .geo-rate-card-values {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .geo-rate-card-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .status-new { background: rgba(74, 158, 255, 0.15); color: var(--accent-blue); }
+        .status-new .status-dot { background: var(--accent-blue); }
+        .status-contacted { background: rgba(234, 179, 8, 0.15); color: var(--accent-yellow); }
+        .status-contacted .status-dot { background: var(--accent-yellow); }
+        .status-negotiating { background: rgba(168, 85, 247, 0.15); color: var(--accent-purple); }
+        .status-negotiating .status-dot { background: var(--accent-purple); }
+        .status-approved { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .status-approved .status-dot { background: var(--accent-green); }
+        .status-live { background: rgba(34, 197, 94, 0.2); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .status-live .status-dot { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
+        .status-hold { background: rgba(249, 115, 22, 0.15); color: var(--accent-orange); }
+        .status-hold .status-dot { background: var(--accent-orange); }
+        .status-waiting { background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan); }
+        .status-waiting .status-dot { background: var(--accent-cyan); animation: pulse 1.5s infinite; }
+        .status-rejected { background: rgba(239, 68, 68, 0.15); color: var(--accent-red); }
+        .status-rejected .status-dot { background: var(--accent-red); }
+
+        .next-steps-cell {
+            max-width: 200px;
+        }
+
+        .next-steps-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .actions-cell {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1.75rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 1.25rem;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            color: white;
+        }
+
+        .modal-body {
+            padding: 1.75rem;
+        }
+
+        .form-section {
+            margin-bottom: 1.75rem;
+        }
+
+        .form-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group label .required {
+            color: var(--accent-red);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+        }
+
+        .form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            padding: 1.25rem 1.75rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        /* View Deal Modal */
+        .view-modal {
+            max-width: 700px;
+        }
+
+        .view-header {
+            padding: 2rem;
+            background: var(--gradient-1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .view-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .view-partner-name {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .view-badges {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .view-badges .status-badge,
+        .view-badges .model-badge,
+        .view-badges .geo-badge {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .view-body {
+            padding: 2rem;
+        }
+
+        .view-section {
+            margin-bottom: 2rem;
+        }
+
+        .view-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .view-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-blue);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-section-content {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .view-section-content.empty {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .view-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .view-meta-item {
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        .view-meta-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .view-meta-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+        
+        .view-meta-value a {
+            word-break: break-all;
+        }
+
+        .view-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+        }
+
+        .view-timestamp {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            margin-bottom: 1.25rem;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1rem 1.5rem;
+            min-width: 140px;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .stat-total::before { background: var(--gradient-1); }
+        .stat-live::before { background: var(--accent-green); }
+        .stat-pending::before { background: var(--accent-yellow); }
+        .stat-rejected::before { background: var(--accent-red); }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.4rem;
+        }
+
+        .stat-total .stat-value { color: var(--accent-blue); }
+        .stat-live .stat-value { color: var(--accent-green); }
+        .stat-pending .stat-value { color: var(--accent-yellow); }
+        .stat-rejected .stat-value { color: var(--accent-red); }
+
+        /* Charts Row */
+        .charts-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1rem;
+            min-height: 160px;
+        }
+
+        .chart-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chart-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chart-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chart-bar-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            min-width: 70px;
+            white-space: nowrap;
+        }
+
+        .chart-bar-track {
+            flex: 1;
+            height: 20px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 6px;
+        }
+
+        .chart-bar-value {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .bar-blue { background: var(--accent-blue); }
+        .bar-green { background: var(--accent-green); }
+        .bar-yellow { background: var(--accent-yellow); }
+        .bar-purple { background: var(--accent-purple); }
+        .bar-orange { background: var(--accent-orange); }
+        .bar-red { background: var(--accent-red); }
+        .bar-cyan { background: var(--accent-cyan); }
+        .bar-pink { background: var(--accent-pink); }
+
+        @media (max-width: 1200px) {
+            .charts-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Online Users */
+        .online-users {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .online-count {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent-green);
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .table-container {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 900px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .header-actions button {
+                font-size: 0.75rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .online-users {
+                font-size: 0.7rem;
+            }
+
+            .stats-bar {
+                gap: 0.5rem;
+            }
+
+            .stat-card {
+                padding: 0.75rem 1rem;
+                min-width: 70px;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.6rem;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.75rem;
+                gap: 0.5rem;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-group select,
+            .filter-group input {
+                width: 100%;
+            }
+
+            .form-row, .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .view-meta {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+            
+            .view-meta-item {
+                padding: 0.65rem;
+                overflow: hidden;
+            }
+            
+            .view-meta-value {
+                font-size: 0.85rem;
+            }
+
+            .modal {
+                margin: 0.5rem;
+                max-height: 95vh;
+            }
+
+            .view-modal {
+                max-width: 100%;
+            }
+        }
+
+        /* Mobile Cards - Hidden by default */
+        .mobile-cards {
+            display: none;
+        }
+
+        /* Mobile Cards View */
+        @media (max-width: 600px) {
+            .table-container table {
+                display: none;
+            }
+
+            .table-container {
+                overflow-x: visible;
+            }
+
+            .mobile-cards {
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .mobile-card {
+                background: var(--bg-tertiary);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 1rem;
+            }
+
+            .mobile-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 0.75rem;
+            }
+
+            .mobile-card-title {
+                font-weight: 700;
+                font-size: 1rem;
+                color: var(--text-primary);
+            }
+
+            .mobile-card-id {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.7rem;
+                font-weight: 700;
+                color: #1e1e2e;
+                background: #fbbf24;
+                padding: 0.2rem 0.5rem;
+                border-radius: 4px;
+                border: 1px solid #f59e0b;
+            }
+
+            .mobile-card-badges {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.4rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .mobile-card-badges .geo-badge,
+            .mobile-card-badges .model-badge,
+            .mobile-card-badges .status-badge,
+            .mobile-card-badges .source-badge,
+            .mobile-card-badges .assigned-badge {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .mobile-card-info {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+                font-size: 0.8rem;
+                color: var(--text-secondary);
+                margin-bottom: 0.75rem;
+            }
+
+            .mobile-card-info-item {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .mobile-card-info-label {
+                font-size: 0.65rem;
+                color: var(--text-muted);
+                text-transform: uppercase;
+                font-weight: 600;
+            }
+
+            .mobile-card-actions {
+                display: flex;
+                gap: 0.5rem;
+                padding-top: 0.75rem;
+                border-top: 1px solid var(--border-color);
+            }
+
+            .mobile-card-actions button {
+                flex: 1;
+                font-size: 0.8rem;
+            }
+
+            /* View modal mobile styles */
+            .view-meta {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .view-meta-item {
+                padding: 0.6rem;
+            }
+            
+            .view-meta-value {
+                font-size: 0.85rem;
+            }
+            
+            .view-body {
+                padding: 1rem;
+            }
+            
+            .view-header {
+                padding: 1rem;
+            }
+            
+            .view-footer {
+                padding: 0.75rem 1rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .network-sources-display {
+                gap: 0.4rem;
+            }
+            
+            .network-source-view-item {
+                padding: 0.4rem;
+            }
+
+            .charts-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .chart-card {
+                min-height: 120px;
+                padding: 0.75rem;
+            }
+
+            .chart-title {
+                font-size: 0.65rem;
+            }
+
+            .chart-bar-label {
+                font-size: 0.6rem;
+                min-width: 50px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .charts-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                min-width: 60px;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toast {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            font-weight: 500;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast-success { border-left: 4px solid var(--accent-green); }
+        .toast-error { border-left: 4px solid var(--accent-red); }
+        .toast-info { border-left: 4px solid var(--accent-blue); }
+
+        /* Loading */
+        .loading-spinner {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--accent-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .loading-overlay p {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner" style="width: 48px; height: 48px;"></div>
+        <p>Connecting to database...</p>
+    </div>
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen" style="display: none;">
+        <div class="login-box">
+            <div class="login-logo">🦊</div>
+            <h1>Broffilka</h1>
+            <p>Enter password to access the dashboard</p>
+            
+            <div class="setup-notice" id="setupNotice" style="display: none;">
+                ⚠️ Firebase not configured. See <a href="#" onclick="showSetupInstructions()">setup instructions</a>.
+            </div>
+            
+            <div class="login-error" id="loginError">❌ Invalid password. Please try again.</div>
+            
+            <input type="password" id="passwordInput" placeholder="Enter password" onkeypress="if(event.key==='Enter')login()">
+            <button class="btn-primary" onclick="login()">🔓 Access Dashboard</button>
+            
+            <p style="margin-top: 2rem; font-size: 0.8rem; color: var(--text-muted);">
+                First time? Enter your desired password to set it up.
+            </p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <div class="container">
+            <header>
+                <div class="logo">
+                    <div class="logo-icon">🦊</div>
+                    <h1>Broffilka</h1>
+                    <div class="sync-status" id="syncStatus">
+                        <div class="sync-dot" id="syncDot"></div>
+                        <span id="syncText">Live</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="online-users">
+                        <span id="onlineCount" class="online-count">1</span> online
+                    </div>
+                    <button class="btn-secondary" onclick="document.getElementById('importFile').click()">
+                        📥 Import
+                    </button>
+                    <input type="file" id="importFile" accept=".xlsx,.xls,.csv" style="display:none" onchange="importAffilkaData(this)">
+                    <button class="btn-secondary" onclick="exportData()">
+                        ⬇️ Export
+                    </button>
+                    <button class="btn-primary" onclick="openModal()">
+                        ➕ New Deal
+                    </button>
+                    <button class="btn-logout" onclick="logout()" title="Logout">
+                        🚪 Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-grid">
+                <div class="stats-bar">
+                    <div class="stat-card stat-total">
+                        <div class="stat-value" id="totalDeals">0</div>
+                        <div class="stat-label">Total Deals</div>
+                    </div>
+                    <div class="stat-card stat-live">
+                        <div class="stat-value" id="liveDeals">0</div>
+                        <div class="stat-label">Live</div>
+                    </div>
+                    <div class="stat-card stat-pending">
+                        <div class="stat-value" id="pendingDeals">0</div>
+                        <div class="stat-label">In Progress</div>
+                    </div>
+                    <div class="stat-card stat-rejected">
+                        <div class="stat-value" id="rejectedDeals">0</div>
+                        <div class="stat-label">Rejected</div>
+                    </div>
+                </div>
+
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-title">📊 By Status</div>
+                        <div class="chart-bars" id="statusChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">👤 By Manager</div>
+                        <div class="chart-bars" id="managerChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">🌍 By GEO</div>
+                        <div class="chart-bars" id="geoChart"></div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-title">📱 By Source</div>
+                        <div class="chart-bars" id="sourceChart"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <span class="filter-label">Filters:</span>
+                <div class="filter-group">
+                    <select id="filterGeo" onchange="applyFilters()">
+                        <option value="">🌍 All Geos</option>
+                        <option value="UK">🇬🇧 UK</option>
+                        <option value="NL">🇳🇱 NL</option>
+                        <option value="DE">🇩🇪 DE</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="filterModel" onchange="applyFilters()">
+                        <option value="">💰 All Models</option>
+                        <option value="CPA">CPA</option>
+                        <option value="RevShare">RevShare</option>
+                        <option value="Hybrid">Hybrid</option>
+                        <option value="Flat Fee">Flat Fee</option>
+                        <option value="Fee + Hybrid">Fee + Hybrid</option>
+                        <option value="Fee + CPA">Fee + CPA</option>
+                        <option value="Fee + RS">Fee + RS</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="filterStatus" onchange="applyFilters()">
+                        <option value="">📋 All Statuses</option>
+                        <option value="Contacted">Contacted</option>
+                        <option value="Negotiating">Negotiating</option>
+<option value="Approved">Approved</option>
+                                        <option value="Waiting">Waiting to go live</option>
+                                        <option value="Live">Live</option>
+                                        <option value="Hold">Hold</option>
+                                        <option value="Rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <select id="filterAssigned" onchange="applyFilters()">
+                        <option value="">👤 All Managers</option>
+                        <option value="Niko">Niko</option>
+                        <option value="George">George</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <input type="text" id="searchInput" placeholder="🔍 Search ID, name, email..." onkeyup="applyFilters()" style="min-width: 200px;">
+                </div>
+                <button class="reset-btn" onclick="resetFilters()">✕ Reset</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 50px">#</th>
+                            <th style="width: 100px" class="sortable" onclick="toggleSort('crmId')">ID <span class="sort-icon" id="sort-crmId">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('partnerName')">Partner <span class="sort-icon" id="sort-partnerName">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('geo')">Geo <span class="sort-icon" id="sort-geo">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('sourceType')">Source <span class="sort-icon" id="sort-sourceType">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('model')">Model <span class="sort-icon" id="sort-model">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('assignedTo')">Assigned <span class="sort-icon" id="sort-assignedTo">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('status')">Status <span class="sort-icon" id="sort-status">⇅</span></th>
+                            <th class="sortable" onclick="toggleSort('comments')">Comments <span class="sort-icon" id="sort-comments">⇅</span></th>
+                            <th style="width: 140px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dealsTable">
+                    </tbody>
+                </table>
+                <!-- Mobile Cards View -->
+                <div class="mobile-cards" id="mobileCards"></div>
+                <div class="empty-state" id="emptyState" style="display: none;">
+                    <div class="empty-state-icon">📋</div>
+                    <h3>No deals in pipeline</h3>
+                    <p>Click "New Deal" to add your first partner</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Deal Modal -->
+    <div class="modal-overlay" id="dealModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">➕ Add New Deal</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="dealForm" onsubmit="saveDeal(event)">
+                    <input type="hidden" id="dealId">
+                    
+                    <div class="form-section">
+                        <div class="form-section-title">📋 Basic Information</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crmId">Deal ID</label>
+                                <input type="text" id="crmId" placeholder="e.g., CRM-12345, D-001">
+                                <small>Your CRM or reference ID</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="partnerName">Partner Name <span class="required">*</span></label>
+                                <input type="text" id="partnerName" required placeholder="e.g., Acme Corp, BetterAds Network">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>GEO <span class="required">*</span></label>
+                                <div class="checkbox-group" id="geoCheckboxes">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="geo" value="UK" onchange="updateGeoRatesUI()"> <span class="checkbox-label">🇬🇧 UK</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="geo" value="NL" onchange="updateGeoRatesUI()"> <span class="checkbox-label">🇳🇱 NL</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="geo" value="DE" onchange="updateGeoRatesUI()"> <span class="checkbox-label">🇩🇪 DE</span>
+                                    </label>
+                                </div>
+                                <small>Select one or multiple regions</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="sourceType">Source Type</label>
+                                <select id="sourceType" onchange="updateSourceTypeFields()">
+                                    <option value="">Select source...</option>
+                                    <option value="SEO">🔍 SEO</option>
+                                    <option value="PPC">💰 PPC</option>
+                                    <option value="Social">📱 Social</option>
+                                    <option value="Retargeting">🎯 Retargeting</option>
+                                    <option value="Influencers">⭐ Influencers</option>
+                                    <option value="SMS/Email">📨 SMS/Email</option>
+                                    <option value="Tipsters">🎰 Tipsters</option>
+                                    <option value="Network">🌐 Network</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Network Details (shown when Network is selected) -->
+                        <div class="network-details" id="networkDetails" style="display: none;">
+                            <div class="network-details-header">🌐 Network Traffic Sources</div>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 1rem;">Select traffic sources this network provides and fill in details for each:</p>
+                            
+                            <div class="network-sources-list" id="networkSourcesList">
+                                <!-- SEO -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="SEO" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🔍 SEO</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="SEO" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="SEO" placeholder="SEO details (positions, keywords, etc.)">
+                                    </div>
+                                </div>
+                                <!-- PPC -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="PPC" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">💰 PPC</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="PPC" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="PPC" placeholder="PPC details (campaigns, budget, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Social -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Social" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">📱 Social</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Social" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Social" placeholder="Social details (platforms, accounts, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Retargeting -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Retargeting" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🎯 Retargeting</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Retargeting" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Retargeting" placeholder="Retargeting details (pixels, audiences, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Influencers -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Influencers" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">⭐ Influencers</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Influencers" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Influencers" placeholder="Influencer details (names, reach, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Tipsters -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Tipsters" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🎰 Tipsters</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Tipsters" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Tipsters" placeholder="Tipster details (channels, followers, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Display -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Display" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🖼️ Display</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Display" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Display" placeholder="Display details (placements, formats, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Native -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Native" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">📰 Native</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Native" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Native" placeholder="Native details (publishers, etc.)">
+                                    </div>
+                                </div>
+                                <!-- Push -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="Push" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">🔔 Push</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="Push" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="Push" placeholder="Push details (subscribers, etc.)">
+                                    </div>
+                                </div>
+                                <!-- SMS/Email -->
+                                <div class="network-source-item">
+                                    <label class="checkbox-item network-source-toggle">
+                                        <input type="checkbox" name="networkSources" value="SMS/Email" onchange="toggleNetworkSourceDetails(this)"> 
+                                        <span class="checkbox-label">📨 SMS/Email</span>
+                                    </label>
+                                    <div class="network-source-details" data-source="SMS/Email" style="display: none;">
+                                        <input type="text" class="network-source-input" data-source="SMS/Email" placeholder="SMS/Email details (list size, etc.)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="assignedTo">👤 Assigned To</label>
+                            <select id="assignedTo">
+                                <option value="">Select manager...</option>
+                                <option value="Niko">Niko</option>
+                                <option value="George">George</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contactEmail">📧 Email</label>
+                                <input type="email" id="contactEmail" placeholder="partner@company.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactMethod">💬 Contact (TG/Teams/etc)</label>
+                                <input type="text" id="contactMethod" placeholder="@telegram_handle or link">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🏷️ Tags</label>
+                            <div class="tags-input-wrapper" id="tagsWrapper" onclick="document.getElementById('tagsInput').focus()">
+                                <input type="text" class="tag-input" id="tagsInput" placeholder="Type tag and press Enter..." onkeydown="handleTagInput(event)">
+                            </div>
+                            <small>Press Enter to add tags (e.g., nicknames, categories)</small>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">💰 Deal Details</div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="model">Revenue Model</label>
+                                <select id="model" onchange="toggleModelFields()">
+                                    <option value="">Select model...</option>
+                                    <option value="CPA">CPA (Cost Per Action)</option>
+                                    <option value="RevShare">RevShare</option>
+                                    <option value="Hybrid">Hybrid (CPA + RevShare)</option>
+                                    <option value="Flat Fee">Flat Fee</option>
+                                    <option value="Fee + Hybrid">Fee + Hybrid</option>
+                                    <option value="Fee + CPA">Fee + CPA</option>
+                                    <option value="Fee + RS">Fee + RevShare</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status <span class="required">*</span></label>
+                                <select id="status" required>
+                                    <option value="Contacted">🟡 Contacted</option>
+                                    <option value="Negotiating">🟣 Negotiating</option>
+                                    <option value="Approved">🟢 Approved</option>
+                                    <option value="Waiting">⏳ Waiting to go live</option>
+                                    <option value="Live">✅ Live</option>
+                                    <option value="Hold">🟠 Hold</option>
+                                    <option value="Rejected">🔴 Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Model Fields -->
+                        <div class="model-fields" id="modelFields" style="display: none;">
+                            <div class="model-fields-container">
+                                <div class="form-row" id="feeFieldRow" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="feeAmount">💵 Fee Amount</label>
+                                        <input type="text" id="feeAmount" placeholder="e.g., €500, $1000">
+                                        <small>One-time or monthly fee</small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group" id="cpaFieldGroup" style="display: none;">
+                                        <label for="cpaRate">💰 CPA Rate (Default)</label>
+                                        <input type="text" id="cpaRate" placeholder="e.g., €50, $75 per action">
+                                        <small>Default CPA rate</small>
+                                    </div>
+                                    <div class="form-group" id="rsFieldGroup" style="display: none;">
+                                        <label for="revshareRate">📊 RevShare % (Default)</label>
+                                        <input type="text" id="revshareRate" placeholder="e.g., 25%, 30%">
+                                        <small>Default revenue share</small>
+                                    </div>
+                                </div>
+                                <div class="form-row" id="flatFeeRow" style="display: none;">
+                                    <div class="form-group">
+                                        <label for="flatFeeAmount">💵 Flat Fee Amount</label>
+                                        <input type="text" id="flatFeeAmount" placeholder="e.g., €2000/month">
+                                        <small>Fixed monthly/yearly amount</small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Per-GEO Rates -->
+                                <div class="geo-rates-container" id="geoRatesContainer" style="display: none;">
+                                    <div style="font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); margin-bottom: 0.75rem;">
+                                        🌍 Per-GEO Rates <span style="color: var(--text-muted); font-weight: 400;">(override defaults)</span>
+                                    </div>
+                                    <div id="geoRatesList"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cap">🎯 Cap</label>
+                            <input type="text" id="cap" placeholder="e.g., 100 FTDs, €5000/month">
+                            <small>Maximum cap or limit</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>🎯 KPI Metrics</label>
+                            <div class="checkbox-group" id="kpiCheckboxes">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="duplicates"> <span class="checkbox-label">Duplicates</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="self-excluded"> <span class="checkbox-label">Self-excluded</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="disabled"> <span class="checkbox-label">Disabled</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="fraud"> <span class="checkbox-label">Fraud</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="kpi" value="custom"> <span class="checkbox-label">Custom</span>
+                                </label>
+                            </div>
+                            <small>Select applicable KPI tracking metrics</small>
+                        </div>
+                    </div>
+
+                    <div class="form-section" id="urlsSection">
+                        <div class="form-section-title">🔗 URLs <span id="positionLabel" style="display: none;">& Positions (SEO)</span></div>
+                        
+                        <div class="urls-container" id="urlsContainer">
+                            <!-- URL entries will be added dynamically -->
+                        </div>
+                        <button type="button" class="btn-secondary btn-small" onclick="addUrl()" style="margin-top: 0.5rem;">
+                            ➕ Add URL
+                        </button>
+                    </div>
+
+                    <div class="form-section">
+                        <div class="form-section-title">💬 Comments</div>
+                        
+                        <div class="form-group">
+                            <label for="comments">Comments</label>
+                            <textarea id="comments" placeholder="Internal comments, updates, follow-ups..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+                <button type="submit" class="btn-primary" form="dealForm">💾 Save Deal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Deal Modal -->
+    <div class="modal-overlay" id="viewModal">
+        <div class="modal view-modal">
+            <div class="view-header">
+                <div class="view-header-content">
+                    <div class="view-partner-name" id="viewPartnerName">Partner Name</div>
+                    <div class="view-badges" id="viewBadges"></div>
+                </div>
+            </div>
+            <div class="view-body">
+                <div class="view-meta" id="viewMeta"></div>
+
+                <div class="view-section" id="viewRatesSection" style="display: none;">
+                    <div class="view-section-title">💰 Revenue Details</div>
+                    <div class="view-section-content" id="viewRates"></div>
+                </div>
+
+                <div class="view-section" id="viewKpiSection" style="display: none;">
+                    <div class="view-section-title">🎯 KPI Metrics</div>
+                    <div class="view-section-content" id="viewKpi"></div>
+                </div>
+
+                <div class="view-section" id="viewUrlsSection" style="display: none;">
+                    <div class="view-section-title">🔗 URLs & Positions</div>
+                    <div class="view-section-content" id="viewUrls"></div>
+                </div>
+
+                <div class="view-section" id="viewCommentsSection">
+                    <div class="view-section-title">💬 Comments</div>
+                    <div class="view-section-content" id="viewComments"></div>
+                </div>
+            </div>
+            <div class="view-footer">
+                <div class="view-timestamp" id="viewTimestamp"></div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn-secondary" onclick="closeViewModal()">Close</button>
+                    <button class="btn-secondary" id="viewCopyBtn" onclick="">📋 Copy</button>
+                    <button class="btn-primary" id="viewEditBtn" onclick="">✏️ Edit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <!-- SheetJS for Excel Import -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+
+    <script>
+        // ============================================
+        // 🔧 FIREBASE CONFIGURATION
+        // ============================================
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyCHllpw-T7xHNOASLbTCP62WlO3WwHmaPU",
+            authDomain: "sleepless-nights-88708.firebaseapp.com",
+            databaseURL: "https://sleepless-nights-88708-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "sleepless-nights-88708",
+            storageBucket: "sleepless-nights-88708.firebasestorage.app",
+            messagingSenderId: "238964077002",
+            appId: "1:238964077002:web:818287b457888fc66c1f33"
+        };
+        
+        // ============================================
+        
+        let db = null;
+        let deals = [];
+        let isConfigured = false;
+        let currentSessionId = null;
+        
+        // Sorting state
+        let currentSort = { field: null, direction: 'none' }; // direction: 'none', 'asc', 'desc'
+
+        // Check if Firebase is configured
+        function checkFirebaseConfig() {
+            return firebaseConfig.apiKey !== "YOUR_API_KEY" && 
+                   firebaseConfig.databaseURL && 
+                   !firebaseConfig.databaseURL.includes("YOUR_PROJECT");
+        }
+
+        // Initialize Firebase
+        function initFirebase() {
+            if (!checkFirebaseConfig()) {
+                isConfigured = false;
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('setupNotice').style.display = 'block';
+                return;
+            }
+
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.database();
+                isConfigured = true;
+                
+                db.ref('.info/connected').on('value', (snap) => {
+                    updateConnectionStatus(snap.val());
+                });
+
+                checkAuth();
+            } catch (error) {
+                console.error('Firebase init error:', error);
+                isConfigured = false;
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                document.getElementById('loginScreen').style.display = 'flex';
+                document.getElementById('setupNotice').style.display = 'block';
+            }
+        }
+
+        function updateConnectionStatus(connected) {
+            const dot = document.getElementById('syncDot');
+            const text = document.getElementById('syncText');
+            
+            if (connected) {
+                dot.classList.remove('offline');
+                text.textContent = 'Live';
+            } else {
+                dot.classList.add('offline');
+                text.textContent = 'Offline';
+            }
+        }
+
+        // Authentication
+        function checkAuth() {
+            const savedAuth = localStorage.getItem('pipeline_auth');
+            document.getElementById('loadingOverlay').classList.add('hidden');
+            
+            if (savedAuth) {
+                verifyPassword(savedAuth, true);
+            } else {
+                document.getElementById('loginScreen').style.display = 'flex';
+            }
+        }
+
+        async function login() {
+            const password = document.getElementById('passwordInput').value;
+            if (!password) return;
+
+            if (!isConfigured) {
+                showToast('Firebase not configured. Please set up first.', 'error');
+                return;
+            }
+
+            await verifyPassword(password, false);
+        }
+
+        async function verifyPassword(password, isAutoLogin) {
+            const hashedPassword = await hashPassword(password);
+            
+            try {
+                const snapshot = await db.ref('config/passwordHash').once('value');
+                const storedHash = snapshot.val();
+                
+                if (!storedHash) {
+                    await db.ref('config/passwordHash').set(hashedPassword);
+                    localStorage.setItem('pipeline_auth', password);
+                    showApp();
+                    showToast('Password set! Share it with your team.', 'success');
+                } else if (storedHash === hashedPassword) {
+                    localStorage.setItem('pipeline_auth', password);
+                    showApp();
+                    if (!isAutoLogin) showToast('Welcome back! 👋', 'success');
+                } else {
+                    if (isAutoLogin) {
+                        localStorage.removeItem('pipeline_auth');
+                        document.getElementById('loginScreen').style.display = 'flex';
+                    } else {
+                        document.getElementById('loginError').style.display = 'block';
+                        setTimeout(() => {
+                            document.getElementById('loginError').style.display = 'none';
+                        }, 3000);
+                    }
+                }
+            } catch (error) {
+                console.error('Auth error:', error);
+                showToast('Connection error. Please try again.', 'error');
+            }
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password + 'pipeline_salt_2024');
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function logout() {
+            localStorage.removeItem('pipeline_auth');
+            untrackPresence();
+            document.getElementById('appContainer').classList.remove('active');
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').classList.add('active');
+            initRealtimeSync();
+            trackPresence();
+        }
+
+        // Presence
+        function trackPresence() {
+            currentSessionId = Date.now().toString(36) + Math.random().toString(36).substr(2);
+            const presenceRef = db.ref('presence/' + currentSessionId);
+            
+            presenceRef.set({
+                online: true,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+            
+            presenceRef.onDisconnect().remove();
+            
+            db.ref('presence').on('value', (snapshot) => {
+                const users = snapshot.val() || {};
+                const count = Object.keys(users).length;
+                document.getElementById('onlineCount').textContent = count;
+            });
+        }
+
+        function untrackPresence() {
+            if (currentSessionId) {
+                db.ref('presence/' + currentSessionId).remove();
+            }
+        }
+
+        // Real-time Sync
+        function initRealtimeSync() {
+            db.ref('deals').on('value', (snapshot) => {
+                const data = snapshot.val();
+                deals = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })) : [];
+                deals.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                renderTable();
+                updateStats();
+            });
+        }
+
+        // CRUD
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        function openModal(dealId = null) {
+            const modal = document.getElementById('dealModal');
+            const form = document.getElementById('dealForm');
+            const title = document.getElementById('modalTitle');
+
+            form.reset();
+            document.getElementById('dealId').value = '';
+
+            if (dealId) {
+                const deal = deals.find(d => d.id === dealId);
+                if (deal) {
+                    title.textContent = '✏️ Edit Deal';
+                    document.getElementById('dealId').value = deal.id;
+                    document.getElementById('crmId').value = deal.crmId || '';
+                    document.getElementById('partnerName').value = deal.partnerName || '';
+                    
+                    // GEO checkboxes
+                    setCheckedValues('geo', deal.geos || []);
+                    
+                    document.getElementById('sourceType').value = deal.sourceType || '';
+                    document.getElementById('assignedTo').value = deal.assignedTo || '';
+                    document.getElementById('contactEmail').value = deal.contactEmail || '';
+                    document.getElementById('contactMethod').value = deal.contactMethod || '';
+                    
+                    // Network fields
+                    setNetworkSourcesWithDetails(deal.networkSources || []);
+                    updateSourceTypeFields();
+                    document.getElementById('model').value = deal.model || '';
+                    document.getElementById('status').value = deal.status || 'Contacted';
+                    
+                    // Revenue model fields
+                    document.getElementById('feeAmount').value = deal.feeAmount || '';
+                    document.getElementById('cpaRate').value = deal.cpaRate || '';
+                    document.getElementById('revshareRate').value = deal.revshareRate || '';
+                    document.getElementById('flatFeeAmount').value = deal.flatFeeAmount || '';
+                    toggleModelFields();
+                    setGeoRates(deal.geoRates || null);
+                    
+                    // Tags
+                    setTags(deal.tags || []);
+                    
+                    document.getElementById('cap').value = deal.cap || '';
+                    
+                    // KPI checkboxes
+                    setCheckedValues('kpi', deal.kpis || []);
+                    
+                    // URLs
+                    setUrls(deal.urls || []);
+                    
+                    document.getElementById('comments').value = deal.comments || '';
+                }
+            } else {
+                title.textContent = '➕ Add New Deal';
+                // Reset checkboxes
+                setCheckedValues('geo', []);
+                setCheckedValues('kpi', []);
+                setCheckedValues('networkSources', []);
+                // Reset URLs
+                setUrls([]);
+                // Reset model fields
+                document.getElementById('feeAmount').value = '';
+                document.getElementById('cpaRate').value = '';
+                document.getElementById('revshareRate').value = '';
+                document.getElementById('flatFeeAmount').value = '';
+                // Reset network fields
+                setNetworkSourcesWithDetails([]);
+                // Reset tags
+                setTags([]);
+                toggleModelFields();
+                updateSourceTypeFields();
+                updateGeoRatesUI();
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('dealModal').classList.remove('active');
+            // Reset model fields
+            toggleModelFields();
+        }
+
+        // Toggle Revenue Model Fields
+        function toggleModelFields() {
+            const model = document.getElementById('model').value;
+            const modelFields = document.getElementById('modelFields');
+            const feeFieldRow = document.getElementById('feeFieldRow');
+            const cpaFieldGroup = document.getElementById('cpaFieldGroup');
+            const rsFieldGroup = document.getElementById('rsFieldGroup');
+            const flatFeeRow = document.getElementById('flatFeeRow');
+
+            // Hide all first
+            modelFields.style.display = 'none';
+            feeFieldRow.style.display = 'none';
+            cpaFieldGroup.style.display = 'none';
+            rsFieldGroup.style.display = 'none';
+            flatFeeRow.style.display = 'none';
+
+            if (!model) {
+                updateGeoRatesUI();
+                return;
+            }
+
+            modelFields.style.display = 'block';
+
+            switch(model) {
+                case 'CPA':
+                    cpaFieldGroup.style.display = 'block';
+                    break;
+                case 'RevShare':
+                    rsFieldGroup.style.display = 'block';
+                    break;
+                case 'Hybrid':
+                    cpaFieldGroup.style.display = 'block';
+                    rsFieldGroup.style.display = 'block';
+                    break;
+                case 'Flat Fee':
+                    flatFeeRow.style.display = 'flex';
+                    break;
+                case 'Fee + Hybrid':
+                    feeFieldRow.style.display = 'flex';
+                    cpaFieldGroup.style.display = 'block';
+                    rsFieldGroup.style.display = 'block';
+                    break;
+                case 'Fee + CPA':
+                    feeFieldRow.style.display = 'flex';
+                    cpaFieldGroup.style.display = 'block';
+                    break;
+                case 'Fee + RS':
+                    feeFieldRow.style.display = 'flex';
+                    rsFieldGroup.style.display = 'block';
+                    break;
+            }
+            
+            // Update per-GEO rates visibility
+            updateGeoRatesUI();
+        }
+
+        // URL Management
+        function generatePositionOptions() {
+            let options = '<option value="">Pos</option>';
+            options += '<option value="?">❓ ?</option>';
+            for (let i = 1; i <= 50; i++) {
+                options += `<option value="${i}">${i}</option>`;
+            }
+            return options;
+        }
+
+        function isSourceSEO() {
+            const sourceType = document.getElementById('sourceType').value;
+            return sourceType === 'SEO';
+        }
+
+        function isSourceNetwork() {
+            const sourceType = document.getElementById('sourceType').value;
+            return sourceType === 'Network';
+        }
+
+        function updateSourceTypeFields() {
+            const isSEO = isSourceSEO();
+            const isNetwork = isSourceNetwork();
+            
+            // Position visibility (SEO only)
+            const positionLabel = document.getElementById('positionLabel');
+            const positionSelects = document.querySelectorAll('.position-select');
+            
+            if (positionLabel) {
+                positionLabel.style.display = isSEO ? 'inline' : 'none';
+            }
+            
+            positionSelects.forEach(select => {
+                select.style.display = isSEO ? 'block' : 'none';
+            });
+
+            // Network details visibility
+            const networkDetails = document.getElementById('networkDetails');
+            if (networkDetails) {
+                networkDetails.style.display = isNetwork ? 'block' : 'none';
+            }
+        }
+
+        // Keep old function name for compatibility
+        function updatePositionVisibility() {
+            updateSourceTypeFields();
+        }
+        
+        // Toggle network source details when checkbox is changed
+        function toggleNetworkSourceDetails(checkbox) {
+            const source = checkbox.value;
+            const detailsDiv = document.querySelector(`.network-source-details[data-source="${source}"]`);
+            if (detailsDiv) {
+                detailsDiv.style.display = checkbox.checked ? 'block' : 'none';
+                if (!checkbox.checked) {
+                    // Clear the input when unchecked
+                    const input = detailsDiv.querySelector('input');
+                    if (input) input.value = '';
+                }
+            }
+        }
+
+        function addUrl() {
+            const container = document.getElementById('urlsContainer');
+            const index = container.children.length;
+            const entry = document.createElement('div');
+            entry.className = 'url-entry';
+            entry.dataset.index = index;
+            const isSEO = isSourceSEO();
+            entry.innerHTML = `
+                    <div class="url-row">
+                        <input type="text" class="url-input" placeholder="example.com/offer" data-field="url">
+                        <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
+                            ${generatePositionOptions()}
+                        </select>
+                        <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
+                    </div>
+            `;
+            container.appendChild(entry);
+        }
+
+        function removeUrl(btn) {
+            const entry = btn.closest('.url-entry');
+            const container = document.getElementById('urlsContainer');
+            if (container.children.length > 1) {
+                entry.remove();
+            } else {
+                // Clear the last one instead of removing
+                entry.querySelector('.url-input').value = '';
+                entry.querySelector('.position-select').value = '';
+            }
+        }
+
+        function getUrls() {
+            const container = document.getElementById('urlsContainer');
+            const entries = container.querySelectorAll('.url-entry');
+            const urls = [];
+            entries.forEach(entry => {
+                const url = entry.querySelector('.url-input').value.trim();
+                const position = entry.querySelector('.position-select').value;
+                if (url) {
+                    urls.push({ url, position });
+                }
+            });
+            return urls;
+        }
+
+        function setUrls(urls) {
+            const container = document.getElementById('urlsContainer');
+            container.innerHTML = '';
+            const isSEO = isSourceSEO();
+            
+            if (!urls || urls.length === 0) {
+                // Add one empty entry
+                addUrl();
+                updatePositionVisibility();
+                return;
+            }
+
+            urls.forEach((urlData, index) => {
+                const entry = document.createElement('div');
+                entry.className = 'url-entry';
+                entry.dataset.index = index;
+                entry.innerHTML = `
+                    <div class="url-row">
+                        <input type="text" class="url-input" placeholder="example.com/offer" data-field="url" value="${escapeHtml(urlData.url || '')}">
+                        <select class="position-select" data-field="position" style="display: ${isSEO ? 'block' : 'none'};">
+                            ${generatePositionOptions()}
+                        </select>
+                        <button type="button" class="btn-icon btn-danger btn-small remove-url" onclick="removeUrl(this)" title="Remove">🗑️</button>
+                    </div>
+                `;
+                container.appendChild(entry);
+                if (urlData.position) {
+                    entry.querySelector('.position-select').value = urlData.position;
+                }
+            });
+            updatePositionVisibility();
+        }
+
+        // Get/Set checkboxes
+        function getCheckedValues(name) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        function setCheckedValues(name, values) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
+            checkboxes.forEach(cb => {
+                cb.checked = values && values.includes(cb.value);
+            });
+        }
+
+        // Tag handling
+        let currentTags = [];
+
+        function handleTagInput(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = document.getElementById('tagsInput');
+                const tag = input.value.trim();
+                if (tag && !currentTags.includes(tag)) {
+                    currentTags.push(tag);
+                    renderTags();
+                }
+                input.value = '';
+            }
+        }
+
+        function removeTag(index) {
+            currentTags.splice(index, 1);
+            renderTags();
+        }
+
+        function renderTags() {
+            const wrapper = document.getElementById('tagsWrapper');
+            const input = document.getElementById('tagsInput');
+            
+            // Remove existing tags
+            wrapper.querySelectorAll('.tag-item').forEach(el => el.remove());
+            
+            // Add tags before input
+            currentTags.forEach((tag, index) => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'tag-item';
+                tagEl.innerHTML = `${escapeHtml(tag)} <span class="tag-remove" onclick="removeTag(${index})">×</span>`;
+                wrapper.insertBefore(tagEl, input);
+            });
+        }
+
+        function getTags() {
+            return [...currentTags];
+        }
+
+        function setTags(tags) {
+            currentTags = tags || [];
+            renderTags();
+        }
+
+        // Per-GEO Rates handling
+        function updateGeoRatesUI() {
+            const model = document.getElementById('model').value;
+            const geos = getCheckedValues('geo');
+            const container = document.getElementById('geoRatesContainer');
+            const list = document.getElementById('geoRatesList');
+            
+            // Only show if model requires rates and multiple GEOs selected
+            const showsCPA = ['CPA', 'Hybrid', 'Fee + Hybrid', 'Fee + CPA'].includes(model);
+            const showsRS = ['RevShare', 'Hybrid', 'Fee + Hybrid', 'Fee + RS'].includes(model);
+            
+            if (geos.length > 1 && (showsCPA || showsRS)) {
+                container.style.display = 'block';
+                const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                
+                list.innerHTML = geos.map(geo => `
+                    <div class="geo-rate-item">
+                        <div class="geo-rate-label">${flags[geo] || ''} ${geo}</div>
+                        ${showsCPA ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="cpa" placeholder="CPA rate">` : '<div></div>'}
+                        ${showsRS ? `<input type="text" class="geo-rate-input" data-geo="${geo}" data-type="rs" placeholder="RevShare %">` : '<div></div>'}
+                    </div>
+                `).join('');
+            } else {
+                container.style.display = 'none';
+                list.innerHTML = '';
+            }
+        }
+
+        function getGeoRates() {
+            const rates = {};
+            document.querySelectorAll('.geo-rate-input').forEach(input => {
+                const geo = input.dataset.geo;
+                const type = input.dataset.type;
+                const value = input.value.trim();
+                if (value) {
+                    if (!rates[geo]) rates[geo] = {};
+                    rates[geo][type] = value;
+                }
+            });
+            return Object.keys(rates).length > 0 ? rates : null;
+        }
+
+        function setGeoRates(rates) {
+            if (!rates) return;
+            setTimeout(() => {
+                document.querySelectorAll('.geo-rate-input').forEach(input => {
+                    const geo = input.dataset.geo;
+                    const type = input.dataset.type;
+                    if (rates[geo] && rates[geo][type]) {
+                        input.value = rates[geo][type];
+                    }
+                });
+            }, 50);
+        }
+        
+        // Get network sources with their detail text
+        function getNetworkSourcesWithDetails() {
+            const checkboxes = document.querySelectorAll('input[name="networkSources"]:checked');
+            const sources = [];
+            checkboxes.forEach(cb => {
+                const source = cb.value;
+                const input = document.querySelector(`.network-source-input[data-source="${source}"]`);
+                sources.push({
+                    type: source,
+                    details: input ? input.value.trim() : ''
+                });
+            });
+            return sources;
+        }
+        
+        // Set network sources with their detail text
+        function setNetworkSourcesWithDetails(sources) {
+            // Clear all checkboxes and inputs first
+            const allCheckboxes = document.querySelectorAll('input[name="networkSources"]');
+            const allInputs = document.querySelectorAll('.network-source-input');
+            const allDetails = document.querySelectorAll('.network-source-details');
+            
+            allCheckboxes.forEach(cb => cb.checked = false);
+            allInputs.forEach(input => input.value = '');
+            allDetails.forEach(detail => detail.style.display = 'none');
+            
+            if (!sources) return;
+            
+            // Handle old format (array of strings) and new format (array of objects)
+            sources.forEach(source => {
+                const sourceType = typeof source === 'object' ? source.type : source;
+                const sourceDetails = typeof source === 'object' ? source.details : '';
+                
+                const checkbox = document.querySelector(`input[name="networkSources"][value="${sourceType}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                    const detailsDiv = document.querySelector(`.network-source-details[data-source="${sourceType}"]`);
+                    if (detailsDiv) {
+                        detailsDiv.style.display = 'block';
+                        const input = detailsDiv.querySelector('input');
+                        if (input) input.value = sourceDetails;
+                    }
+                }
+            });
+        }
+
+        async function saveDeal(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('dealId').value || generateId();
+            const geos = getCheckedValues('geo');
+            
+            // Validate at least one GEO is selected
+            if (geos.length === 0) {
+                showToast('Please select at least one GEO region', 'error');
+                return;
+            }
+
+            const dealData = {
+                crmId: document.getElementById('crmId').value.trim(),
+                partnerName: document.getElementById('partnerName').value.trim(),
+                geos: geos,
+                geo: geos.join(', '), // For backward compatibility and display
+                sourceType: document.getElementById('sourceType').value,
+                assignedTo: document.getElementById('assignedTo').value,
+                contactEmail: document.getElementById('contactEmail').value.trim(),
+                contactMethod: document.getElementById('contactMethod').value.trim(),
+                tags: getTags(), // Tags array
+                // Network fields
+                networkSources: getNetworkSourcesWithDetails(),
+                model: document.getElementById('model').value,
+                status: document.getElementById('status').value,
+                
+                // Revenue model fields
+                feeAmount: document.getElementById('feeAmount').value.trim(),
+                cpaRate: document.getElementById('cpaRate').value.trim(),
+                revshareRate: document.getElementById('revshareRate').value.trim(),
+                flatFeeAmount: document.getElementById('flatFeeAmount').value.trim(),
+                geoRates: getGeoRates(), // Per-GEO rates
+                
+                cap: document.getElementById('cap').value.trim(),
+                kpis: getCheckedValues('kpi'),
+                urls: getUrls(),
+                
+                comments: document.getElementById('comments').value.trim(),
+                updatedAt: Date.now()
+            };
+
+            const isNew = !document.getElementById('dealId').value;
+            if (isNew) {
+                dealData.createdAt = Date.now();
+            }
+
+            try {
+                await db.ref('deals/' + id).update(dealData);
+                showToast(isNew ? '✅ New deal added!' : '✅ Deal updated!', 'success');
+                closeModal();
+            } catch (error) {
+                console.error('Save error:', error);
+                showToast('Failed to save. Please try again.', 'error');
+            }
+        }
+
+        async function deleteDeal(id) {
+            if (confirm('Are you sure you want to delete this deal?')) {
+                try {
+                    await db.ref('deals/' + id).remove();
+                    showToast('🗑️ Deal deleted', 'info');
+                } catch (error) {
+                    showToast('Failed to delete.', 'error');
+                }
+            }
+        }
+
+        async function copyDeal(id) {
+            const deal = deals.find(d => d.id === id);
+            if (!deal) return;
+
+            const newId = generateId();
+            const copiedDeal = {
+                ...deal,
+                crmId: deal.crmId ? `${deal.crmId}-COPY` : '',
+                partnerName: `${deal.partnerName} (Copy)`,
+                createdAt: Date.now(),
+                updatedAt: Date.now()
+            };
+            
+            // Remove the old id
+            delete copiedDeal.id;
+
+            try {
+                await db.ref('deals/' + newId).set(copiedDeal);
+                showToast('📋 Deal copied!', 'success');
+            } catch (error) {
+                console.error('Copy error:', error);
+                showToast('Failed to copy deal.', 'error');
+            }
+        }
+
+        // View Deal
+        function viewDeal(dealId) {
+            const deal = deals.find(d => d.id === dealId);
+            if (!deal) return;
+
+            document.getElementById('viewPartnerName').textContent = deal.partnerName;
+            
+            // Geo badges from array
+            const geoBadges = (deal.geos || [deal.geo]).map(g => {
+                const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                return `<span class="geo-badge">${flags[g] || ''} ${escapeHtml(g)}</span>`;
+            }).join('');
+
+            // Badges
+            const badgesHtml = `
+                ${deal.crmId ? `<span class="crm-id">ID: ${escapeHtml(deal.crmId)}</span>` : ''}
+                ${geoBadges}
+                ${deal.sourceType ? `<span class="model-badge" style="background: rgba(249, 115, 22, 0.15); color: var(--accent-orange);">${deal.sourceType}</span>` : ''}
+                ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
+                <span class="status-badge status-${deal.status.toLowerCase()}">
+                    <span class="status-dot"></span>
+                    ${deal.status}
+                </span>
+            `;
+            document.getElementById('viewBadges').innerHTML = badgesHtml;
+
+            // Meta info
+            const metaItems = [];
+            if (deal.crmId) metaItems.push({ label: 'Deal ID', value: `<span class="crm-id">${escapeHtml(deal.crmId)}</span>` });
+            if (deal.assignedTo) metaItems.push({ label: 'Assigned To', value: `<span style="font-weight: 700; color: var(--accent-purple);">👤 ${escapeHtml(deal.assignedTo)}</span>` });
+            
+            // Source Type with Network details
+            if (deal.sourceType === 'Network') {
+                metaItems.push({ label: 'Source Type', value: `<span class="network-badge">🌐 Network</span>` });
+                if (deal.networkSources && deal.networkSources.length > 0) {
+                    let sourcesDisplay = '<div class="network-sources-display">';
+                    deal.networkSources.forEach(s => {
+                        const sourceType = typeof s === 'object' ? s.type : s;
+                        const sourceDetails = typeof s === 'object' ? s.details : '';
+                        const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰', 'Display': '🖼️', 'Native': '📰', 'Push': '🔔' };
+                        sourcesDisplay += `<div class="network-source-view-item">
+                            <span class="network-source-tag">${sourceIcons[sourceType] || ''} ${escapeHtml(sourceType)}</span>
+                            ${sourceDetails ? `<span class="network-source-detail">${escapeHtml(sourceDetails)}</span>` : ''}
+                        </div>`;
+                    });
+                    sourcesDisplay += '</div>';
+                    metaItems.push({ label: 'Traffic Sources', value: sourcesDisplay });
+                }
+            } else if (deal.sourceType) {
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰' };
+                metaItems.push({ label: 'Source Type', value: `${sourceIcons[deal.sourceType] || ''} ${escapeHtml(deal.sourceType)}` });
+            }
+            
+            if (deal.contactEmail) metaItems.push({ label: 'Email', value: `<a href="mailto:${escapeHtml(deal.contactEmail)}" style="color: var(--accent-blue);">${escapeHtml(deal.contactEmail)}</a>` });
+            if (deal.contactMethod) metaItems.push({ label: 'Contact', value: escapeHtml(deal.contactMethod) });
+            if (deal.cap) metaItems.push({ label: 'Cap', value: escapeHtml(deal.cap) });
+            
+            // Tags
+            if (deal.tags && deal.tags.length > 0) {
+                const tagsHtml = deal.tags.map(tag => `<span class="tag-badge">${escapeHtml(tag)}</span>`).join('');
+                metaItems.push({ label: 'Tags', value: `<div class="tags-container">${tagsHtml}</div>` });
+            }
+
+            document.getElementById('viewMeta').innerHTML = metaItems.map(item => `
+                <div class="view-meta-item">
+                    <div class="view-meta-label">${item.label}</div>
+                    <div class="view-meta-value">${item.value}</div>
+                </div>
+            `).join('');
+
+            // Revenue/Rates Section
+            const ratesSection = document.getElementById('viewRatesSection');
+            const ratesContent = document.getElementById('viewRates');
+            const rateItems = [];
+            
+            if (deal.feeAmount) rateItems.push({ label: 'Fee', value: deal.feeAmount });
+            if (deal.cpaRate) rateItems.push({ label: 'CPA Rate (Default)', value: deal.cpaRate });
+            if (deal.revshareRate) rateItems.push({ label: 'RevShare (Default)', value: deal.revshareRate });
+            if (deal.flatFeeAmount) rateItems.push({ label: 'Flat Fee', value: deal.flatFeeAmount });
+
+            // Build per-GEO rates display
+            let geoRatesHtml = '';
+            if (deal.geoRates && Object.keys(deal.geoRates).length > 0) {
+                const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                geoRatesHtml = `
+                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                        <div style="font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-cyan); margin-bottom: 0.75rem;">🌍 Per-GEO Rates</div>
+                        <div class="geo-rate-view">
+                            ${Object.entries(deal.geoRates).map(([geo, rates]) => `
+                                <div class="geo-rate-card">
+                                    <div class="geo-rate-card-geo">${flags[geo] || ''} ${geo}</div>
+                                    <div class="geo-rate-card-values">
+                                        ${rates.cpa ? `<div class="geo-rate-card-value">CPA: ${escapeHtml(rates.cpa)}</div>` : ''}
+                                        ${rates.rs ? `<div class="geo-rate-card-value">RS: ${escapeHtml(rates.rs)}</div>` : ''}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (rateItems.length > 0 || geoRatesHtml) {
+                ratesSection.style.display = 'block';
+                ratesContent.innerHTML = `
+                    ${rateItems.length > 0 ? `
+                        <div class="rate-display">
+                            ${rateItems.map(item => `
+                                <div class="rate-item">
+                                    <div class="rate-label">${item.label}</div>
+                                    <div class="rate-value">${escapeHtml(item.value)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    ${geoRatesHtml}
+                `;
+            } else {
+                ratesSection.style.display = 'none';
+            }
+
+            // KPI Section
+            const kpiSection = document.getElementById('viewKpiSection');
+            const kpiContent = document.getElementById('viewKpi');
+            if (deal.kpis && deal.kpis.length > 0) {
+                kpiSection.style.display = 'block';
+                kpiContent.innerHTML = `
+                    <div class="kpi-badges">
+                        ${deal.kpis.map(kpi => `<span class="kpi-badge">${escapeHtml(kpi)}</span>`).join('')}
+                    </div>
+                `;
+            } else {
+                kpiSection.style.display = 'none';
+            }
+
+            // URLs Section
+            const urlsSection = document.getElementById('viewUrlsSection');
+            const urlsContent = document.getElementById('viewUrls');
+            if (deal.urls && deal.urls.length > 0) {
+                urlsSection.style.display = 'block';
+                urlsContent.innerHTML = `
+                    <div class="url-list">
+                        ${deal.urls.map(urlItem => `
+                            <div class="url-list-item">
+                                ${urlItem.position ? `<span class="url-position">#${urlItem.position}</span>` : ''}
+                                <a href="${escapeHtml(urlItem.url)}" target="_blank" class="url-link">${escapeHtml(urlItem.url)}</a>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else {
+                urlsSection.style.display = 'none';
+            }
+
+            // Comments
+            const commentsSection = document.getElementById('viewCommentsSection');
+            const commentsContent = document.getElementById('viewComments');
+            if (deal.comments) {
+                commentsSection.style.display = 'block';
+                commentsContent.textContent = deal.comments;
+                commentsContent.classList.remove('empty');
+            } else {
+                commentsSection.style.display = 'block';
+                commentsContent.textContent = 'No comments yet.';
+                commentsContent.classList.add('empty');
+            }
+
+            // Timestamp
+            const created = deal.createdAt ? new Date(deal.createdAt).toLocaleDateString() : 'Unknown';
+            const updated = deal.updatedAt ? new Date(deal.updatedAt).toLocaleDateString() : 'Unknown';
+            document.getElementById('viewTimestamp').textContent = `Created: ${created} • Updated: ${updated}`;
+
+            // Edit button
+            document.getElementById('viewEditBtn').onclick = () => {
+                closeViewModal();
+                openModal(dealId);
+            };
+
+            // Copy button
+            document.getElementById('viewCopyBtn').onclick = () => {
+                closeViewModal();
+                copyDeal(dealId);
+            };
+
+            document.getElementById('viewModal').classList.add('active');
+        }
+
+        function closeViewModal() {
+            document.getElementById('viewModal').classList.remove('active');
+        }
+
+        // Export
+        function exportData() {
+            const dataStr = JSON.stringify(deals, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `affiliate-pipeline-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('📁 Data exported!', 'success');
+        }
+
+        // Import Affilka Excel Data
+        async function importAffilkaData(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            try {
+                showToast('📥 Reading file...', 'info');
+                
+                const data = await file.arrayBuffer();
+                const workbook = XLSX.read(data);
+                const sheetName = workbook.SheetNames[0];
+                const sheet = workbook.Sheets[sheetName];
+                const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+                if (jsonData.length === 0) {
+                    showToast('❌ No data found in file', 'error');
+                    input.value = '';
+                    return;
+                }
+
+                // Map Affilka columns to our fields
+                // Expected headers: ID, Name, Emails, Telegram
+                let importCount = 0;
+                let skipCount = 0;
+
+                for (const row of jsonData) {
+                    // Try different possible column names
+                    const id = row['ID'] || row['id'] || row['Id'] || '';
+                    const name = row['Name'] || row['name'] || row['Partner'] || row['partner'] || '';
+                    const emails = row['Emails'] || row['emails'] || row['Email'] || row['email'] || '';
+                    const telegram = row['Telegram'] || row['telegram'] || row['TG'] || row['tg'] || '';
+
+                    // Skip if no name
+                    if (!name || name.toString().trim() === '') {
+                        skipCount++;
+                        continue;
+                    }
+
+                    // Check if deal with this ID already exists
+                    const existingDeal = id ? deals.find(d => d.crmId === id.toString()) : null;
+                    if (existingDeal) {
+                        skipCount++;
+                        continue;
+                    }
+
+                    // Create new deal with default values
+                    const newId = generateId();
+                    const dealData = {
+                        crmId: id ? id.toString().trim() : '',
+                        partnerName: name.toString().trim(),
+                        geos: ['UK'], // Default GEO
+                        geo: 'UK',
+                        sourceType: '',
+                        assignedTo: '',
+                        contactEmail: emails ? emails.toString().trim() : '',
+                        contactMethod: telegram ? telegram.toString().trim() : '',
+                        model: '',
+                        status: 'Contacted', // Default status
+                        feeAmount: '',
+                        cpaRate: '',
+                        revshareRate: '',
+                        flatFeeAmount: '',
+                        cap: '',
+                        kpis: [],
+                        urls: [],
+                        comments: 'Imported from Affilka',
+                        createdAt: Date.now(),
+                        updatedAt: Date.now()
+                    };
+
+                    await db.ref('deals/' + newId).set(dealData);
+                    importCount++;
+                }
+
+                input.value = ''; // Reset file input
+                
+                if (importCount > 0) {
+                    showToast(`✅ Imported ${importCount} partners! ${skipCount > 0 ? `(${skipCount} skipped)` : ''}`, 'success');
+                } else {
+                    showToast(`⚠️ No new partners imported. ${skipCount} skipped (duplicates or empty).`, 'info');
+                }
+
+            } catch (error) {
+                console.error('Import error:', error);
+                showToast('❌ Error reading file. Make sure it\'s a valid Excel file.', 'error');
+                input.value = '';
+            }
+        }
+
+        // Rendering
+        function getModelClass(model) {
+            const modelMap = {
+                'CPA': 'cpa',
+                'RevShare': 'revshare',
+                'Hybrid': 'hybrid',
+                'Flat Fee': 'flat-fee',
+                'Fee + Hybrid': 'fee-hybrid',
+                'Fee + CPA': 'fee-cpa',
+                'Fee + RS': 'fee-rs'
+            };
+            return modelMap[model] || 'cpa';
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('dealsTable');
+            const emptyState = document.getElementById('emptyState');
+            const filteredDeals = getFilteredDeals();
+            const sortedDeals = sortDeals(filteredDeals);
+
+            if (sortedDeals.length === 0) {
+                tbody.innerHTML = '';
+                document.getElementById('mobileCards').innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            // Desktop table
+            tbody.innerHTML = sortedDeals.map((deal, index) => {
+                // Generate geo badges with flags
+                const geoDisplay = (deal.geos || [deal.geo]).map(g => {
+                    const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                    return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
+                }).join(' ');
+
+                // Source type icons
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰', 'Network': '🌐' };
+                let sourceDisplay = '<span style="color: var(--text-muted);">—</span>';
+                if (deal.sourceType === 'Network') {
+                    sourceDisplay = `<span class="network-badge">🌐 Network</span>`;
+                } else if (deal.sourceType) {
+                    sourceDisplay = `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>`;
+                }
+
+                // Tags display
+                const tagsDisplay = deal.tags && deal.tags.length > 0 
+                    ? `<div class="tags-container" style="margin-top: 0.25rem;">${deal.tags.slice(0, 2).map(t => `<span class="tag-badge">${escapeHtml(t)}</span>`).join('')}${deal.tags.length > 2 ? `<span class="tag-badge" style="opacity: 0.6;">+${deal.tags.length - 2}</span>` : ''}</div>` 
+                    : '';
+
+                return `
+                <tr>
+                    <td><span class="row-number">${index + 1}</span></td>
+                    <td><span class="crm-id">${deal.crmId ? escapeHtml(deal.crmId) : '<span style="color: var(--text-muted);">—</span>'}</span></td>
+                    <td>
+                        <div class="partner-cell">
+                            <span class="partner-name">${escapeHtml(deal.partnerName)}</span>
+                            ${tagsDisplay}
+                        </div>
+                    </td>
+                    <td>${geoDisplay}</td>
+                    <td>${sourceDisplay}</td>
+                    <td>${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : '<span style="color: var(--text-muted);">—</span>'}</td>
+                    <td>${deal.assignedTo ? `<span class="assigned-badge">${escapeHtml(deal.assignedTo)}</span>` : '<span style="color: var(--text-muted);">—</span>'}</td>
+                    <td>
+                        <span class="status-badge status-${deal.status.toLowerCase()}">
+                            <span class="status-dot"></span>
+                            ${deal.status}
+                        </span>
+                    </td>
+                    <td class="comments-cell">
+                        <div class="comments-text">${escapeHtml(deal.comments) || '<span style="color: var(--text-muted);">—</span>'}</div>
+                    </td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="btn-secondary btn-icon btn-small" onclick="viewDeal('${deal.id}')" title="View Details">👁️</button>
+                            <button class="btn-secondary btn-icon btn-small" onclick="openModal('${deal.id}')" title="Edit">✏️</button>
+                            <button class="btn-secondary btn-icon btn-small" onclick="copyDeal('${deal.id}')" title="Copy Deal">📋</button>
+                            <button class="btn-danger btn-icon btn-small" onclick="deleteDeal('${deal.id}')" title="Delete">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `}).join('');
+
+            // Mobile cards
+            const mobileCards = document.getElementById('mobileCards');
+            mobileCards.innerHTML = sortedDeals.map((deal, index) => {
+                const geoDisplay = (deal.geos || [deal.geo]).map(g => {
+                    const flags = { 'UK': '🇬🇧', 'NL': '🇳🇱', 'DE': '🇩🇪' };
+                    return `<span class="geo-badge">${flags[g] || ''}${g}</span>`;
+                }).join(' ');
+
+                const sourceIcons = { 'SEO': '🔍', 'PPC': '💰', 'Social': '📱', 'Retargeting': '🎯', 'Influencers': '⭐', 'SMS/Email': '📨', 'Tipsters': '🎰', 'Network': '🌐' };
+                const mobileSourceDisplay = deal.sourceType === 'Network' 
+                    ? `<span class="network-badge">🌐 Network</span>`
+                    : (deal.sourceType ? `<span class="source-badge">${sourceIcons[deal.sourceType] || ''} ${deal.sourceType}</span>` : '');
+
+                // Tags for mobile
+                const mobileTagsDisplay = deal.tags && deal.tags.length > 0 
+                    ? deal.tags.map(t => `<span class="tag-badge">${escapeHtml(t)}</span>`).join('') 
+                    : '';
+
+                return `
+                <div class="mobile-card">
+                    <div class="mobile-card-header">
+                        <span class="mobile-card-title">${escapeHtml(deal.partnerName)}</span>
+                        ${deal.crmId ? `<span class="mobile-card-id">${escapeHtml(deal.crmId)}</span>` : ''}
+                    </div>
+                    ${mobileTagsDisplay ? `<div class="tags-container" style="margin-bottom: 0.5rem;">${mobileTagsDisplay}</div>` : ''}
+                    <div class="mobile-card-badges">
+                        ${geoDisplay}
+                        ${mobileSourceDisplay}
+                        ${deal.model ? `<span class="model-badge model-${getModelClass(deal.model)}">${deal.model}</span>` : ''}
+                        <span class="status-badge status-${deal.status.toLowerCase()}">
+                            <span class="status-dot"></span>
+                            ${deal.status}
+                        </span>
+                    </div>
+                    <div class="mobile-card-info">
+                        ${deal.assignedTo ? `<div class="mobile-card-info-item"><span class="mobile-card-info-label">Assigned</span><span class="assigned-badge">${escapeHtml(deal.assignedTo)}</span></div>` : ''}
+                        ${deal.contactEmail ? `<div class="mobile-card-info-item"><span class="mobile-card-info-label">Email</span><span>${escapeHtml(deal.contactEmail)}</span></div>` : ''}
+                    </div>
+                    <div class="mobile-card-actions">
+                        <button class="btn-primary btn-small" onclick="viewDeal('${deal.id}')">👁️ View</button>
+                        <button class="btn-secondary btn-small" onclick="openModal('${deal.id}')">✏️ Edit</button>
+                        <button class="btn-secondary btn-small" onclick="copyDeal('${deal.id}')">📋 Copy</button>
+                        <button class="btn-danger btn-small" onclick="deleteDeal('${deal.id}')">🗑️</button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // Filtering
+        function getFilteredDeals() {
+            const geo = document.getElementById('filterGeo').value;
+            const model = document.getElementById('filterModel').value;
+            const status = document.getElementById('filterStatus').value;
+            const assigned = document.getElementById('filterAssigned').value;
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            return deals.filter(deal => {
+                // Check GEO - support both old geo string and new geos array
+                if (geo) {
+                    const dealGeos = deal.geos || [deal.geo];
+                    if (!dealGeos.includes(geo)) return false;
+                }
+                if (model && deal.model !== model) return false;
+                if (status && deal.status !== status) return false;
+                if (assigned && deal.assignedTo !== assigned) return false;
+                
+                // Search across multiple fields
+                if (search) {
+                    const searchableFields = [
+                        deal.partnerName || '',
+                        deal.crmId || '',
+                        deal.contactEmail || '',
+                        deal.contactMethod || '',
+                        deal.comments || '',
+                        deal.sourceType || '',
+                        deal.model || '',
+                        deal.cap || '',
+                        (deal.tags || []).join(' ') // Include tags in search
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchableFields.includes(search)) return false;
+                }
+                return true;
+            });
+        }
+
+        function applyFilters() {
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('filterGeo').value = '';
+            document.getElementById('filterModel').value = '';
+            document.getElementById('filterStatus').value = '';
+            document.getElementById('filterAssigned').value = '';
+            document.getElementById('searchInput').value = '';
+            renderTable();
+        }
+
+        // Sorting
+        function toggleSort(field) {
+            // Cycle through: none -> asc -> desc -> none
+            if (currentSort.field !== field) {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            } else {
+                if (currentSort.direction === 'none') {
+                    currentSort.direction = 'asc';
+                } else if (currentSort.direction === 'asc') {
+                    currentSort.direction = 'desc';
+                } else {
+                    currentSort.direction = 'none';
+                    currentSort.field = null;
+                }
+            }
+            
+            updateSortIcons();
+            renderTable();
+        }
+
+        function updateSortIcons() {
+            // Reset all sort icons to default and remove active states
+            document.querySelectorAll('.sort-icon').forEach(icon => {
+                icon.textContent = '⇅';
+            });
+            document.querySelectorAll('th.sortable').forEach(th => {
+                th.classList.remove('active');
+            });
+
+            // Set current sort icon
+            if (currentSort.field && currentSort.direction !== 'none') {
+                const icon = document.getElementById(`sort-${currentSort.field}`);
+                const th = icon?.closest('th');
+                if (icon) {
+                    icon.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+                }
+                if (th) {
+                    th.classList.add('active');
+                }
+            }
+        }
+
+        function sortDeals(dealsToSort) {
+            if (!currentSort.field || currentSort.direction === 'none') {
+                // Default: sort by createdAt descending (newest first)
+                return [...dealsToSort].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+
+            return [...dealsToSort].sort((a, b) => {
+                let valA = a[currentSort.field] || '';
+                let valB = b[currentSort.field] || '';
+
+                // Handle arrays (like geos)
+                if (Array.isArray(valA)) valA = valA.join(', ');
+                if (Array.isArray(valB)) valB = valB.join(', ');
+
+                // Convert to strings for comparison
+                valA = String(valA).toLowerCase();
+                valB = String(valB).toLowerCase();
+
+                let comparison = 0;
+                if (valA < valB) comparison = -1;
+                if (valA > valB) comparison = 1;
+
+                return currentSort.direction === 'desc' ? -comparison : comparison;
+            });
+        }
+
+        // GEO filter is now fixed with UK, NL, DE options
+
+        // Stats
+        function updateStats() {
+            document.getElementById('totalDeals').textContent = deals.length;
+            document.getElementById('liveDeals').textContent = deals.filter(d => d.status === 'Live').length;
+            document.getElementById('pendingDeals').textContent = deals.filter(d => 
+                ['Contacted', 'Negotiating', 'Approved'].includes(d.status)
+            ).length;
+            document.getElementById('rejectedDeals').textContent = deals.filter(d => d.status === 'Rejected' || d.status === 'Hold').length;
+
+            // Render charts
+            renderCharts();
+        }
+
+        function renderCharts() {
+            const total = deals.length || 1;
+
+            // Status Chart
+            const statusCounts = {
+                'Live': { count: 0, color: 'bar-green' },
+                'Waiting': { count: 0, color: 'bar-cyan' },
+                'Contacted': { count: 0, color: 'bar-yellow' },
+                'Negotiating': { count: 0, color: 'bar-purple' },
+                'Approved': { count: 0, color: 'bar-blue' },
+                'Hold': { count: 0, color: 'bar-orange' },
+                'Rejected': { count: 0, color: 'bar-red' }
+            };
+            deals.forEach(d => {
+                if (statusCounts[d.status]) statusCounts[d.status].count++;
+            });
+            document.getElementById('statusChart').innerHTML = Object.entries(statusCounts)
+                .filter(([_, v]) => v.count > 0)
+                .map(([name, data]) => renderBarItem(name, data.count, total, data.color))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+
+            // Manager Chart
+            const managerCounts = { 'Niko': 0, 'George': 0, 'Unassigned': 0 };
+            deals.forEach(d => {
+                if (d.assignedTo === 'Niko') managerCounts['Niko']++;
+                else if (d.assignedTo === 'George') managerCounts['George']++;
+                else managerCounts['Unassigned']++;
+            });
+            const managerColors = { 'Niko': 'bar-blue', 'George': 'bar-purple', 'Unassigned': 'bar-orange' };
+            document.getElementById('managerChart').innerHTML = Object.entries(managerCounts)
+                .filter(([_, count]) => count > 0)
+                .map(([name, count]) => renderBarItem(name, count, total, managerColors[name]))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+
+            // GEO Chart
+            const geoCounts = { 'UK': 0, 'NL': 0, 'DE': 0 };
+            deals.forEach(d => {
+                const geos = d.geos || [d.geo];
+                geos.forEach(g => {
+                    if (geoCounts[g] !== undefined) geoCounts[g]++;
+                });
+            });
+            const geoColors = { 'UK': 'bar-blue', 'NL': 'bar-orange', 'DE': 'bar-yellow' };
+            document.getElementById('geoChart').innerHTML = Object.entries(geoCounts)
+                .filter(([_, count]) => count > 0)
+                .map(([name, count]) => renderBarItem(name, count, total, geoColors[name]))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+
+            // Source Chart
+            const sourceCounts = { 'SEO': 0, 'PPC': 0, 'Social': 0, 'Retargeting': 0, 'Influencers': 0, 'SMS/Email': 0, 'Tipsters': 0, 'Network': 0 };
+            deals.forEach(d => {
+                if (d.sourceType && sourceCounts[d.sourceType] !== undefined) {
+                    sourceCounts[d.sourceType]++;
+                }
+            });
+            const sourceColors = { 'SEO': 'bar-green', 'PPC': 'bar-blue', 'Social': 'bar-pink', 'Retargeting': 'bar-cyan', 'Influencers': 'bar-purple', 'SMS/Email': 'bar-orange', 'Tipsters': 'bar-red', 'Network': 'bar-yellow' };
+            document.getElementById('sourceChart').innerHTML = Object.entries(sourceCounts)
+                .filter(([_, count]) => count > 0)
+                .map(([name, count]) => renderBarItem(name, count, total, sourceColors[name]))
+                .join('') || '<div style="color: var(--text-muted); font-size: 0.8rem;">No data</div>';
+        }
+
+        function renderBarItem(label, count, total, colorClass) {
+            const percentage = Math.round((count / total) * 100);
+            return `
+                <div class="chart-bar-item">
+                    <span class="chart-bar-label">${label}</span>
+                    <div class="chart-bar-track">
+                        <div class="chart-bar-fill ${colorClass}" style="width: ${percentage}%;">
+                            ${percentage > 15 ? `<span class="chart-bar-value">${count}</span>` : ''}
+                        </div>
+                    </div>
+                    ${percentage <= 15 ? `<span style="font-size: 0.7rem; color: var(--text-muted); min-width: 20px;">${count}</span>` : ''}
+                </div>
+            `;
+        }
+
+        // Toast
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Utils
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showSetupInstructions() {
+            alert(`Firebase Setup Instructions:
+
+1. Go to https://console.firebase.google.com
+2. Create a new project (or use existing)
+3. Click "Realtime Database" → Create Database
+4. Choose "Start in test mode"
+5. Go to Project Settings → Your apps → Add web app
+6. Copy the config values
+7. Edit this HTML file and replace firebaseConfig
+8. Re-upload to your host`);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeViewModal();
+            }
+            if (e.key === 'n' && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                openModal();
+            }
+        });
+
+        // Modal overlay click - Only view modal closes on outside click, edit modal requires X button
+        document.getElementById('viewModal').addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) closeViewModal();
+        });
+
+        // Cleanup
+        window.addEventListener('beforeunload', () => {
+            untrackPresence();
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', initFirebase);
+    </script>
+</body>
+</html>
